@@ -716,15 +716,20 @@ body::before {
   }
 
   function abrirSiteComLogin(site) {
+  // Abre o site em uma nova aba
   window.open(site.link, "_blank");
-  
+
+  // Texto com login e senha
   const textoCopiado = `Login: ${site.login}\nSenha: ${site.senha}`;
+
+  // Copia os dados para a área de transferência
   navigator.clipboard.writeText(textoCopiado).then(() => {
     alert("Login e senha copiados para a área de transferência! Cole no site aberto.");
   }).catch(() => {
     alert("Não foi possível copiar os dados para a área de transferência.");
   });
 }
+
 window.addEventListener('load', () => {
   document.getElementById('editModal').style.display = 'none';
   iniciar();
