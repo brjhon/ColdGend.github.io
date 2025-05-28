@@ -674,8 +674,7 @@ body::before {
     try {
       await fetch(link, { mode: "no-cors" });
       await atualizarSiteFirebase(id, { status: "online" });
-    } catch (e) {
-      console.error(`Erro ao testar site ${nome}:`, e);
+    } catch {
       await atualizarSiteFirebase(id, { status: "offline" });
     }
   }
@@ -704,8 +703,7 @@ body::before {
     try {
       await fetch(link, { mode: "no-cors" });
       novoSite.status = "online";
-    } catch (e) {
-      console.error("Erro ao testar site:", e);
+    } catch {
       novoSite.status = "offline";
     }
 
@@ -725,12 +723,8 @@ body::before {
     alert("Não foi possível copiar os dados para a área de transferência.");
   });
 }
-window.addEventListener('load', () => {
-  document.getElementById('editModal').style.display = 'none';
-  iniciar();
-});
-
-async function recarregarTodosSites() {
+window.addEventListener
+  async function recarregarTodosSites() {
     if (sites.length === 0) {
       alert("Nenhum site cadastrado para recarregar.");
       return;
