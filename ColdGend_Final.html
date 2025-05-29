@@ -1,0 +1,24 @@
+
+  async function testarSiteIndividual(nome, link, login, senha, contato, id) {
+    try {
+      const validacao1 = await fetch(link, { mode: "no-cors" }).then(() => true).catch(() => false);
+      const validacao2 = link.includes("https");
+      const validacao3 = await contemPalavraChave(link, "login");
+
+      const online = validacao1 || validacao2 || validacao3;
+      await atualizarSiteFirebase(id, { status: online ? "online" : "offline" });
+    } catch (e) {
+      console.error(`Erro ao testar site ${nome}:`, e);
+      await atualizarSiteFirebase(id, { status: "offline" });
+    }
+  }
+
+  async function contemPalavraChave(url, palavra) {
+    try {
+      const resposta = await fetch(url);
+      const texto = await resposta.text();
+      return texto.toLowerCase().includes(palavra.toLowerCase());
+    } catch {
+      return false;
+    }
+  }

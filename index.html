@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>ColdGend com Estilo Corrigido</title>
 <style> 
   body {
@@ -92,6 +93,32 @@ body::before {
     object-fit: cover;
     display: block;
   }
+
+  /* bões de leaytes */
+
+  .top-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px 0 10px;
+}
+
+.action-button {
+  padding: 12px 30px;
+  background-color: #3a5a5a;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+  background-color: #55a67a;
+}
+
   main {
     margin-top: 0px;
     max-width: 1200px;
@@ -441,90 +468,223 @@ body::before {
   }
 
 
+
+.top-buttons {
+  position: fixed;
+  top: 200px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10000;
+}
+
+/* Estilo aprimorado para os botões laterais */
+.top-buttons {
+  position: fixed;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10000;
+}
+
+.top-buttons button {
+  padding: 12px 20px;
+  background-color: #2e4e4e;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.top-buttons button:hover {
+  background-color: #55a67a;
+  transform: scale(1.05);
+}
+
+.top-buttons button.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.top-buttons {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10000;
+}
+
+/* Botões ao lado da primeira coluna */
+.top-buttons {
+  position: absolute;
+  top: 210px;
+  left: calc(50% - 640px); /* alinhado à esquerda da primeira coluna */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10000;
+}
+
+/* Ajuste refinado dos botões ao lado da primeira coluna */
+.top-buttons {
+  position: absolute;
+  top: 220px;
+  left: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10000;
+}
+
+.top-buttons button {
+  min-width: 120px;
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+  background-color: #1c3b3c;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+}
+
+.top-buttons button:hover {
+  background-color: #2e6f67;
+  transform: translateX(2px);
+}
+
+/* Ajuste final para alinhar ao centro vertical da coluna e evitar topo */
+.top-buttons {
+  position: absolute;
+  top: 250px; /* deslocado para evitar sobrepor header */
+  left: calc(50% - 685px); /* alinhado com a borda da .left-column */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10000;
+}
+
+.top-buttons button {
+  min-width: 130px;
+  padding: 10px 14px;
+  font-size: 15px;
+  text-align: center;
+  background-color: #1f3e3e;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+}
+
+.top-buttons button:hover {
+  background-color: #399b7d;
+  transform: translateX(2px);
+}
 </style>
 </head>
 <body>
-
 <header>
-  <div class="Estagio">
-    <iframe src="http://10.50.30.160/estagios/" frameborder="0"></iframe>
-  </div>
-
-  <img src="img/Imagem do WhatsApp de 2025-05-24 à(s) 14_LE_upscale_magic_x4_strength_75_similarity_50.jpg" alt="Prefeitura Rio - Centro de Operações e Resiliência" />
-  <!-- Dentro do <main> ou dentro da .right-column -->
-<div class="right-image-panel">
-  <img id="clicavelImage" src="nils-calor/1.jpg" alt="Imagem clicável" />
+<div class="Estagio">
+<iframe frameborder="0" src="http://10.50.30.160/estagios/"></iframe>
 </div>
-
+<img alt="Prefeitura Rio - Centro de Operações e Resiliência" src="img/Imagem do WhatsApp de 2025-05-24 à(s) 14_LE_upscale_magic_x4_strength_75_similarity_50.jpg"/>
+<!-- Dentro do <main> ou dentro da .right-column -->
+<div class="right-image-panel">
+<img alt="Imagem clicável" id="clicavelImage" src="nils-calor/1.jpg"/>
+</div>
 </header>
-
-
-<main>
-  <div class="left-column">
-    <h2>📋 Cadastro do Site</h2>
-    <div class="status-bar">
-      <span class="online">Online: <span id="onlineCount">0</span></span>
-      <span class="offline">Offline: <span id="offlineCount">0</span></span>
-    </div>
-
-    <div class="input-area">
-      <input type="text" placeholder="Nome do site" />
-      <input type="text" placeholder="Link do site" />
-      <input type="text" placeholder="Login" />
-      <input type="password" placeholder="Senha" />
-      <input type="text" placeholder="Contato" />
-      <button class="test-button">Testar</button>
-      <button class="clear-button">Limpar Todos</button>
-      <button class="export-button">Exportar TXT</button>
-
-      <div class="export-status-container">
-        <div class="export-status-row">
-          <div class="export-status-label-group">
-            <span class="export-status-label">Exportar Online</span>
-            <span class="export-status-count" id="onlineExportCount">(0)</span>
-          </div>
-          <button class="export-status-button" id="exportOnlineBtn">Exportar</button>
-        </div>
-        <div class="export-status-row">
-          <div class="export-status-label-group">
-            <span class="export-status-label">Exportar Offline</span>
-            <span class="export-status-count" id="offlineExportCount">(0)</span>
-          </div>
-          <button class="export-status-button" id="exportOfflineBtn">Exportar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="right-column">
-    <h2>🗂️ Sites Salvos</h2>
-    <input type="text" id="searchInput" placeholder="Pesquisar site pelo nome..." />
-    <div style="margin:10px 0; display:flex; gap:10px; align-items:center;">
-      <button id="reloadAllBtn" class="reload-all-button">Recarregar geral</button>
-      <button id="filterAllBtn" class="filter-status-button active">Todos</button>
-      <button id="filterOnlineBtn" class="filter-status-button">Online</button>
-      <button id="filterOfflineBtn" class="filter-status-button">Offline</button>
-    </div>
-    <div class="site-list" id="site-list"></div>
-  </div>
+<div class="top-buttons" style="margin: 0; padding: 0;">
+<button class="action-button" id="btnSites">Sites</button>
+<button class="action-button" id="btnAnyDesk">AnyDesk</button>
+</div>
+<main id="mainSites">
+<div class="left-column">
+<h2>📋 Cadastro do Site</h2>
+<div class="status-bar">
+<span class="online">Online: <span id="onlineCount">0</span></span>
+<span class="offline">Offline: <span id="offlineCount">0</span></span>
+</div>
+<div class="input-area">
+<input placeholder="Nome do site" type="text"/>
+<input placeholder="Link do site" type="text"/>
+<input placeholder="Login" type="text"/>
+<input placeholder="Senha" type="password"/>
+<input placeholder="Contato" type="text"/>
+<button class="test-button">Testar</button>
+<button class="clear-button">Limpar Todos</button>
+<button class="export-button">Exportar TXT</button>
+<div class="export-status-container">
+<div class="export-status-row">
+<div class="export-status-label-group">
+<span class="export-status-label">Exportar Online</span>
+<span class="export-status-count" id="onlineExportCount">(0)</span>
+</div>
+<button class="export-status-button" id="exportOnlineBtn">Exportar</button>
+</div>
+<div class="export-status-row">
+<div class="export-status-label-group">
+<span class="export-status-label">Exportar Offline</span>
+<span class="export-status-count" id="offlineExportCount">(0)</span>
+</div>
+<button class="export-status-button" id="exportOfflineBtn">Exportar</button>
+</div>
+</div>
+</div>
+</div>
+<div class="right-column">
+<h2>🗂️ Sites Salvos</h2>
+<input id="searchInput" placeholder="Pesquisar site pelo nome..." type="text"/>
+<div style="margin:10px 0; display:flex; gap:10px; align-items:center;">
+<button class="reload-all-button" id="reloadAllBtn">Recarregar geral</button>
+<button class="filter-status-button active" id="filterAllBtn">Todos</button>
+<button class="filter-status-button" id="filterOnlineBtn">Online</button>
+<button class="filter-status-button" id="filterOfflineBtn">Offline</button>
+</div>
+<div class="site-list" id="site-list"></div>
+</div>
 </main>
-
+<main id="mainAnyDesk">
+<div class="left-column">
+<h2>💻 Cadastro AnyDesk</h2>
+<div class="input-area">
+<input id="nomeAny" placeholder="Nome do acesso" type="text"/>
+<input id="ipAny" placeholder="IP ou ID AnyDesk" type="text"/>
+<input id="loginAny" placeholder="Login" type="text"/>
+<input id="senhaAny" placeholder="Senha" type="password"/>
+<button class="test-button" id="btnCadastrarAny">Cadastrar</button>
+<button class="clear-button" id="btnLimparAny">Limpar</button>
+</div>
+</div>
+<div class="right-column">
+<h2>📋 Acessos Salvos</h2>
+<div class="site-list" id="anydesk-list"></div>
+</div>
+</main>
 <!-- Modal de edição -->
 <div class="modal" id="editModal" style="display: none;">
-  <div class="modal-content">
-    <h3>Editar Site</h3>
-    <input type="text" id="editNome" placeholder="Nome do site" />
-    <input type="text" id="editLogin" placeholder="Login" />
-    <input type="text" id="editSenha" placeholder="Senha" />
-    <input type="text" id="editContato" placeholder="Contato" />
-    <div class="modal-buttons">
-      <button id="btnSalvarEdicao">Salvar</button>
-      <button id="btnCancelarEdicao">Cancelar</button>
-    </div>
-  </div>
+<div class="modal-content">
+<h3>Editar Site</h3>
+<input id="editNome" placeholder="Nome do site" type="text"/>
+<input id="editLogin" placeholder="Login" type="text"/>
+<input id="editSenha" placeholder="Senha" type="text"/>
+<input id="editContato" placeholder="Contato" type="text"/>
+<div class="modal-buttons">
+<button id="btnSalvarEdicao">Salvar</button>
+<button id="btnCancelarEdicao">Cancelar</button>
 </div>
-
-
+</div>
+</div>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
@@ -672,11 +832,25 @@ body::before {
 
   async function testarSiteIndividual(nome, link, login, senha, contato, id) {
     try {
-      await fetch(link, { mode: "no-cors" });
-      await atualizarSiteFirebase(id, { status: "online" });
+      const validacao1 = await fetch(link, { mode: "no-cors" }).then(() => true).catch(() => false);
+      const validacao2 = link.includes("https");
+      const validacao3 = await contemPalavraChave(link, "login");
+
+      const online = validacao1 || validacao2 || validacao3;
+      await atualizarSiteFirebase(id, { status: online ? "online" : "offline" });
     } catch (e) {
       console.error(`Erro ao testar site ${nome}:`, e);
       await atualizarSiteFirebase(id, { status: "offline" });
+    }
+  }
+
+  async function contemPalavraChave(url, palavra) {
+    try {
+      const resposta = await fetch(url);
+      const texto = await resposta.text();
+      return texto.toLowerCase().includes(palavra.toLowerCase());
+    } catch {
+      return false;
     }
   }
 
@@ -863,7 +1037,18 @@ async function recarregarTodosSites() {
   }
   window.addEventListener('load', () => {
   document.getElementById('editModal').style.display = 'none';
+  iniciar();
+
+  // Configura os botões do AnyDesk
+  const btnCadastrar = document.getElementById("btnCadastrarAny");
+  const btnLimpar = document.getElementById("btnLimparAny");
+
+  if (btnCadastrar && btnLimpar) {
+    btnCadastrar.addEventListener("click", cadastrarAnyDesk);
+    btnLimpar.addEventListener("click", limparAnyDesk);
+  }
 });
+
 
 const images = [
   "nils-calor/1.jpg",
@@ -881,10 +1066,148 @@ imgElement.addEventListener("click", () => {
   imgElement.src = images[currentIndex];
 });
 
+/* Parte onde ficara O script do anydek */
+
+
+  let acessosAnyDesk = [];
+
+function cadastrarAnyDesk() {
+  const nome = document.getElementById("nomeAny").value.trim();
+  const ip = document.getElementById("ipAny").value.trim();
+  const login = document.getElementById("loginAny").value.trim();
+  const senha = document.getElementById("senhaAny").value.trim();
+
+  if (!nome || !ip) {
+    alert("Preencha pelo menos o nome e o IP.");
+    return;
+  }
+
+  acessosAnyDesk.push({ nome, ip, login, senha });
+  renderizarAnyDesk();
+  limparAnyDesk();
+}
+
+function limparAnyDesk() {
+  document.getElementById("nomeAny").value = "";
+  document.getElementById("ipAny").value = "";
+  document.getElementById("loginAny").value = "";
+  document.getElementById("senhaAny").value = "";
+}
+
+function REMOVED_renderizarAnyDesk() {
+  const lista = document.getElementById("anydesk-list");
+  lista.innerHTML = "";
+
+  acessosAnyDesk.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "site-item";
+    div.innerHTML = `
+      <strong>${item.nome}</strong><br>
+      IP/ID: ${item.ip}<br>
+      Login: ${item.login || "---"}<br>
+      Senha: ${item.senha || "---"}
+      <div class="action-buttons">
+        <button class="delete-button" onclick="removerAnyDesk(${index})">Excluir</button>
+      </div>
+    `;
+    lista.appendChild(div);
+  });
+}
+
+function removerAnyDesk(index) {
+  acessosAnyDesk.splice(index, 1);
+  renderizarAnyDesk();
+}
+
+
+// Lidar com eventos dos botões AnyDesk
+document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
+document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
+
 
 
   iniciar();
-</script>
 
-</body>
+function renderizarAnyDesk() {
+  const lista = document.getElementById("anydesk-list");
+  lista.innerHTML = "";
+
+  acessosAnyDesk.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "site-item";
+
+    const header = document.createElement("div");
+    header.innerHTML = `<strong>${item.nome}</strong><br>IP/ID: ${item.ip}`;
+
+    const dados = document.createElement("div");
+    dados.className = "credenciais";
+    dados.style.display = "none";
+    dados.innerHTML = `
+      <strong>Login:</strong> ${item.login || "---"}<br>
+      <strong>Senha:</strong> ${item.senha || "---"}
+    `;
+
+    const botoes = document.createElement("div");
+    botoes.className = "action-buttons";
+
+    const exibirBtn = document.createElement("button");
+    exibirBtn.textContent = "Exibir Detalhes";
+    exibirBtn.className = "toggle-button";
+    exibirBtn.addEventListener("click", () => {
+      const ativo = dados.style.display === "block";
+      dados.style.display = ativo ? "none" : "block";
+      exibirBtn.textContent = ativo ? "Exibir Detalhes" : "Ocultar Detalhes";
+    });
+
+    const abrirBtn = document.createElement("button");
+    abrirBtn.textContent = "Abrir";
+    abrirBtn.className = "open-button";
+    abrirBtn.addEventListener("click", () => {
+      window.location.href = `anydesk:${item.ip}`;
+    });
+
+    const copiarBtn = document.createElement("button");
+    copiarBtn.textContent = "Copiar";
+    copiarBtn.className = "open-button";
+    copiarBtn.addEventListener("click", () => {
+      const texto = `Login: ${item.login}\nSenha: ${item.senha}`;
+      navigator.clipboard.writeText(texto).then(() => {
+        alert("Login e senha copiados para a área de transferência.");
+      });
+    });
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Excluir";
+    deleteBtn.className = "delete-button";
+    deleteBtn.addEventListener("click", () => {
+      removerAnyDesk(index);
+    });
+
+    botoes.appendChild(exibirBtn);
+    botoes.appendChild(abrirBtn);
+    botoes.appendChild(copiarBtn);
+    botoes.appendChild(deleteBtn);
+
+    div.appendChild(header);
+    div.appendChild(dados);
+    div.appendChild(botoes);
+    lista.appendChild(div);
+  });
+}
+</script>
+<script>
+document.getElementById("btnSites").addEventListener("click", () => {
+  document.getElementById("mainSites").style.display = "flex";
+  document.getElementById("mainAnyDesk").style.display = "none";
+});
+
+document.getElementById("btnAnyDesk").addEventListener("click", () => {
+  document.getElementById("mainSites").style.display = "none";
+  document.getElementById("mainAnyDesk").style.display = "flex";
+});
+
+// Mostrar só o painel de sites inicialmente
+document.getElementById("mainSites").style.display = "flex";
+document.getElementById("mainAnyDesk").style.display = "none";
+</script></body>
 </html>

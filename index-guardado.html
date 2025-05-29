@@ -38,7 +38,7 @@ body::before {
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 0 20px;
+  padding: 0 0px;
   box-sizing: border-box;
 }
 
@@ -73,10 +73,10 @@ body::before {
   position: absolute;
   left: 0px;
   height: 100%;
-  width: auto; /* ajuste o tamanho conforme necessário */
+  width: auto; /* ajuste o tamanho conforme necessário*/
   display: flex;
   align-items: center;
-}
+} 
 
 .Estagio iframe {
   width: 100%;
@@ -92,6 +92,32 @@ body::before {
     object-fit: cover;
     display: block;
   }
+
+  /* bões de leaytes */
+
+  .top-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px 0 10px;
+}
+
+.action-button {
+  padding: 12px 30px;
+  background-color: #3a5a5a;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+  background-color: #55a67a;
+}
+
   main {
     margin-top: 0px;
     max-width: 1200px;
@@ -447,7 +473,7 @@ body::before {
 
 <header>
   <div class="Estagio">
-    <iframe src="http://10.50.30.160/estagios" frameborder="0"></iframe>
+    <iframe src="http://10.50.30.160/estagios/" frameborder="0"></iframe>
   </div>
 
   <img src="img/Imagem do WhatsApp de 2025-05-24 à(s) 14_LE_upscale_magic_x4_strength_75_similarity_50.jpg" alt="Prefeitura Rio - Centro de Operações e Resiliência" />
@@ -458,6 +484,11 @@ body::before {
 
 </header>
 
+<div class="top-buttons">
+  <button class="test-button" id="btnCadastrarAny">Cadastrar</button>
+<button class="clear-button" id="btnLimparAny">Limpar</button>
+
+</div>
 
 <main>
   <div class="left-column">
@@ -508,6 +539,27 @@ body::before {
     <div class="site-list" id="site-list"></div>
   </div>
 </main>
+
+<main>
+  <div class="left-column">
+    <h2>💻 Cadastro AnyDesk</h2>
+    <div class="input-area">
+      <input type="text" placeholder="Nome do acesso" id="nomeAny" />
+      <input type="text" placeholder="IP ou ID AnyDesk" id="ipAny" />
+      <input type="text" placeholder="Login" id="loginAny" />
+      <input type="password" placeholder="Senha" id="senhaAny" />
+      <button class="test-button" id="btnCadastrarAny">Cadastrar</button>
+      <button class="clear-button" id="btnLimparAny">Limpar</button>
+    </div>
+  </div>
+
+  <div class="right-column">
+    <h2>📋 Acessos Salvos</h2>
+    <div class="site-list" id="anydesk-list"></div>
+  </div>
+</main>
+
+
 
 <!-- Modal de edição -->
 <div class="modal" id="editModal" style="display: none;">
@@ -674,7 +726,8 @@ body::before {
     try {
       await fetch(link, { mode: "no-cors" });
       await atualizarSiteFirebase(id, { status: "online" });
-    } catch {
+    } catch (e) {
+      console.error(`Erro ao testar site ${nome}:`, e);
       await atualizarSiteFirebase(id, { status: "offline" });
     }
   }
@@ -703,7 +756,8 @@ body::before {
     try {
       await fetch(link, { mode: "no-cors" });
       novoSite.status = "online";
-    } catch {
+    } catch (e) {
+      console.error("Erro ao testar site:", e);
       novoSite.status = "offline";
     }
 
@@ -714,17 +768,26 @@ body::before {
   }
 
   function abrirSiteComLogin(site) {
+  // Abre o site em uma nova aba
   window.open(site.link, "_blank");
-  
+
+  // Texto com login e senha
   const textoCopiado = `Login: ${site.login}\nSenha: ${site.senha}`;
+
+  // Copia os dados para a área de transferência
   navigator.clipboard.writeText(textoCopiado).then(() => {
     alert("Login e senha copiados para a área de transferência! Cole no site aberto.");
   }).catch(() => {
     alert("Não foi possível copiar os dados para a área de transferência.");
   });
 }
-window.addEventListener
-  async function recarregarTodosSites() {
+
+window.addEventListener('load', () => {
+  document.getElementById('editModal').style.display = 'none';
+  iniciar();
+});
+
+async function recarregarTodosSites() {
     if (sites.length === 0) {
       alert("Nenhum site cadastrado para recarregar.");
       return;
@@ -852,7 +915,18 @@ window.addEventListener
   }
   window.addEventListener('load', () => {
   document.getElementById('editModal').style.display = 'none';
+  iniciar();
+
+  // Configura os botões do AnyDesk
+  const btnCadastrar = document.getElementById("btnCadastrarAny");
+  const btnLimpar = document.getElementById("btnLimparAny");
+
+  if (btnCadastrar && btnLimpar) {
+    btnCadastrar.addEventListener("click", cadastrarAnyDesk);
+    btnLimpar.addEventListener("click", limparAnyDesk);
+  }
 });
+
 
 const images = [
   "nils-calor/1.jpg",
@@ -870,80 +944,67 @@ imgElement.addEventListener("click", () => {
   imgElement.src = images[currentIndex];
 });
 
+/* Parte onde ficara O script do anydek */
 
 
-  iniciar();
-</script>
+  let acessosAnyDesk = [];
 
+function cadastrarAnyDesk() {
+  const nome = document.getElementById("nomeAny").value.trim();
+  const ip = document.getElementById("ipAny").value.trim();
+  const login = document.getElementById("loginAny").value.trim();
+  const senha = document.getElementById("senhaAny").value.trim();
 
-<!-- Coluna estilizada com IDs dos computadores (AnyDesk e VNC) -->
-<div class="computadores-section" style="padding: 40px 20px; background-color: #0f2b2c; color: white;">
-  <h2 style="margin-bottom: 20px; font-size: 1.6rem;">🖥️ Computadores Cadastrados</h2>
-  <div id="listaComputadores" style="display: flex; flex-wrap: wrap; gap: 20px;"></div>
-</div>
-
-<style>
-  .computador-card {
-    background: #1c3b3c;
-    border-radius: 12px;
-    padding: 15px 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    min-width: 240px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  if (!nome || !ip) {
+    alert("Preencha pelo menos o nome e o IP.");
+    return;
   }
-  .computador-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.5);
-  }
-  .computador-card h3 {
-    margin: 0 0 10px;
-    font-size: 1.1rem;
-    color: #a2d5c6;
-  }
-  .computador-card p {
-    margin: 4px 0;
-    font-size: 0.95rem;
-  }
-  .computador-card button {
-    margin-top: 10px;
-    margin-right: 8px;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 6px;
-    background-color: #3a5a5a;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s ease;
-  }
-  .computador-card button:hover {
-    background-color: #4caf50;
-  }
-</style>
 
-<script>
-const computadores = [
-  { nome: "PC Suporte", anydesk: "123456789", vnc: "192.168.0.10" },
-  { nome: "Servidor Financeiro", anydesk: "987654321", vnc: "192.168.0.20" }
-];
+  acessosAnyDesk.push({ nome, ip, login, senha });
+  renderizarAnyDesk();
+  limparAnyDesk();
+}
 
-function renderizarComputadores() {
-  const container = document.getElementById("listaComputadores");
-  computadores.forEach(pc => {
-    const bloco = document.createElement("div");
-    bloco.className = "computador-card";
-    bloco.innerHTML = `
-      <h3>${pc.nome}</h3>
-      <p><strong>AnyDesk:</strong> ${pc.anydesk}</p>
-      <p><strong>VNC:</strong> ${pc.vnc}</p>
-      <a href="anydesk:${pc.anydesk}"><button>Abrir AnyDesk</button></a>
-      <a href="vnc://${pc.vnc}"><button>Abrir VNC</button></a>
+function limparAnyDesk() {
+  document.getElementById("nomeAny").value = "";
+  document.getElementById("ipAny").value = "";
+  document.getElementById("loginAny").value = "";
+  document.getElementById("senhaAny").value = "";
+}
+
+function renderizarAnyDesk() {
+  const lista = document.getElementById("anydesk-list");
+  lista.innerHTML = "";
+
+  acessosAnyDesk.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "site-item";
+    div.innerHTML = `
+      <strong>${item.nome}</strong><br>
+      IP/ID: ${item.ip}<br>
+      Login: ${item.login || "---"}<br>
+      Senha: ${item.senha || "---"}
+      <div class="action-buttons">
+        <button class="delete-button" onclick="removerAnyDesk(${index})">Excluir</button>
+      </div>
     `;
-    container.appendChild(bloco);
+    lista.appendChild(div);
   });
 }
 
-window.addEventListener("load", renderizarComputadores);
+function removerAnyDesk(index) {
+  acessosAnyDesk.splice(index, 1);
+  renderizarAnyDesk();
+}
+
+
+// Lidar com eventos dos botões AnyDesk
+document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
+document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
+
+
+
+  iniciar();
 </script>
 
 </body>
