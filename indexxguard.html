@@ -831,18 +831,27 @@ body::before {
   }
 
   async function testarSiteIndividual(nome, link, login, senha, contato, id) {
-    try {
-      const validacao1 = await fetch(link, { mode: "no-cors" }).then(() => true).catch(() => false);
-      const validacao2 = link.includes("https");
-      const validacao3 = await contemPalavraChave(link, "login");
+      try {
+        console.log(`Testando ${nome}...`);
 
-      const online = validacao1 || validacao2 || validacao3;
-      await atualizarSiteFirebase(id, { status: online ? "online" : "offline" });
-    } catch (e) {
-      console.error(`Erro ao testar site ${nome}:`, e);
-      await atualizarSiteFirebase(id, { status: "offline" });
+        const validacao1 = await fetch(link, { mode: "no-cors" }).then(() => true).catch(() => false);
+        console.log("Verificação 1 (fetch no-cors):", validacao1);
+
+        const validacao2 = link.startsWith("https");
+        console.log("Verificação 2 (https):", validacao2);
+
+        const validacao3 = await contemPalavraChave(link, "login");
+        console.log("Verificação 3 (conteúdo contém 'login'):", validacao3);
+
+        const online = validacao1 || validacao2 || validacao3;
+
+        await atualizarSiteFirebase(id, { status: online ? "online" : "offline" });
+        console.log(`Resultado final: ${online ? "ONLINE" : "OFFLINE"}`);
+      } catch (e) {
+        console.error(`Erro ao testar site ${nome}:`, e);
+        await atualizarSiteFirebase(id, { status: "offline" });
+      }
     }
-  }
 
   async function contemPalavraChave(url, palavra) {
     try {
