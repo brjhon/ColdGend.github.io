@@ -592,113 +592,99 @@ body::before {
   transform: translateX(2px);
 }
 </style>
-  </head>
-  <body>
-    <header>
-      <div class="Estagio">
-        <iframe frameborder="0" src="http://10.50.30.160/estagios/"></iframe>
-      </div>
-        <img alt="Prefeitura Rio - Centro de Operações e Resiliência" src="img/Imagem do WhatsApp de 2025-05-24 à(s) 14_LE_upscale_magic_x4_strength_75_similarity_50.jpg"/>
-  
-        <!-- Dentro do <main> ou dentro da .right-column -->
-        <div class="right-image-panel">
-          <img alt="Imagem clicável" id="clicavelImage" src="nils-calor/1.jpg"/>
-        </div>
-    </header>
-
-    <div class="top-buttons" style="margin: 0; padding: 0;">
-      <button class="action-button" id="btnSites">Sites</button>
-      <button class="action-button" id="btnAnyDesk">AnyDesk</button>
-    </div>
-
-  <main id="mainSites">
-      <div class="left-column">
-        <h2>📋 Cadastro do Site</h2>
-    
-        <div class="status-bar">
-          <span class="online">Online: <span id="onlineCount">0</span></span>
-          <span class="offline">Offline: <span id="offlineCount">0</span></span>
-        </div>
-
-        <div class="input-area">
-          <input placeholder="Nome do site" type="text"/>
-          <input placeholder="Link do site" type="text"/>
-          <input placeholder="Login" type="text"/>
-          <input placeholder="Senha" type="password"/>
-          <input placeholder="Contato" type="text"/>
-
-          <button class="test-button">Testar</button>
-          <button class="clear-button">Limpar Todos</button>
-          <button class="export-button">Exportar TXT</button>
-
-          <div class="export-status-container">
-            <div class="export-status-row">
-              <div class="export-status-label-group">
-                <span class="export-status-label">Exportar Online</span>
-                <span class="export-status-count" id="onlineExportCount">(0)</span>
-              </div>
-
-              <button class="export-status-button" id="exportOnlineBtn">Exportar</button>
-            </div>
-          
-            <div class="export-status-row">
-              <div class="export-status-label-group">
-                <span class="export-status-label">Exportar Offline</span>
-                <span class="export-status-count" id="offlineExportCount">(0)</span>
-              </div>
-              <button class="export-status-button" id="exportOfflineBtn">Exportar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    <div class="right-column">
-      <h2>🗂️ Sites Salvos</h2>
-        <input id="searchInput" placeholder="Pesquisar site pelo nome..." type="text"/>
-    
-        <div style="margin:10px 0; display:flex; gap:10px; align-items:center;">
-          <button class="reload-all-button" id="reloadAllBtn">Recarregar geral</button>
-          <button class="filter-status-button active" id="filterAllBtn">Todos</button>
-          <button class="filter-status-button" id="filterOnlineBtn">Online</button>
-          <button class="filter-status-button" id="filterOfflineBtn">Offline</button>
-        </div>
-        <div class="site-list" id="site-list"></div>
-    </div>
-  </main>
-
-  <main id="mainAnyDesk">
-    <div class="left-column">
-      <h2>💻 Cadastro AnyDesk</h2>
-      <div class="input-area">
-        <input id="nomeAny" placeholder="Nome do acesso" type="text"/>
-        <input id="ipAny" placeholder="IP ou ID AnyDesk" type="text"/>
-        <input id="loginAny" placeholder="Login" type="text"/>
-        <input id="senhaAny" placeholder="Senha" type="password"/>
-
-        <button class="test-button" id="btnCadastrarAny">Cadastrar</button>
-        <button class="clear-button" id="btnLimparAny">Limpar</button>
-      </div>
-    </div>
-    <div class="right-column">
-      <h2>📋 Acessos Salvos</h2>
-      <div class="site-list" id="anydesk-list"></div>
-    </div>
-  </main>
-    <!-- Modal de edição -->
-  <div class="modal" id="editModal" style="display: none;">
-    <div class="modal-content">
-      <h3>Editar Site</h3>
-      <input id="editNome" placeholder="Nome do site" type="text"/>
-      <input id="editLogin" placeholder="Login" type="text"/>
-      <input id="editSenha" placeholder="Senha" type="text"/>
-      <input id="editContato" placeholder="Contato" type="text"/>
-    
-      <div class="modal-buttons">
-        <button id="btnSalvarEdicao">Salvar</button>
-        <button id="btnCancelarEdicao">Cancelar</button>
-      </div>
-    </div>
-  </div>
+</head>
+<body>
+<header>
+<div class="Estagio">
+<iframe frameborder="0" src="http://10.50.30.160/estagios/"></iframe>
+</div>
+<img alt="Prefeitura Rio - Centro de Operações e Resiliência" src="img/Imagem do WhatsApp de 2025-05-24 à(s) 14_LE_upscale_magic_x4_strength_75_similarity_50.jpg"/>
+<!-- Dentro do <main> ou dentro da .right-column -->
+<div class="right-image-panel">
+<img alt="Imagem clicável" id="clicavelImage" src="nils-calor/1.jpg"/>
+</div>
+</header>
+<div class="top-buttons" style="margin: 0; padding: 0;">
+<button class="action-button" id="btnSites">Sites</button>
+<button class="action-button" id="btnAnyDesk">AnyDesk</button>
+</div>
+<main id="mainSites">
+<div class="left-column">
+<h2>📋 Cadastro do Site</h2>
+<div class="status-bar">
+<span class="online">Online: <span id="onlineCount">0</span></span>
+<span class="offline">Offline: <span id="offlineCount">0</span></span>
+</div>
+<div class="input-area">
+<input placeholder="Nome do site" type="text"/>
+<input placeholder="Link do site" type="text"/>
+<input placeholder="Login" type="text"/>
+<input placeholder="Senha" type="password"/>
+<input placeholder="Contato" type="text"/>
+<button class="test-button">Testar</button>
+<button class="clear-button">Limpar Todos</button>
+<button class="export-button">Exportar TXT</button>
+<div class="export-status-container">
+<div class="export-status-row">
+<div class="export-status-label-group">
+<span class="export-status-label">Exportar Online</span>
+<span class="export-status-count" id="onlineExportCount">(0)</span>
+</div>
+<button class="export-status-button" id="exportOnlineBtn">Exportar</button>
+</div>
+<div class="export-status-row">
+<div class="export-status-label-group">
+<span class="export-status-label">Exportar Offline</span>
+<span class="export-status-count" id="offlineExportCount">(0)</span>
+</div>
+<button class="export-status-button" id="exportOfflineBtn">Exportar</button>
+</div>
+</div>
+</div>
+</div>
+<div class="right-column">
+<h2>🗂️ Sites Salvos</h2>
+<input id="searchInput" placeholder="Pesquisar site pelo nome..." type="text"/>
+<div style="margin:10px 0; display:flex; gap:10px; align-items:center;">
+<button class="reload-all-button" id="reloadAllBtn">Recarregar geral</button>
+<button class="filter-status-button active" id="filterAllBtn">Todos</button>
+<button class="filter-status-button" id="filterOnlineBtn">Online</button>
+<button class="filter-status-button" id="filterOfflineBtn">Offline</button>
+</div>
+<div class="site-list" id="site-list"></div>
+</div>
+</main>
+<main id="mainAnyDesk">
+<div class="left-column">
+<h2>💻 Cadastro AnyDesk</h2>
+<div class="input-area">
+<input id="nomeAny" placeholder="Nome do acesso" type="text"/>
+<input id="ipAny" placeholder="IP ou ID AnyDesk" type="text"/>
+<input id="loginAny" placeholder="Login" type="text"/>
+<input id="senhaAny" placeholder="Senha" type="password"/>
+<button class="test-button" id="btnCadastrarAny">Cadastrar</button>
+<button class="clear-button" id="btnLimparAny">Limpar</button>
+</div>
+</div>
+<div class="right-column">
+<h2>📋 Acessos Salvos</h2>
+<div class="site-list" id="anydesk-list"></div>
+</div>
+</main>
+<!-- Modal de edição -->
+<div class="modal" id="editModal" style="display: none;">
+<div class="modal-content">
+<h3>Editar Site</h3>
+<input id="editNome" placeholder="Nome do site" type="text"/>
+<input id="editLogin" placeholder="Login" type="text"/>
+<input id="editSenha" placeholder="Senha" type="text"/>
+<input id="editContato" placeholder="Contato" type="text"/>
+<div class="modal-buttons">
+<button id="btnSalvarEdicao">Salvar</button>
+<button id="btnCancelarEdicao">Cancelar</button>
+</div>
+</div>
+</div>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
