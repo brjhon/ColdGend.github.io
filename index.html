@@ -594,97 +594,142 @@ body::before {
 </style>
 </head>
 <body>
+
+  
+ <body>
 <header>
-<div class="Estagio">
-<iframe frameborder="0" src="http://10.50.30.160/estagios/"></iframe>
-</div>
-<img alt="Prefeitura Rio - Centro de Operações e Resiliência" src="img/Imagem do WhatsApp de 2025-05-24 à(s) 14_LE_upscale_magic_x4_strength_75_similarity_50.jpg"/>
-<!-- Dentro do <main> ou dentro da .right-column -->
-<div class="right-image-panel">
-<img alt="Imagem clicável" id="clicavelImage" src="nils-calor/1.jpg"/>
-</div>
+  <div class="Estagio">
+    <iframe frameborder="0" src="https://10.50.30.160/estagios/"></iframe>
+  </div>
+  <img alt="Prefeitura Rio - Centro de Operações e Resiliência" src="img/Imagem do WhatsApp de 2025-05-24 à(s) 14_LE_upscale_magic_x4_strength_75_similarity_50.jpg"/>
+
+  <div class="right-image-panel">
+    <img alt="Imagem clicável" id="clicavelImage" src="nils-calor/1.jpg"/>
+  </div>
 </header>
+
 <div class="top-buttons" style="margin: 0; padding: 0;">
-<button class="action-button" id="btnSites">Sites</button>
-<button class="action-button" id="btnAnyDesk">AnyDesk</button>
+  <button class="action-button" id="btnSites">Sites</button>
+  <button class="action-button" id="btnAnyDesk">AnyDesk</button>
+  <button class="action-button" id="btnAcessosRemotos">Acessos Remotos</button>
 </div>
+
+<!-- Área Sites -->
 <main id="mainSites">
-<div class="left-column">
-<h2>📋 Cadastro do Site</h2>
-<div class="status-bar">
-<span class="online">Online: <span id="onlineCount">0</span></span>
-<span class="offline">Offline: <span id="offlineCount">0</span></span>
-</div>
-<div class="input-area">
-<input placeholder="Nome do site" type="text"/>
-<input placeholder="Link do site" type="text"/>
-<input placeholder="Login" type="text"/>
-<input placeholder="Senha" type="password"/>
-<input placeholder="Contato" type="text"/>
-<button class="test-button">Testar</button>
-<button class="clear-button">Limpar Todos</button>
-<button class="export-button">Exportar TXT</button>
-<div class="export-status-container">
-<div class="export-status-row">
-<div class="export-status-label-group">
-<span class="export-status-label">Exportar Online</span>
-<span class="export-status-count" id="onlineExportCount">(0)</span>
-</div>
-<button class="export-status-button" id="exportOnlineBtn">Exportar</button>
-</div>
-<div class="export-status-row">
-<div class="export-status-label-group">
-<span class="export-status-label">Exportar Offline</span>
-<span class="export-status-count" id="offlineExportCount">(0)</span>
-</div>
-<button class="export-status-button" id="exportOfflineBtn">Exportar</button>
-</div>
-</div>
-</div>
-</div>
-<div class="right-column">
-<h2>🗂️ Sites Salvos</h2>
-<input id="searchInput" placeholder="Pesquisar site pelo nome..." type="text"/>
-<div style="margin:10px 0; display:flex; gap:10px; align-items:center;">
-<button class="reload-all-button" id="reloadAllBtn">Recarregar geral</button>
-<button class="filter-status-button active" id="filterAllBtn">Todos</button>
-<button class="filter-status-button" id="filterOnlineBtn">Online</button>
-<button class="filter-status-button" id="filterOfflineBtn">Offline</button>
-</div>
-<div class="site-list" id="site-list"></div>
-</div>
+  <div class="left-column">
+    <h2>📋 Cadastro do Site</h2>
+
+    <div class="status-bar">
+      <span class="online">Online: <span id="onlineCount">0</span></span>
+      <span class="offline">Offline: <span id="offlineCount">0</span></span>
+    </div>
+
+    <div class="input-area">
+      <input placeholder="Nome do site" type="text"/>
+      <input placeholder="Link do site" type="text"/>
+      <input placeholder="Login" type="text"/>
+      <input placeholder="Senha" type="password"/>
+      <input placeholder="Contato" type="text"/>
+
+      <button class="test-button">Testar</button>
+      <button class="clear-button">Limpar Todos</button>
+      <button class="export-button">Exportar TXT</button>
+
+      <div class="export-status-container">
+        <div class="export-status-row">
+          <div class="export-status-label-group">
+            <span class="export-status-label">Exportar Online</span>
+            <span class="export-status-count" id="onlineExportCount">(0)</span>
+          </div>
+          <button class="export-status-button" id="exportOnlineBtn">Exportar</button>
+        </div>
+
+        <div class="export-status-row">
+          <div class="export-status-label-group">
+            <span class="export-status-label">Exportar Offline</span>
+            <span class="export-status-count" id="offlineExportCount">(0)</span>
+          </div>
+          <button class="export-status-button" id="exportOfflineBtn">Exportar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-column">
+    <h2>🗂️ Sites Salvos</h2>
+    <input id="searchInput" placeholder="Pesquisar site pelo nome..." type="text"/>
+
+    <div style="margin:10px 0; display:flex; gap:10px; align-items:center;">
+      <button class="reload-all-button" id="reloadAllBtn">Recarregar geral</button>
+      <button class="filter-status-button active" id="filterAllBtn">Todos</button>
+      <button class="filter-status-button" id="filterOnlineBtn">Online</button>
+      <button class="filter-status-button" id="filterOfflineBtn">Offline</button>
+    </div>
+
+    <div class="site-list" id="site-list"></div>
+  </div>
 </main>
-<main id="mainAnyDesk">
-<div class="left-column">
-<h2>💻 Cadastro AnyDesk</h2>
-<div class="input-area">
-<input id="nomeAny" placeholder="Nome do acesso" type="text"/>
-<input id="ipAny" placeholder="IP ou ID AnyDesk" type="text"/>
-<input id="loginAny" placeholder="Login" type="text"/>
-<input id="senhaAny" placeholder="Senha" type="password"/>
-<button class="test-button" id="btnCadastrarAny">Cadastrar</button>
-<button class="clear-button" id="btnLimparAny">Limpar</button>
-</div>
-</div>
-<div class="right-column">
-<h2>📋 Acessos Salvos</h2>
-<div class="site-list" id="anydesk-list"></div>
-</div>
+
+<!-- Área AnyDesk -->
+<main id="mainAnyDesk" style="display:none;">
+  <div class="left-column">
+    <h2>💻 Cadastro AnyDesk</h2>
+
+    <div class="input-area">
+      <input id="nomeAny" placeholder="Nome do acesso" type="text"/>
+      <input id="ipAny" placeholder="IP ou ID AnyDesk" type="text"/>
+      <input id="loginAny" placeholder="Login" type="text"/>
+      <input id="senhaAny" placeholder="Senha" type="password"/>
+      <button class="test-button" id="btnCadastrarAny">Cadastrar</button>
+      <button class="clear-button" id="btnLimparAny">Limpar</button>
+    </div>
+  </div>
+
+  <div class="right-column">
+    <h2>📋 Acessos Salvos</h2>
+    <div class="site-list" id="anydesk-list"></div>
+  </div>
 </main>
-<!-- Modal de edição -->
+
+<!-- Área Acessos Remotos -->
+<main id="mainAcessosRemotos" style="display:none;">
+  <div class="left-column">
+    <h2>🖥️ Cadastro Acessos Remotos</h2>
+
+    <div class="input-area">
+      <input id="inputSetor" placeholder="Setor" type="text" />
+      <input id="inputAndar" placeholder="Andar" type="text" />
+      <input id="inputTipo" placeholder="Tipo" type="text" />
+      <input id="inputCamera" placeholder="Câmera" type="text" />
+      <input id="inputSala" placeholder="Sala Técnica" type="text" />
+      <input id="inputIP" placeholder="IP" type="text" />
+      <button class="test-button" id="btnCadastrarAcesso">Cadastrar</button>
+      <button class="clear-button" id="btnLimparAcesso">Limpar</button>
+    </div>
+  </div>
+
+  <div class="right-column">
+    <h2>📋 Acessos Remotos Salvos</h2>
+    <div class="site-list" id="acessos-remotos-list"></div>
+  </div>
+</main>
+
+<!-- Modal de edição (sites) -->
 <div class="modal" id="editModal" style="display: none;">
-<div class="modal-content">
-<h3>Editar Site</h3>
-<input id="editNome" placeholder="Nome do site" type="text"/>
-<input id="editLogin" placeholder="Login" type="text"/>
-<input id="editSenha" placeholder="Senha" type="text"/>
-<input id="editContato" placeholder="Contato" type="text"/>
-<div class="modal-buttons">
-<button id="btnSalvarEdicao">Salvar</button>
-<button id="btnCancelarEdicao">Cancelar</button>
+  <div class="modal-content">
+    <h3>Editar Site</h3>
+    <input id="editNome" placeholder="Nome do site" type="text"/>
+    <input id="editLogin" placeholder="Login" type="text"/>
+    <input id="editSenha" placeholder="Senha" type="text"/>
+    <input id="editContato" placeholder="Contato" type="text"/>
+
+    <div class="modal-buttons">
+      <button id="btnSalvarEdicao">Salvar</button>
+      <button id="btnCancelarEdicao">Cancelar</button>
+    </div>
+  </div>
 </div>
-</div>
-</div>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
@@ -703,12 +748,21 @@ body::before {
   const db = getFirestore(app);
   const sitesCollection = collection(db, "sites");
   const anydeskCollection = collection(db, "anydesk");
+  const acessosRemotosCollection = collection(db, "acessos_remotos");
 
-
+  // -- Sites
   let sites = [];
   let editIndex = null;
   let filtroAtual = '';
   let filtroStatus = 'todos';
+
+  // -- AnyDesk
+  let acessosAnyDesk = [];
+
+  // -- Acessos Remotos
+  let acessosRemotos = [];
+
+  // --- FUNÇÕES SITES ---
 
   function renderizarSites() {
     const siteList = document.getElementById("site-list");
@@ -833,27 +887,27 @@ body::before {
   }
 
   async function testarSiteIndividual(nome, link, login, senha, contato, id) {
-      try {
-        console.log(`Testando ${nome}...`);
+    try {
+      console.log(`Testando ${nome}...`);
 
-        const validacao1 = await fetch(link, { mode: "no-cors" }).then(() => true).catch(() => false);
-        console.log("Verificação 1 (fetch no-cors):", validacao1);
+      const validacao1 = await fetch(link, { mode: "no-cors" }).then(() => true).catch(() => false);
+      console.log("Verificação 1 (fetch no-cors):", validacao1);
 
-        const validacao2 = link.startsWith("https");
-        console.log("Verificação 2 (https):", validacao2);
+      const validacao2 = link.startsWith("https");
+      console.log("Verificação 2 (https):", validacao2);
 
-        const validacao3 = await contemPalavraChave(link, "login");
-        console.log("Verificação 3 (conteúdo contém 'login'):", validacao3);
+      const validacao3 = await contemPalavraChave(link, "login");
+      console.log("Verificação 3 (conteúdo contém 'login'):", validacao3);
 
-        const online = validacao1 || validacao2 || validacao3;
+      const online = validacao1 || validacao2 || validacao3;
 
-        await atualizarSiteFirebase(id, { status: online ? "online" : "offline" });
-        console.log(`Resultado final: ${online ? "ONLINE" : "OFFLINE"}`);
-      } catch (e) {
-        console.error(`Erro ao testar site ${nome}:`, e);
-        await atualizarSiteFirebase(id, { status: "offline" });
-      }
+      await atualizarSiteFirebase(id, { status: online ? "online" : "offline" });
+      console.log(`Resultado final: ${online ? "ONLINE" : "OFFLINE"}`);
+    } catch (e) {
+      console.error(`Erro ao testar site ${nome}:`, e);
+      await atualizarSiteFirebase(id, { status: "offline" });
     }
+  }
 
   async function contemPalavraChave(url, palavra) {
     try {
@@ -901,116 +955,302 @@ body::before {
   }
 
   function abrirSiteComLogin(site) {
-  // Abre o site em uma nova aba
-  window.open(site.link, "_blank");
+    window.open(site.link, "_blank");
 
-  // Texto com login e senha
-  const textoCopiado = `Login: ${site.login}\nSenha: ${site.senha}`;
+    const textoCopiado = `Login: ${site.login}\nSenha: ${site.senha}`;
 
-  // Copia os dados para a área de transferência
-  navigator.clipboard.writeText(textoCopiado).then(() => {
-    alert("Login e senha copiados para a área de transferência! Cole no site aberto.");
-  }).catch(() => {
-    alert("Não foi possível copiar os dados para a área de transferência.");
+    navigator.clipboard.writeText(textoCopiado).then(() => {
+      alert("Login e senha copiados para a área de transferência! Cole no site aberto.");
+    }).catch(() => {
+      alert("Não foi possível copiar os dados para a área de transferência.");
+    });
+  }
+
+  // --- FUNÇÕES ANYDESK ---
+
+  async function cadastrarAnyDesk() {
+    const nome = document.getElementById("nomeAny").value.trim();
+    const ip = document.getElementById("ipAny").value.trim();
+    const login = document.getElementById("loginAny").value.trim();
+    const senha = document.getElementById("senhaAny").value.trim();
+
+    if (!nome || !ip) {
+      alert("Preencha pelo menos o nome e o IP.");
+      return;
+    }
+
+    const novoAcesso = { nome, ip, login, senha };
+
+    try {
+      await addDoc(anydeskCollection, novoAcesso);
+      alert("Acesso AnyDesk salvo com sucesso!");
+      limparAnyDesk();
+      await carregarAnyDesk();
+    } catch (e) {
+      alert("Erro ao salvar no Firebase: " + e.message);
+    }
+  }
+
+  function limparAnyDesk() {
+    document.getElementById("nomeAny").value = "";
+    document.getElementById("ipAny").value = "";
+    document.getElementById("loginAny").value = "";
+    document.getElementById("senhaAny").value = "";
+  }
+
+  function renderizarAnyDesk() {
+    const lista = document.getElementById("anydesk-list");
+    lista.innerHTML = "";
+
+    acessosAnyDesk.forEach((item, index) => {
+      const div = document.createElement("div");
+      div.className = "site-item";
+
+      const header = document.createElement("div");
+      header.innerHTML = `<strong>${item.nome}</strong><br>IP/ID: ${item.ip}`;
+
+      const dados = document.createElement("div");
+      dados.className = "credenciais";
+      dados.style.display = "none";
+      dados.innerHTML = `
+        <strong>Login:</strong> ${item.login || "---"}<br>
+        <strong>Senha:</strong> ${item.senha || "---"}
+      `;
+
+      const botoes = document.createElement("div");
+      botoes.className = "action-buttons";
+
+      const exibirBtn = document.createElement("button");
+      exibirBtn.textContent = "Exibir Detalhes";
+      exibirBtn.className = "toggle-button";
+      exibirBtn.addEventListener("click", () => {
+        const ativo = dados.style.display === "block";
+        dados.style.display = ativo ? "none" : "block";
+        exibirBtn.textContent = ativo ? "Exibir Detalhes" : "Ocultar Detalhes";
+      });
+
+      const abrirBtn = document.createElement("button");
+      abrirBtn.textContent = "Abrir";
+      abrirBtn.className = "open-button";
+      abrirBtn.addEventListener("click", () => {
+        window.location.href = `anydesk:${item.ip}`;
+      });
+
+      const copiarBtn = document.createElement("button");
+      copiarBtn.textContent = "Copiar";
+      copiarBtn.className = "open-button";
+      copiarBtn.addEventListener("click", () => {
+        const texto = `Login: ${item.login}\nSenha: ${item.senha}`;
+        navigator.clipboard.writeText(texto).then(() => {
+          alert("Login e senha copiados para a área de transferência.");
+        });
+      });
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Excluir";
+      deleteBtn.className = "delete-button";
+      deleteBtn.addEventListener("click", () => {
+        removerAnyDesk(index);
+      });
+
+      botoes.appendChild(exibirBtn);
+      botoes.appendChild(abrirBtn);
+      botoes.appendChild(copiarBtn);
+      botoes.appendChild(deleteBtn);
+
+      div.appendChild(header);
+      div.appendChild(dados);
+      div.appendChild(botoes);
+      lista.appendChild(div);
+    });
+  }
+
+  async function carregarAnyDesk() {
+    acessosAnyDesk = [];
+    const querySnapshot = await getDocs(anydeskCollection);
+    querySnapshot.forEach((docSnap) => {
+      acessosAnyDesk.push({ id: docSnap.id, ...docSnap.data() });
+    });
+    renderizarAnyDesk();
+  }
+
+  async function removerAnyDesk(index) {
+    const acesso = acessosAnyDesk[index];
+    if (!acesso.id) return;
+
+    const confirmacao = confirm("Tem certeza que deseja excluir este acesso?");
+    if (!confirmacao) return;
+
+    try {
+      await deleteDoc(doc(db, "anydesk", acesso.id));
+      await carregarAnyDesk();
+    } catch (e) {
+      alert("Erro ao remover: " + e.message);
+    }
+  }
+
+  // --- FUNÇÕES ACESSOS REMOTOS ---
+
+  async function cadastrarAcessoRemoto() {
+    const setor = document.getElementById("inputSetor").value.trim();
+    const andar = document.getElementById("inputAndar").value.trim();
+    const tipo = document.getElementById("inputTipo").value.trim();
+    const camera = document.getElementById("inputCamera").value.trim();
+    const sala = document.getElementById("inputSala").value.trim();
+    const ip = document.getElementById("inputIP").value.trim();
+
+    if (!setor || !andar || !tipo || !ip) {
+      alert("Por favor, preencha os campos: Setor, Andar, Tipo e IP.");
+      return;
+    }
+
+    const novoAcesso = { setor, andar, tipo, camera, sala, ip };
+
+    try {
+      await addDoc(acessosRemotosCollection, novoAcesso);
+      alert("Acesso remoto salvo com sucesso!");
+      limparAcessoRemoto();
+      await carregarAcessosRemotos();
+    } catch (e) {
+      alert("Erro ao salvar no Firebase: " + e.message);
+    }
+  }
+
+  function limparAcessoRemoto() {
+    document.getElementById("inputSetor").value = "";
+    document.getElementById("inputAndar").value = "";
+    document.getElementById("inputTipo").value = "";
+    document.getElementById("inputCamera").value = "";
+    document.getElementById("inputSala").value = "";
+    document.getElementById("inputIP").value = "";
+  }
+
+  function renderizarAcessosRemotos() {
+    const lista = document.getElementById("acessos-remotos-list");
+    lista.innerHTML = "";
+
+    acessosRemotos.forEach((item, index) => {
+      const div = document.createElement("div");
+      div.className = "site-item";
+
+      const header = document.createElement("div");
+      header.innerHTML = `<strong>Setor:</strong> ${item.setor} | <strong>Tipo:</strong> ${item.tipo} | <strong>IP:</strong> ${item.ip}`;
+
+      const detalhes = document.createElement("div");
+      detalhes.className = "credenciais";
+      detalhes.style.display = "none";
+      detalhes.innerHTML = `
+        <strong>Andar:</strong> ${item.andar}<br>
+        <strong>Câmera:</strong> ${item.camera}<br>
+        <strong>Sala Técnica:</strong> ${item.sala}
+      `;
+
+      const botoes = document.createElement("div");
+      botoes.className = "action-buttons";
+
+      const toggleBtn = document.createElement("button");
+      toggleBtn.textContent = "Exibir Detalhes";
+      toggleBtn.className = "toggle-button";
+      toggleBtn.addEventListener("click", () => {
+        const ativo = detalhes.style.display === "block";
+        detalhes.style.display = ativo ? "none" : "block";
+        toggleBtn.textContent = ativo ? "Exibir Detalhes" : "Ocultar Detalhes";
+      });
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Excluir";
+      deleteBtn.className = "delete-button";
+      deleteBtn.addEventListener("click", () => {
+        removerAcessoRemoto(index);
+      });
+
+      botoes.appendChild(toggleBtn);
+      botoes.appendChild(deleteBtn);
+
+      div.appendChild(header);
+      div.appendChild(detalhes);
+      div.appendChild(botoes);
+      lista.appendChild(div);
+    });
+  }
+
+  async function carregarAcessosRemotos() {
+    acessosRemotos = [];
+    const querySnapshot = await getDocs(acessosRemotosCollection);
+    querySnapshot.forEach((docSnap) => {
+      acessosRemotos.push({ id: docSnap.id, ...docSnap.data() });
+    });
+    renderizarAcessosRemotos();
+  }
+
+  async function removerAcessoRemoto(index) {
+    const acesso = acessosRemotos[index];
+    if (!acesso.id) return;
+
+    const confirmacao = confirm("Tem certeza que deseja excluir este acesso?");
+    if (!confirmacao) return;
+
+    try {
+      await deleteDoc(doc(db, "acessos_remotos", acesso.id));
+      await carregarAcessosRemotos();
+    } catch (e) {
+      alert("Erro ao remover: " + e.message);
+    }
+  }
+
+  // --- Eventos botões topo para troca de áreas ---
+
+  document.getElementById("btnSites").addEventListener("click", () => {
+    document.getElementById("mainSites").style.display = "flex";
+    document.getElementById("mainAnyDesk").style.display = "none";
+    document.getElementById("mainAcessosRemotos").style.display = "none";
   });
-}
 
-window.addEventListener('load', () => {
-  document.getElementById('editModal').style.display = 'none';
-  iniciar();
+  document.getElementById("btnAnyDesk").addEventListener("click", () => {
+    document.getElementById("mainSites").style.display = "none";
+    document.getElementById("mainAnyDesk").style.display = "flex";
+    document.getElementById("mainAcessosRemotos").style.display = "none";
+  });
+
+  document.getElementById("btnAcessosRemotos").addEventListener("click", () => {
+    document.getElementById("mainSites").style.display = "none";
+    document.getElementById("mainAnyDesk").style.display = "none";
+    document.getElementById("mainAcessosRemotos").style.display = "flex";
+  });
+
+  // --- Inicialização ---
+  async function iniciar() {
+    await carregarSitesFirebase();
+    await carregarAnyDesk();
+    await carregarAcessosRemotos();
+  }
+
+  // --- Botões cadastro ---
+document.querySelector(".clear-button").addEventListener("click", async () => {
+  if (confirm("Tem certeza que deseja apagar todos os sites?")) {
+    const querySnapshot = await getDocs(sitesCollection);
+    const deletePromises = [];
+    querySnapshot.forEach((docSnap) => {
+      deletePromises.push(deleteDoc(doc(db, "sites", docSnap.id)));
+    });
+    await Promise.all(deletePromises);
+    await carregarSitesFirebase();
+  }
 });
 
-async function recarregarTodosSites() {
-    if (sites.length === 0) {
-      alert("Nenhum site cadastrado para recarregar.");
-      return;
-    }
-    const promises = sites.map((site) =>
-      testarSiteIndividual(site.nome, site.link, site.login, site.senha, site.contato, site.id)
-    );
-    await Promise.all(promises);
-  }
 
-  function exportarTXT(dados) {
-  if (dados.length === 0) {
-    alert("Nenhum dado para exportar.");
-    return;
-  }
-  // Monta texto apenas com nome e status - OK ou OFF
-  let conteudo = dados
-    .map(site => `${site.nome} - ${site.status === 'online' ? 'OK' : 'OFF'}`)
-    .join("\n");
-
-  const blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "coldgend_sites.txt";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-
-  function exportarTodosTXT() {
-    exportarTXT(sites);
-  }
-
-  function exportarPorStatusTXT(status) {
-    const filtrados = sites.filter((site) => site.status === status);
-    if (filtrados.length === 0) {
-      alert(`Nenhum site com status "${status}" para exportar.`);
-      return;
-    }
-    exportarTXT(filtrados);
-  }
-
-  function abrirModalEdicao(index) {
-    editIndex = index;
-    const site = sites[index];
-    document.getElementById("editNome").value = site.nome;
-    document.getElementById("editLogin").value = site.login;
-    document.getElementById("editSenha").value = site.senha;
-    document.getElementById("editContato").value = site.contato;
-    document.getElementById("editModal").style.display = "flex";
-  }
-
-  function fecharModal() {
-    document.getElementById("editModal").style.display = "none";
-  }
-
-  async function salvarEdicao() {
-    const nome = document.getElementById("editNome").value;
-    const login = document.getElementById("editLogin").value;
-    const senha = document.getElementById("editSenha").value;
-    const contato = document.getElementById("editContato").value;
-
-    if (editIndex !== null) {
-      const site = sites[editIndex];
-      await atualizarSiteFirebase(site.id, { nome, login, senha, contato });
-      fecharModal();
-    }
-  }
-
-  document.querySelector(".test-button").addEventListener("click", testarSite);
-  document.querySelector(".clear-button").addEventListener("click", async () => {
-    if (confirm("Tem certeza que deseja apagar todos os sites?")) {
-      const querySnapshot = await getDocs(sitesCollection);
-      const deletePromises = [];
-      querySnapshot.forEach((docSnap) => {
-        deletePromises.push(deleteDoc(doc(db, "sites", docSnap.id)));
-      });
-      await Promise.all(deletePromises);
-      await carregarSitesFirebase();
-    }
-  });
   document.querySelector(".export-button").addEventListener("click", () => exportarTodosTXT());
   document.getElementById("reloadAllBtn").addEventListener("click", recarregarTodosSites);
   document.getElementById("exportOnlineBtn").addEventListener("click", () => exportarPorStatusTXT("online"));
   document.getElementById("exportOfflineBtn").addEventListener("click", () => exportarPorStatusTXT("offline"));
-  document.getElementById("searchInput").addEventListener("input", (e) => {
-    filtroAtual = e.target.value;
-    renderizarSites();
-  });
+
+  document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
+  document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
+
+  document.getElementById("btnCadastrarAcesso").addEventListener("click", cadastrarAcessoRemoto);
+  document.getElementById("btnLimparAcesso").addEventListener("click", limparAcessoRemoto);
+
+  // Modal edição sites
   document.getElementById("btnSalvarEdicao").addEventListener("click", salvarEdicao);
   document.getElementById("btnCancelarEdicao").addEventListener("click", fecharModal);
   document.getElementById("editModal").addEventListener("click", (e) => {
@@ -1020,231 +1260,26 @@ async function recarregarTodosSites() {
     if (e.key === "Escape") fecharModal();
   });
 
-  document.getElementById("filterAllBtn").addEventListener("click", () => {
-    filtroStatus = "todos";
-    setActiveButton("filterAllBtn");
-    renderizarSites();
-  });
-  document.getElementById("filterOnlineBtn").addEventListener("click", () => {
-    filtroStatus = "online";
-    setActiveButton("filterOnlineBtn");
-    renderizarSites();
-  });
-  document.getElementById("filterOfflineBtn").addEventListener("click", () => {
-    filtroStatus = "offline";
-    setActiveButton("filterOfflineBtn");
-    renderizarSites();
-  });
-
-  function setActiveButton(id) {
-    document.querySelectorAll(".filter-status-button").forEach(btn => {
-      btn.classList.remove("active");
-    });
-    document.getElementById(id).classList.add("active");
-  }
-
-  async function iniciar() {
-  await carregarSitesFirebase();
-  await carregarAnyDesk(); // agora ele carrega os acessos também!
-}
   window.addEventListener('load', () => {
-  document.getElementById('editModal').style.display = 'none';
-  iniciar();
-
-  // Configura os botões do AnyDesk
-  const btnCadastrar = document.getElementById("btnCadastrarAny");
-  const btnLimpar = document.getElementById("btnLimparAny");
-
-  if (btnCadastrar && btnLimpar) {
-    btnCadastrar.addEventListener("click", cadastrarAnyDesk);
-    btnLimpar.addEventListener("click", limparAnyDesk);
-  }
-});
-
-
-const images = [
-  "nils-calor/1.jpg",
-  "nils-calor/2.jpg",
-  "nils-calor/3.jpg",
-  "nils-calor/4.jpg",
-  "nils-calor/5.jpg",
-];
-
-const imgElement = document.getElementById("clicavelImage");
-let currentIndex = 0;
-
-imgElement.addEventListener("click", () => {
-  currentIndex = (currentIndex + 1) % images.length;
-  imgElement.src = images[currentIndex];
-});
-
-/* Parte onde ficara O script do anydek */
-
-
-  let acessosAnyDesk = [];
-
-async function cadastrarAnyDesk() {
-  const nome = document.getElementById("nomeAny").value.trim();
-  const ip = document.getElementById("ipAny").value.trim();
-  const login = document.getElementById("loginAny").value.trim();
-  const senha = document.getElementById("senhaAny").value.trim();
-
-  if (!nome || !ip) {
-    alert("Preencha pelo menos o nome e o IP.");
-    return;
-  }
-
-  const novoAcesso = { nome, ip, login, senha };
-
-  try {
-    await addDoc(anydeskCollection, novoAcesso);
-    alert("Acesso AnyDesk salvo com sucesso!");
-    limparAnyDesk();
-    await carregarAnyDesk(); // atualiza a lista após salvar
-  } catch (e) {
-    alert("Erro ao salvar no Firebase: " + e.message);
-  }
-}
-
-
-function limparAnyDesk() {
-  document.getElementById("nomeAny").value = "";
-  document.getElementById("ipAny").value = "";
-  document.getElementById("loginAny").value = "";
-  document.getElementById("senhaAny").value = "";
-}
-
-function REMOVED_renderizarAnyDesk() {
-  const lista = document.getElementById("anydesk-list");
-  lista.innerHTML = "";
-
-  acessosAnyDesk.forEach((item, index) => {
-    const div = document.createElement("div");
-    div.className = "site-item";
-    div.innerHTML = `
-      <strong>${item.nome}</strong><br>
-      IP/ID: ${item.ip}<br>
-      Login: ${item.login || "---"}<br>
-      Senha: ${item.senha || "---"}
-      <div class="action-buttons">
-        <button class="delete-button" onclick="removerAnyDesk(${index})">Excluir</button>
-      </div>
-    `;
-    lista.appendChild(div);
+    document.getElementById('editModal').style.display = 'none';
+    iniciar();
   });
-}
 
-async function removerAnyDesk(index) {
-  const acesso = acessosAnyDesk[index];
-  if (!acesso.id) return;
+  // Imagens clicáveis
+  const images = [
+    "nils-calor/1.jpg",
+    "nils-calor/2.jpg",
+    "nils-calor/3.jpg",
+    "nils-calor/4.jpg",
+    "nils-calor/5.jpg",
+  ];
 
-  const confirmacao = confirm("Tem certeza que deseja excluir este acesso?");
-  if (!confirmacao) return;
+  const imgElement = document.getElementById("clicavelImage");
+  let currentIndex = 0;
 
-  try {
-    await deleteDoc(doc(db, "anydesk", acesso.id));
-    await carregarAnyDesk();
-  } catch (e) {
-    alert("Erro ao remover: " + e.message);
-  }
-}
-
-
-
-// Lidar com eventos dos botões AnyDesk
-document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
-document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
-
-
-/* Banco de Dados do Anydesk */
- 
-
-function renderizarAnyDesk() {
-  const lista = document.getElementById("anydesk-list");
-  lista.innerHTML = "";
-
-  acessosAnyDesk.forEach((item, index) => {
-    const div = document.createElement("div");
-    div.className = "site-item";
-
-    const header = document.createElement("div");
-    header.innerHTML = `<strong>${item.nome}</strong><br>IP/ID: ${item.ip}`;
-
-    const dados = document.createElement("div");
-    dados.className = "credenciais";
-    dados.style.display = "none";
-    dados.innerHTML = `
-      <strong>Login:</strong> ${item.login || "---"}<br>
-      <strong>Senha:</strong> ${item.senha || "---"}
-    `;
-
-    const botoes = document.createElement("div");
-    botoes.className = "action-buttons";
-
-    const exibirBtn = document.createElement("button");
-    exibirBtn.textContent = "Exibir Detalhes";
-    exibirBtn.className = "toggle-button";
-    exibirBtn.addEventListener("click", () => {
-      const ativo = dados.style.display === "block";
-      dados.style.display = ativo ? "none" : "block";
-      exibirBtn.textContent = ativo ? "Exibir Detalhes" : "Ocultar Detalhes";
-    });
-
-    const abrirBtn = document.createElement("button");
-    abrirBtn.textContent = "Abrir";
-    abrirBtn.className = "open-button";
-    abrirBtn.addEventListener("click", () => {
-      window.location.href = `anydesk:${item.ip}`;
-    });
-
-    const copiarBtn = document.createElement("button");
-    copiarBtn.textContent = "Copiar";
-    copiarBtn.className = "open-button";
-    copiarBtn.addEventListener("click", () => {
-      const texto = `Login: ${item.login}\nSenha: ${item.senha}`;
-      navigator.clipboard.writeText(texto).then(() => {
-        alert("Login e senha copiados para a área de transferência.");
-      });
-    });
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Excluir";
-    deleteBtn.className = "delete-button";
-    deleteBtn.addEventListener("click", () => {
-      removerAnyDesk(index);
-    });
-
-    botoes.appendChild(exibirBtn);
-    botoes.appendChild(abrirBtn);
-    botoes.appendChild(copiarBtn);
-    botoes.appendChild(deleteBtn);
-
-    div.appendChild(header);
-    div.appendChild(dados);
-    div.appendChild(botoes);
-    lista.appendChild(div);
+  imgElement.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    imgElement.src = images[currentIndex];
   });
-}
-
-async function carregarAnyDesk() {
-  acessosAnyDesk = [];
-  const querySnapshot = await getDocs(anydeskCollection);
-  querySnapshot.forEach((docSnap) => {
-    acessosAnyDesk.push({ id: docSnap.id, ...docSnap.data() });
-  });
-  renderizarAnyDesk();
-}
-
-document.getElementById("btnSites").addEventListener("click", () => {
-  document.getElementById("mainSites").style.display = "flex";
-  document.getElementById("mainAnyDesk").style.display = "none";
-});
-
-document.getElementById("btnAnyDesk").addEventListener("click", () => {
-  document.getElementById("mainSites").style.display = "none";
-  document.getElementById("mainAnyDesk").style.display = "flex";
-});
-
- iniciar();
-</script></body>
-</html>
+</script>
+</body>
