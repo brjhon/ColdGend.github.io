@@ -702,6 +702,8 @@ body::before {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const sitesCollection = collection(db, "sites");
+  const anydeskCollection = collection(db, "anydesk");
+
 
   let sites = [];
   let editIndex = null;
@@ -1042,8 +1044,9 @@ async function recarregarTodosSites() {
   }
 
   async function iniciar() {
-    await carregarSitesFirebase();
-  }
+  await carregarSitesFirebase();
+  await carregarAnyDesk(); // agora ele carrega os acessos também!
+}
   window.addEventListener('load', () => {
   document.getElementById('editModal').style.display = 'none';
   iniciar();
@@ -1080,7 +1083,7 @@ imgElement.addEventListener("click", () => {
 
   let acessosAnyDesk = [];
 
-function cadastrarAnyDesk() {
+async function cadastrarAnyDesk() {
   const nome = document.getElementById("nomeAny").value.trim();
   const ip = document.getElementById("ipAny").value.trim();
   const login = document.getElementById("loginAny").value.trim();
@@ -1091,10 +1094,18 @@ function cadastrarAnyDesk() {
     return;
   }
 
-  acessosAnyDesk.push({ nome, ip, login, senha });
-  renderizarAnyDesk();
-  limparAnyDesk();
+  const novoAcesso = { nome, ip, login, senha };
+
+  try {
+    await addDoc(anydeskCollection, novoAcesso);
+    alert("Acesso AnyDesk salvo com sucesso!");
+    limparAnyDesk();
+    await carregarAnyDesk(); // atualiza a lista após salvar
+  } catch (e) {
+    alert("Erro ao salvar no Firebase: " + e.message);
+  }
 }
+
 
 function limparAnyDesk() {
   document.getElementById("nomeAny").value = "";
@@ -1123,10 +1134,21 @@ function REMOVED_renderizarAnyDesk() {
   });
 }
 
-function removerAnyDesk(index) {
-  acessosAnyDesk.splice(index, 1);
-  renderizarAnyDesk();
+async function removerAnyDesk(index) {
+  const acesso = acessosAnyDesk[index];
+  if (!acesso.id) return;
+
+  const confirmacao = confirm("Tem certeza que deseja excluir este acesso?");
+  if (!confirmacao) return;
+
+  try {
+    await deleteDoc(doc(db, "anydesk", acesso.id));
+    await carregarAnyDesk();
+  } catch (e) {
+    alert("Erro ao remover: " + e.message);
+  }
 }
+
 
 
 // Lidar com eventos dos botões AnyDesk
@@ -1134,8 +1156,8 @@ document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAn
 document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
 
 
-
-  iniciar();
+/* Banco de Dados do Anydesk */
+ 
 
 function renderizarAnyDesk() {
   const lista = document.getElementById("anydesk-list");
@@ -1203,8 +1225,16 @@ function renderizarAnyDesk() {
     lista.appendChild(div);
   });
 }
-</script>
-<script>
+
+async function carregarAnyDesk() {
+  acessosAnyDesk = [];
+  const querySnapshot = await getDocs(anydeskCollection);
+  querySnapshot.forEach((docSnap) => {
+    acessosAnyDesk.push({ id: docSnap.id, ...docSnap.data() });
+  });
+  renderizarAnyDesk();
+}
+
 document.getElementById("btnSites").addEventListener("click", () => {
   document.getElementById("mainSites").style.display = "flex";
   document.getElementById("mainAnyDesk").style.display = "none";
@@ -1215,8 +1245,6 @@ document.getElementById("btnAnyDesk").addEventListener("click", () => {
   document.getElementById("mainAnyDesk").style.display = "flex";
 });
 
-// Mostrar só o painel de sites inicialmente
-document.getElementById("mainSites").style.display = "flex";
-document.getElementById("mainAnyDesk").style.display = "none";
+ iniciar();
 </script></body>
 </html>
