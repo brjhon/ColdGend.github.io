@@ -735,13 +735,13 @@ body::before {
   import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
   const firebaseConfig = {
-    apiKey: "AIzaSyCpnDf40JQ3COptyNJFZnqj9niTn5iBDeY",
-    authDomain: "coldgend.firebaseapp.com",
-    projectId: "coldgend",
-    storageBucket: "coldgend.firebasestorage.app",
-    messagingSenderId: "82052509807",
-    appId: "1:82052509807:web:c03348372ed390ba101d9a",
-    measurementId: "G-7CN6FW8GDX"
+  apiKey: "AIzaSyCpnDf40JQ3COptyNJFZnqj9niTn5iBDeY",
+  authDomain: "coldgend.firebaseapp.com",
+  projectId: "coldgend",
+  storageBucket: "coldgend.firebasestorage.app",
+  messagingSenderId: "82052509807",
+  appId: "1:82052509807:web:c03348372ed390ba101d9a",
+  measurementId: "G-7CN6FW8GDX"
   };
 
   const app = initializeApp(firebaseConfig);
@@ -752,15 +752,12 @@ body::before {
 
   // -- Sites
   let sites = [];
+  let acessosAnyDesk = [];
+  let acessosRemotos = [];
+
   let editIndex = null;
   let filtroAtual = '';
   let filtroStatus = 'todos';
-
-  // -- AnyDesk
-  let acessosAnyDesk = [];
-
-  // -- Acessos Remotos
-  let acessosRemotos = [];
 
   // --- FUNÇÕES SITES ---
 
@@ -858,13 +855,18 @@ body::before {
   }
 
   async function carregarSitesFirebase() {
-    sites = [];
+  sites = [];
+  try {
     const querySnapshot = await getDocs(sitesCollection);
-    querySnapshot.forEach((docSnap) => {
+    querySnapshot.forEach(docSnap => {
       sites.push({ id: docSnap.id, ...docSnap.data() });
     });
     renderizarSites();
+  } catch (e) {
+    console.error("Erro ao carregar sites:", e);
+    alert("Falha ao carregar sites. Veja o console para detalhes.");
   }
+}
 
   async function adicionarSiteFirebase(site) {
     try {
@@ -1066,13 +1068,19 @@ body::before {
   }
 
   async function carregarAnyDesk() {
-    acessosAnyDesk = [];
+  acessosAnyDesk = [];
+  try {
     const querySnapshot = await getDocs(anydeskCollection);
-    querySnapshot.forEach((docSnap) => {
+    querySnapshot.forEach(docSnap => {
       acessosAnyDesk.push({ id: docSnap.id, ...docSnap.data() });
     });
     renderizarAnyDesk();
+  } catch (e) {
+    console.error("Erro ao carregar AnyDesk:", e);
+    alert("Falha ao carregar AnyDesk. Veja o console para detalhes.");
   }
+}
+
 
   async function removerAnyDesk(index) {
     const acesso = acessosAnyDesk[index];
@@ -1148,13 +1156,13 @@ body::before {
       const botoes = document.createElement("div");
       botoes.className = "action-buttons";
 
-      const toggleBtn = document.createElement("button");
-      toggleBtn.textContent = "Exibir Detalhes";
-      toggleBtn.className = "toggle-button";
-      toggleBtn.addEventListener("click", () => {
+      const exibirBtn = document.createElement("button");
+      exibirBtn.textContent = "Exibir Detalhes";
+      exibirBtn.className = "toggle-button";
+      exibirBtn.addEventListener("click", () => {
         const ativo = detalhes.style.display === "block";
         detalhes.style.display = ativo ? "none" : "block";
-        toggleBtn.textContent = ativo ? "Exibir Detalhes" : "Ocultar Detalhes";
+        exibirBtn.textContent = ativo ? "Exibir Detalhes" : "Ocultar Detalhes";
       });
 
       const deleteBtn = document.createElement("button");
@@ -1164,7 +1172,7 @@ body::before {
         removerAcessoRemoto(index);
       });
 
-      botoes.appendChild(toggleBtn);
+      botoes.appendChild(exibirBtn);
       botoes.appendChild(deleteBtn);
 
       div.appendChild(header);
@@ -1175,13 +1183,18 @@ body::before {
   }
 
   async function carregarAcessosRemotos() {
-    acessosRemotos = [];
+  acessosRemotos = [];
+  try {
     const querySnapshot = await getDocs(acessosRemotosCollection);
-    querySnapshot.forEach((docSnap) => {
+    querySnapshot.forEach(docSnap => {
       acessosRemotos.push({ id: docSnap.id, ...docSnap.data() });
     });
     renderizarAcessosRemotos();
+  } catch (e) {
+    console.error("Erro ao carregar Acessos Remotos:", e);
+    alert("Falha ao carregar Acessos Remotos. Veja o console para detalhes.");
   }
+}
 
   async function removerAcessoRemoto(index) {
     const acesso = acessosRemotos[index];
@@ -1218,12 +1231,6 @@ body::before {
     document.getElementById("mainAcessosRemotos").style.display = "flex";
   });
 
-  // --- Inicialização ---
-  async function iniciar() {
-    await carregarSitesFirebase();
-    await carregarAnyDesk();
-    await carregarAcessosRemotos();
-  }
 
   // --- Botões cadastro ---
 document.querySelector(".clear-button").addEventListener("click", async () => {
@@ -1261,9 +1268,8 @@ document.querySelector(".clear-button").addEventListener("click", async () => {
   });
 
   window.addEventListener('load', () => {
-    document.getElementById('editModal').style.display = 'none';
-    iniciar();
-  });
+  iniciar();
+});
 
   // Imagens clicáveis
   const images = [
@@ -1281,5 +1287,17 @@ document.querySelector(".clear-button").addEventListener("click", async () => {
     currentIndex = (currentIndex + 1) % images.length;
     imgElement.src = images[currentIndex];
   });
+
+    // --- Inicialização ---
+ async function iniciar() {
+  try {
+    await carregarSitesFirebase();
+    await carregarAnyDesk();
+    await carregarAcessosRemotos();
+  } catch (e) {
+    console.error("Erro ao iniciar:", e);
+  }
+}
+
 </script>
 </body>
