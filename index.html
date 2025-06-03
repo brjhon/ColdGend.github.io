@@ -1294,12 +1294,12 @@ async function cadastrarAcessoRemoto() {
 
   try {
     await addDoc(acessosRemotosCollection, novoAcesso);
-    alert("Acesso remoto cadastrado com sucesso!");
+    alert("Acesso remoto salvo com sucesso!");
     limparAcessoRemoto();
     await carregarAcessosRemotos();
   } catch (e) {
-    console.error("Erro ao cadastrar:", e);
-    alert("Erro ao cadastrar acesso remoto.");
+    alert("Erro ao salvar no Firebase: " + e.message);
+    console.error("Erro:", e);
   }
 }
 
@@ -1385,6 +1385,13 @@ window.addEventListener("load", () => {
     document.getElementById("mainAnyDesk").style.display = "none";
     document.getElementById("mainAcessosRemotos").style.display = "flex";
   });
+
+  document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
+  document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
+
+  document.getElementById("btnCadastrarAcesso").addEventListener("click", cadastrarAcessoRemoto);
+  document.getElementById("btnLimparAcesso").addEventListener("click", limparAcessoRemoto);
+
 });
 
  iniciar();
