@@ -95,12 +95,11 @@ body::before {
   }
 
   /* bões de leaytes */
-
+  
   .top-buttons {
-  display: flex;
-  justify-content: center;
+  
   gap: 20px;
-  padding: 20px 0 10px;
+  padding: 20px 20px 5px 0px ;
 }
 
 .action-button {
@@ -595,26 +594,27 @@ body::before {
 </head>
 <body>
 <header>
+
   <div class="Estagio">
     <iframe frameborder="0" src="http://10.50.30.160/estagios/"></iframe>
   </div>
-  <img alt="Prefeitura Rio - Centro de Operações e Resiliência" src="img/Imagem do WhatsApp de 2025-05-24 à(s) 14_LE_upscale_magic_x4_strength_75_similarity_50.jpg"/>
+  <img alt="Centro de Operações - Prefeitura do Rio" src="img/Imagem do WhatsApp de 2025-05-24 à(s) 14_LE_upscale_magic_x4_strength_75_similarity_50.jpg"/>
 
   <div class="right-image-panel">
-    <img alt="Imagem clicável" id="clicavelImage" src="nils-calor/1.jpg"/>
+    <img alt="Banner institucional" id="clicavelImage" src="nils-calor/1.jpg"/>
   </div>
 </header>
 
-<div class="top-buttons" style="margin: 0; padding: 0;">
-  <button class="action-button" id="btnSites">Sites</button>
-  <button class="action-button" id="btnAnyDesk">AnyDesk</button>
-  <button class="action-button" id="btnAcessosRemotos">Acessos Remotos</button>
+<div class="top-buttons">
+  <button class="action-button" id="btnSites">Gerenciar Sistemas</button>
+  <button class="action-button" id="btnAnyDesk">Conexões AnyDesk</button>
+  <button class="action-button" id="btnAcessosRemotos">Infraestrutura Remota</button>
 </div>
 
 <!-- Área Sites -->
 <main id="mainSites">
   <div class="left-column">
-    <h2>📋 Cadastro do Site</h2>
+    <h2>📋 Registro de Sistemas Web</h2>
 
     <div class="status-bar">
       <span class="online">Online: <span id="onlineCount">0</span></span>
@@ -622,20 +622,20 @@ body::before {
     </div>
 
     <div class="input-area">
-      <input placeholder="Nome do site" type="text"/>
-      <input placeholder="Link do site" type="text"/>
-      <input placeholder="Login" type="text"/>
-      <input placeholder="Senha" type="password"/>
-      <input placeholder="Contato" type="text"/>
+      <input placeholder="Nome do sistema" type="text"/>
+      <input placeholder="URL do sistema" type="text"/>
+      <input placeholder="Usuário de acesso" type="text"/>
+      <input placeholder="Senha de acesso" type="password"/>
+      <input placeholder="Contato responsável" type="text"/>
 
-      <button class="test-button">Testar</button>
+      <button class="test-button">Testar Conexão</button>
       <button class="clear-button" id="btnLimparSites">Limpar Todos</button>
-      <button class="export-button">Exportar TXT</button>
+      <button class="export-button">Exportar .TXT</button>
 
       <div class="export-status-container">
         <div class="export-status-row">
           <div class="export-status-label-group">
-            <span class="export-status-label">Exportar Online</span>
+            <span class="export-status-label">Exportar Ativos</span>
             <span class="export-status-count" id="onlineExportCount">(0)</span>
           </div>
           <button class="export-status-button" id="exportOnlineBtn">Exportar</button>
@@ -643,7 +643,7 @@ body::before {
 
         <div class="export-status-row">
           <div class="export-status-label-group">
-            <span class="export-status-label">Exportar Offline</span>
+            <span class="export-status-label">Exportar Inativos</span>
             <span class="export-status-count" id="offlineExportCount">(0)</span>
           </div>
           <button class="export-status-button" id="exportOfflineBtn">Exportar</button>
@@ -653,14 +653,14 @@ body::before {
   </div>
 
   <div class="right-column">
-    <h2>🗂️ Sites Salvos</h2>
-    <input id="searchInput" placeholder="Pesquisar site pelo nome..." type="text"/>
+    <h2>🗂️ Sistemas Registrados</h2>
+    <input id="searchInput" placeholder="Buscar sistema pelo nome..." type="text"/>
 
     <div style="margin:10px 0; display:flex; gap:10px; align-items:center;">
-      <button class="reload-all-button" id="reloadAllBtn">Recarregar geral</button>
+      <button class="reload-all-button" id="reloadAllBtn">Revalidar Todos</button>
       <button class="filter-status-button active" id="filterAllBtn">Todos</button>
-      <button class="filter-status-button" id="filterOnlineBtn">Online</button>
-      <button class="filter-status-button" id="filterOfflineBtn">Offline</button>
+      <button class="filter-status-button" id="filterOnlineBtn">Ativos</button>
+      <button class="filter-status-button" id="filterOfflineBtn">Inativos</button>
     </div>
 
     <div class="site-list" id="site-list"></div>
@@ -670,12 +670,12 @@ body::before {
 <!-- Área AnyDesk -->
 <main id="mainAnyDesk" style="display:none;">
   <div class="left-column">
-    <h2>💻 Cadastro AnyDesk</h2>
+    <h2>💻 Cadastro de Conexões AnyDesk</h2>
 
     <div class="input-area">
-      <input id="nomeAny" placeholder="Nome do acesso" type="text"/>
-      <input id="ipAny" placeholder="IP ou ID AnyDesk" type="text"/>
-      <input id="loginAny" placeholder="Login" type="text"/>
+      <input id="nomeAny" placeholder="Nome do terminal" type="text"/>
+      <input id="ipAny" placeholder="Endereço ou ID AnyDesk" type="text"/>
+      <input id="loginAny" placeholder="Usuário" type="text"/>
       <input id="senhaAny" placeholder="Senha" type="password"/>
       <button class="test-button" id="btnCadastrarAny">Cadastrar</button>
       <button class="clear-button" id="btnLimparAny">Limpar</button>
@@ -683,7 +683,7 @@ body::before {
   </div>
 
   <div class="right-column">
-    <h2>📋 Acessos Salvos</h2>
+    <h2>📋 Conexões Registradas</h2>
     <div class="site-list" id="anydesk-list"></div>
   </div>
 </main>
@@ -691,22 +691,22 @@ body::before {
 <!-- Área Acessos Remotos -->
 <main id="mainAcessosRemotos" style="display:none;">
   <div class="left-column">
-    <h2>🖥️ Cadastro Acessos Remotos</h2>
+    <h2>🖥️ Registro de Infraestrutura Remota</h2>
 
     <div class="input-area">
-      <input id="inputSetor" placeholder="Setor" type="text" />
+      <input id="inputSetor" placeholder="Departamento/Setor" type="text" />
       <input id="inputAndar" placeholder="Andar" type="text" />
-      <input id="inputTipo" placeholder="Tipo" type="text" />
+      <input id="inputTipo" placeholder="Tipo de Equipamento" type="text" />
       <input id="inputCamera" placeholder="Câmera" type="text" />
       <input id="inputSala" placeholder="Sala Técnica" type="text" />
-      <input id="inputIP" placeholder="IP" type="text" />
+      <input id="inputIP" placeholder="Endereço IP" type="text" />
       <button class="test-button" id="btnCadastrarAcesso">Cadastrar</button>
       <button class="clear-button" id="btnLimparAcesso">Limpar</button>
     </div>
   </div>
 
   <div class="right-column">
-    <h2>📋 Acessos Remotos Salvos</h2>
+    <h2>📋 Equipamentos Registrados</h2>
     <div class="site-list" id="acessos-remotos-list"></div>
   </div>
 </main>
@@ -714,18 +714,19 @@ body::before {
 <!-- Modal de edição (sites) -->
 <div class="modal" id="editModal" style="display: none;">
   <div class="modal-content">
-    <h3>Editar Site</h3>
-    <input id="editNome" placeholder="Nome do site" type="text"/>
-    <input id="editLogin" placeholder="Login" type="text"/>
-    <input id="editSenha" placeholder="Senha" type="text"/>
-    <input id="editContato" placeholder="Contato" type="text"/>
+    <h3>Editar Registro</h3>
+    <input id="editNome" placeholder="Nome do sistema" type="text"/>
+    <input id="editLogin" placeholder="Usuário de acesso" type="text"/>
+    <input id="editSenha" placeholder="Senha de acesso" type="text"/>
+    <input id="editContato" placeholder="Contato responsável" type="text"/>
 
     <div class="modal-buttons">
-      <button id="btnSalvarEdicao">Salvar</button>
+      <button id="btnSalvarEdicao">Salvar Alterações</button>
       <button id="btnCancelarEdicao">Cancelar</button>
     </div>
   </div>
 </div>
+
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
@@ -749,9 +750,11 @@ body::before {
 
 
   let sites = [];
+  let acessosRemotos = [];
   let editIndex = null;
   let filtroAtual = '';
   let filtroStatus = 'todos';
+  
 
   function renderizarSites() {
     const siteList = document.getElementById("site-list");
@@ -1278,30 +1281,68 @@ async function carregarAnyDesk() {
 
 /* -----------------------------Área acesso Remoto--------------------------- */
 async function cadastrarAcessoRemoto() {
-  const setor = document.getElementById("inputSetor").value.trim();
-  const andar = document.getElementById("inputAndar").value.trim();
-  const tipo = document.getElementById("inputTipo").value.trim();
-  const camera = document.getElementById("inputCamera").value.trim();
-  const sala = document.getElementById("inputSala").value.trim();
-  const ip = document.getElementById("inputIP").value.trim();
+      const setor = document.getElementById("inputSetor").value.trim();
+      const andar = document.getElementById("inputAndar").value.trim();
+      const tipo = document.getElementById("inputTipo").value.trim();
+      const camera = document.getElementById("inputCamera").value.trim();
+      const sala = document.getElementById("inputSala").value.trim();
+      const ip = document.getElementById("inputIP").value.trim();
 
-  if (!setor || !andar || !tipo || !ip) {
-    alert("Preencha os campos obrigatórios: Setor, Andar, Tipo e IP.");
-    return;
+      if (!setor || !andar || !tipo || !ip) {
+        alert("Preencha os campos obrigatórios: Setor, Andar, Tipo e IP.");
+        return;
+      }
+
+      const novoAcesso = { setor, andar, tipo, camera, sala, ip };
+
+      try {
+        await addDoc(acessosRemotosCollection, novoAcesso);
+        alert("Acesso remoto salvo com sucesso!");
+        limparAcessoRemoto();
+        await carregarAcessosRemotos();
+      } catch (e) {
+        alert("Erro ao salvar no Firebase: " + e.message);
+        console.error("Erro:", e);
+      }
+    }
+/* ----------------Ponto importante-------------- */
+    function limparAcessoRemoto() {
+      document.getElementById("inputSetor").value = "";
+      document.getElementById("inputAndar").value = "";
+      document.getElementById("inputTipo").value = "";
+      document.getElementById("inputCamera").value = "";
+      document.getElementById("inputSala").value = "";
+      document.getElementById("inputIP").value = "";
+    }
+
+    async function carregarAcessosRemotos() {
+      acessosRemotos = [];
+      try {
+        const querySnapshot = await getDocs(acessosRemotosCollection);
+        querySnapshot.forEach(docSnap => {
+          acessosRemotos.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        renderizarAcessosRemotos();
+      } catch (e) {
+        console.error("Erro ao carregar acessos remotos:", e);
+        alert("Falha ao carregar Acessos Remotos.");
+      }
+    }
+
+  async function removerAcessoRemoto(index){
+    const acesso = acessosRemotos[index];
+    if(!acesso?.id) return;
+
+    if (!confirm("tem certeza que deseja excluir este acesso?"))return;
+
+    try {
+      await deleteDoc(doc(db,"acessos_remotos", acesso.id));
+      await carregarAcessosRemotos();
+    }catch (e) {
+      alert("Erro ao excluir o acesso remoto.");
+      onsole.error(e);
+    }
   }
-
-  const novoAcesso = { setor, andar, tipo, camera, sala, ip };
-
-  try {
-    await addDoc(acessosRemotosCollection, novoAcesso);
-    alert("Acesso remoto salvo com sucesso!");
-    limparAcessoRemoto();
-    await carregarAcessosRemotos();
-  } catch (e) {
-    alert("Erro ao salvar no Firebase: " + e.message);
-    console.error("Erro:", e);
-  }
-}
 
 // --- Renderizar acessos ---
 function renderizarAcessosRemotos() {
@@ -1351,20 +1392,7 @@ function renderizarAcessosRemotos() {
   });
 }
 
-async function removerAcessoRemoto(index){
-  const acesso = acessosRemotos[index];
-  if(!acesso?.id) return;
 
-  if (!confirm("tem certeza que deseja excluir este acesso?"))return;
-
-  try {
-    await deleteDoc(doc(db,"acessos_remotos", acesso.id));
-    await carregarAcessosRemotos();
-  }catch (e) {
-    alert("Erro ao excluir o acesso remoto.");
-    onsole.error(e);
-  }
-}
 
 /* Sempre que for criar um botão para uma nova main, adcionar aqui */
 window.addEventListener("load", () => {
@@ -1390,7 +1418,9 @@ window.addEventListener("load", () => {
   document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
 
   document.getElementById("btnCadastrarAcesso").addEventListener("click", cadastrarAcessoRemoto);
-  document.getElementById("btnLimparAcesso").addEventListener("click", limparAcessoRemoto);
+    document.getElementById("btnLimparAcesso").addEventListener("click", limparAcessoRemoto);
+
+    window.addEventListener("load", carregarAcessosRemotos);
 
 });
 

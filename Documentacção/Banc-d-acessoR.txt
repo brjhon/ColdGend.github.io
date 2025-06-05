@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>ColdGend - Acesso Remoto Corrigido</title>
+</head>
+<body>
+  <h2>Acessos Remotos</h2>
+  <div>
+    <input id="inputSetor" placeholder="Setor" type="text" />
+    <input id="inputAndar" placeholder="Andar" type="text" />
+    <input id="inputTipo" placeholder="Tipo" type="text" />
+    <input id="inputCamera" placeholder="Câmera" type="text" />
+    <input id="inputSala" placeholder="Sala Técnica" type="text" />
+    <input id="inputIP" placeholder="IP" type="text" />
+    <button id="btnCadastrarAcesso">Cadastrar</button>
+    <button id="btnLimparAcesso">Limpar</button>
+  </div>
+  <div id="acessos-remotos-list"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCpnDf40JQ3COptyNJFZnqj9niTn5iBDeY",
+      authDomain: "coldgend.firebaseapp.com",
+      projectId: "coldgend",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const acessosRemotosCollection = collection(db, "acessos_remotos");
+
+    let acessosRemotos = [];
+
+    async function cadastrarAcessoRemoto() {
+      const setor = document.getElementById("inputSetor").value.trim();
+      const andar = document.getElementById("inputAndar").value.trim();
+      const tipo = document.getElementById("inputTipo").value.trim();
+      const camera = document.getElementById("inputCamera").value.trim();
+      const sala = document.getElementById("inputSala").value.trim();
+      const ip = document.getElementById("inputIP").value.trim();
+
+      if (!setor || !andar || !tipo || !ip) {
+        alert("Preencha os campos obrigatórios: Setor, Andar, Tipo e IP.");
+        return;
+      }
+
+      const novoAcesso = { setor, andar, tipo, camera, sala, ip };
+
+      try {
+        await addDoc(acessosRemotosCollection, novoAcesso);
+        alert("Acesso remoto salvo com sucesso!");
+        limparAcessoRemoto();
+        await carregarAcessosRemotos();
+      } catch (e) {
+        alert("Erro ao salvar no Firebase: " + e.message);
+        console.error("Erro:", e);
+      }
+    }
+
+    function limparAcessoRemoto() {
+      document.getElementById("inputSetor").value = "";
+      document.getElementById("inputAndar").value = "";
+      document.getElementById("inputTipo").value = "";
+      document.getElementById("inputCamera").value = "";
+      document.getElementById("inputSala").value = "";
+      document.getElementById("inputIP").value = "";
+    }
+
+    async function carregarAcessosRemotos() {
+      acessosRemotos = [];
+      try {
+        const querySnapshot = await getDocs(acessosRemotosCollection);
+        querySnapshot.forEach(docSnap => {
+          acessosRemotos.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        renderizarAcessosRemotos();
+      } catch (e) {
+        console.error("Erro ao carregar acessos remotos:", e);
+        alert("Falha ao carregar Acessos Remotos.");
+      }
+    }
+
+    function renderizarAcessosRemotos() {
+      const lista = document.getElementById("acessos-remotos-list");
+      lista.innerHTML = "";
+
+      acessosRemotos.forEach((acesso, index) => {
+        const item = document.createElement("div");
+        item.innerHTML = `
+          <strong>${acesso.setor}</strong> - ${acesso.tipo} (IP: ${acesso.ip})
+          <br>Andar: ${acesso.andar} | Câmera: ${acesso.camera} | Sala Técnica: ${acesso.sala}
+          <hr/>
+        `;
+        lista.appendChild(item);
+      });
+    }
+
+    document.getElementById("btnCadastrarAcesso").addEventListener("click", cadastrarAcessoRemoto);
+    document.getElementById("btnLimparAcesso").addEventListener("click", limparAcessoRemoto);
+
+    window.addEventListener("load", carregarAcessosRemotos);
+  </script>
+</body>
+</html>
