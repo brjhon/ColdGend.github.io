@@ -1,0 +1,53 @@
+
+// Função para importar dados de arquivo JSON local
+function importarEquipamentosDeArquivo(file) {
+  const reader = new FileReader();
+  reader.onload = async function(event) {
+    try {
+      const dados = JSON.parse(event.target.result);
+
+      for (const item of dados) {
+        const novo = {
+          setor: item.Setor,
+          andar: item.Andar,
+          tipo: item.Tipo,
+          camera: item["Câmera"],
+          sala: item["Sala Técnica"],
+          ip: item.IP,
+          status: "inativa"
+        };
+
+        // Adiciona no Firebase (se conectado)
+        try {
+          await addDoc(acessosRemotosCollection, novo);
+        } catch (e) {
+          console.warn("Erro ao adicionar:", e.message);
+        }
+      }
+
+      alert("Importação concluída!");
+      await carregarAcessosRemotos();
+    } catch (e) {
+      alert("Erro ao importar arquivo.");
+      console.error(e);
+    }
+  };
+  reader.readAsText(file);
+}
+
+// Botão e input para o HTML
+const inputImportar = document.createElement("input");
+inputImportar.type = "file";
+inputImportar.accept = ".json";
+inputImportar.style.display = "none";
+inputImportar.addEventListener("change", (e) => importarEquipamentosDeArquivo(e.target.files[0]));
+
+const botaoImportar = document.createElement("button");
+botaoImportar.textContent = "📥 Importar Equipamentos (.json)";
+botaoImportar.className = "test-button";
+botaoImportar.style.marginTop = "10px";
+botaoImportar.addEventListener("click", () => inputImportar.click());
+
+// Inserir na interface da aba Infraestrutura Remota
+document.getElementById("mainAcessosRemotos").querySelector(".left-column").appendChild(botaoImportar);
+document.body.appendChild(inputImportar);

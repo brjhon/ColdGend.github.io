@@ -1,0 +1,722 @@
+[
+  {
+    "Setor":1,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 03",
+    "IP":"10.50.14.31"
+  },
+  {
+    "Setor":2,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 01",
+    "IP":"10.50.14.34"
+  },
+  {
+    "Setor":3,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 05",
+    "IP":"10.50.14.25"
+  },
+  {
+    "Setor":4,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 07",
+    "IP":"10.50.14.29"
+  },
+  {
+    "Setor":5,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 02",
+    "IP":"10.50.14.24"
+  },
+  {
+    "Setor":6,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 28",
+    "IP":"10.50.14.52"
+  },
+  {
+    "Setor":7,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 26",
+    "IP":"10.50.14.53"
+  },
+  {
+    "Setor":8,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 22",
+    "IP":"10.50.14.43"
+  },
+  {
+    "Setor":9,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 23",
+    "IP":"10.50.14.49"
+  },
+  {
+    "Setor":10,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 13",
+    "IP":"10.50.14.172"
+  },
+  {
+    "Setor":11,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 31",
+    "IP":"10.50.14.45"
+  },
+  {
+    "Setor":12,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 12",
+    "IP":"10.50.14.28"
+  },
+  {
+    "Setor":13,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 20",
+    "IP":"10.50.14.37"
+  },
+  {
+    "Setor":14,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 27",
+    "IP":"10.50.14.46"
+  },
+  {
+    "Setor":15,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 10",
+    "IP":"10.50.14.23"
+  },
+  {
+    "Setor":16,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 11",
+    "IP":"10.50.14.27"
+  },
+  {
+    "Setor":17,
+    "Andar":"Térreo",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 15",
+    "IP":"10.50.14.38"
+  },
+  {
+    "Setor":18,
+    "Andar":"1º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 04",
+    "IP":"10.50.14.109"
+  },
+  {
+    "Setor":19,
+    "Andar":"1º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 02",
+    "IP":"10.50.14.102"
+  },
+  {
+    "Setor":20,
+    "Andar":"1º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"x",
+    "IP":"10.50.14.139"
+  },
+  {
+    "Setor":21,
+    "Andar":"1º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"x",
+    "IP":"10.50.14.246"
+  },
+  {
+    "Setor":22,
+    "Andar":"1º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 01",
+    "IP":"10.50.14.103"
+  },
+  {
+    "Setor":23,
+    "Andar":"1º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 09",
+    "IP":"10.50.14.104"
+  },
+  {
+    "Setor":24,
+    "Andar":"1º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 12",
+    "IP":"10.50.14.74"
+  },
+  {
+    "Setor":25,
+    "Andar":"2º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":null,
+    "IP":"10.50.14.234"
+  },
+  {
+    "Setor":26,
+    "Andar":"2º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 10",
+    "IP":"10.50.14.249"
+  },
+  {
+    "Setor":27,
+    "Andar":"2º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 19",
+    "IP":"10.50.14.119"
+  },
+  {
+    "Setor":28,
+    "Andar":"2º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 27",
+    "IP":"10.50.14.130"
+  },
+  {
+    "Setor":29,
+    "Andar":"2º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 12",
+    "IP":"10.50.14.113"
+  },
+  {
+    "Setor":30,
+    "Andar":"2º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 21 ",
+    "IP":"10.50.14.120"
+  },
+  {
+    "Setor":31,
+    "Andar":"2º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 04",
+    "IP":"10.50.14.114"
+  },
+  {
+    "Setor":32,
+    "Andar":"2º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 06",
+    "IP":"10.50.14.118"
+  },
+  {
+    "Setor":33,
+    "Andar":"2º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 25",
+    "IP":"10.50.14.134"
+  },
+  {
+    "Setor":34,
+    "Andar":"2º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 03",
+    "IP":"10.50.14.127"
+  },
+  {
+    "Setor":35,
+    "Andar":"2º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 18",
+    "IP":"10.50.14.126"
+  },
+  {
+    "Setor":36,
+    "Andar":"2º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 19",
+    "IP":"10.50.14.119"
+  },
+  {
+    "Setor":37,
+    "Andar":"2º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 02",
+    "IP":"10.50.14.116"
+  },
+  {
+    "Setor":38,
+    "Andar":"2º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 07",
+    "IP":"10.50.14.117"
+  },
+  {
+    "Setor":39,
+    "Andar":"3º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 07",
+    "IP":"10.50.14.131"
+  },
+  {
+    "Setor":40,
+    "Andar":"3º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT - 09",
+    "IP":"10.50.14.132"
+  },
+  {
+    "Setor":41,
+    "Andar":"3º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 10",
+    "IP":"10.50.14.159"
+  },
+  {
+    "Setor":42,
+    "Andar":"3º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 11",
+    "IP":"10.50.14.160"
+  },
+  {
+    "Setor":43,
+    "Andar":"Terreo",
+    "Tipo":"CFTV",
+    "Câmera":"Speed dome",
+    "Sala Técnica":"PT - 33",
+    "IP":"10.50.14.162"
+  },
+  {
+    "Setor":44,
+    "Andar":"1º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Speed dome",
+    "Sala Técnica":"PT - 17",
+    "IP":"10.50.14.161"
+  },
+  {
+    "Setor":45,
+    "Andar":"3º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 01",
+    "IP":"10.50.14.152"
+  },
+  {
+    "Setor":46,
+    "Andar":"3º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Dome",
+    "Sala Técnica":"PT - 04",
+    "IP":"10.50.14.156"
+  },
+  {
+    "Setor":47,
+    "Andar":"3º andar",
+    "Tipo":"CFTV",
+    "Câmera":"Bullet ",
+    "Sala Técnica":"PT -  06",
+    "IP":"10.50.14.159"
+  },
+  {
+    "Setor":"ITEM",
+    "Andar":"Andar",
+    "Tipo":"Tipo",
+    "Câmera":"Leitor Facial Entrada",
+    "Sala Técnica":"Botoeira",
+    "IP":"Sala tecnica"
+  },
+  {
+    "Setor":1,
+    "Andar":"3º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":21
+  },
+  {
+    "Setor":2,
+    "Andar":"3º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":22
+  },
+  {
+    "Setor":3,
+    "Andar":"3º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":23
+  },
+  {
+    "Setor":4,
+    "Andar":"3º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":20
+  },
+  {
+    "Setor":5,
+    "Andar":"2º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":88
+  },
+  {
+    "Setor":6,
+    "Andar":"2º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":121
+  },
+  {
+    "Setor":7,
+    "Andar":"2º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":123
+  },
+  {
+    "Setor":8,
+    "Andar":"2º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":125
+  },
+  {
+    "Setor":9,
+    "Andar":"2º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":126
+  },
+  {
+    "Setor":10,
+    "Andar":"2º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":117
+  },
+  {
+    "Setor":11,
+    "Andar":"2º andar",
+    "Tipo":"Cont. Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":122
+  },
+  {
+    "Setor":12,
+    "Andar":"2º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":115
+  },
+  {
+    "Setor":13,
+    "Andar":"2º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":118
+  },
+  {
+    "Setor":14,
+    "Andar":"2º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":91
+  },
+  {
+    "Setor":15,
+    "Andar":"2º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":92
+  },
+  {
+    "Setor":42,
+    "Andar":"2º andar",
+    "Tipo":"Cont. Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":116
+  },
+  {
+    "Setor":16,
+    "Andar":"2º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":95
+  },
+  {
+    "Setor":17,
+    "Andar":"2º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":119
+  },
+  {
+    "Setor":18,
+    "Andar":"2º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":93
+  },
+  {
+    "Setor":19,
+    "Andar":"1º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":57
+  },
+  {
+    "Setor":20,
+    "Andar":"1º andar",
+    "Tipo":"Cont. Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":59
+  },
+  {
+    "Setor":21,
+    "Andar":"1º andar",
+    "Tipo":"Cont. Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":60
+  },
+  {
+    "Setor":22,
+    "Andar":"1º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":65
+  },
+  {
+    "Setor":23,
+    "Andar":"1º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":63
+  },
+  {
+    "Setor":24,
+    "Andar":"1º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":58
+  },
+  {
+    "Setor":41,
+    "Andar":"1º andar",
+    "Tipo":"Cont. Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":66
+  },
+  {
+    "Setor":25,
+    "Andar":"1º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":63
+  },
+  {
+    "Setor":26,
+    "Andar":"1º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":61
+  },
+  {
+    "Setor":27,
+    "Andar":"1º andar",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":67
+  },
+  {
+    "Setor":28,
+    "Andar":"Térreo",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":61
+  },
+  {
+    "Setor":29,
+    "Andar":"Térreo",
+    "Tipo":"Cont. Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":59
+  },
+  {
+    "Setor":30,
+    "Andar":"Térreo",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":66
+  },
+  {
+    "Setor":31,
+    "Andar":"Térreo",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":64
+  },
+  {
+    "Setor":32,
+    "Andar":"Térreo",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":77
+  },
+  {
+    "Setor":33,
+    "Andar":"Térreo",
+    "Tipo":"Cont. Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":81
+  },
+  {
+    "Setor":34,
+    "Andar":"Térreo",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":79
+  },
+  {
+    "Setor":35,
+    "Andar":"Térreo",
+    "Tipo":"Cont.Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":74
+  },
+  {
+    "Setor":36,
+    "Andar":"Térreo",
+    "Tipo":"Cont. Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":60
+  },
+  {
+    "Setor":37,
+    "Andar":"Térreo",
+    "Tipo":"Cont. Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":"x"
+  },
+  {
+    "Setor":38,
+    "Andar":"Térreo",
+    "Tipo":"Cont. Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":"x"
+  },
+  {
+    "Setor":39,
+    "Andar":"Térreo",
+    "Tipo":"Cont. Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":"x"
+  },
+  {
+    "Setor":40,
+    "Andar":"Térreo",
+    "Tipo":"Cont. Acesso",
+    "Câmera":"ok",
+    "Sala Técnica":"ok",
+    "IP":"x"
+  }
+]
