@@ -1,6 +1,5 @@
 import { getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
-
 document.getElementById("btnImportarEquipamentos").addEventListener("click", () => {
   const input = document.createElement("input");
   input.type = "file";
@@ -17,15 +16,34 @@ document.getElementById("btnImportarEquipamentos").addEventListener("click", () 
         const existentes = snapshot.docs.map(doc => doc.data().ip);
 
         let inseridos = 0;
-        for (const item of dados) {
-          if (!existentes.includes(item.IP)) {
+
+        // 🔹 Importar CFTV
+        for (const item of dados.cftv || []) {
+          if (!existentes.includes(item.ip)) {
             const novo = {
-              setor: item.Setor,
-              andar: item.Andar,
-              tipo: item.Tipo,
-              camera: item["Câmera"],
-              sala: item["Sala Técnica"],
-              ip: item.IP,
+              setor: item.setor,
+              andar: item.andar,
+              tipo: item.tipo,
+              camera: item.modelo,
+              sala: item.sala_tecnica,
+              ip: item.ip,
+              status: "inativa"
+            };
+            await addDoc(acessosRemotosCollection, novo);
+            inseridos++;
+          }
+        }
+
+        // 🔸 Importar Controle de Acesso
+        for (const item of dados.controle_acesso || []) {
+          if (!existentes.includes(item.ip)) {
+            const novo = {
+              setor: item.setor,
+              andar: item.andar,
+              tipo: item.tipo,
+              camera: "Controle de Acesso",
+              sala: item.sala_tecnica,
+              ip: item.ip,
               status: "inativa"
             };
             await addDoc(acessosRemotosCollection, novo);

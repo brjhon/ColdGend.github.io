@@ -133,8 +133,6 @@
     <h3>🔐 Equipamentos Controle de Acesso</h3>
     <div id="listaControleAcesso"></div>
   </div>
-
-
     
   </div>
 </main>
@@ -785,7 +783,6 @@ async function removerAcessoRemoto(index){
   }
   
 
-  
 
 // --- Renderizar acessos ---
 function renderizarAcessosRemotos() {
@@ -893,38 +890,62 @@ document.getElementById("btnImportarEquipamentos").addEventListener("click", () 
     reader.onload = async function (event) {
       try {
         const dados = JSON.parse(event.target.result);
-        const snapshot = await getDocs(acessosRemotosCollection);
-        const existentes = snapshot.docs.map(doc => doc.data().ip);
 
-        let inseridos = 0;
-        for (const item of dados) {
-          if (!existentes.includes(item.IP)) {
-            const novo = {
-              setor: item.Setor,
-              andar: item.Andar,
-              tipo: item.Tipo,
-              camera: item["Câmera"],
-              sala: item["Sala Técnica"],
-              ip: item.IP,
-              status: "inativa"
-            };
-            await addDoc(acessosRemotosCollection, novo);
-            inseridos++;
-          }
-        }
+        equipamentosCFTV = dados.cftv || [];
+        equipamentosControleAcesso = dados.controle_acesso || [];
 
-        alert(`Importação concluída. ${inseridos} item(ns) adicionados.`);
-        await carregarAcessosRemotos();
-      } catch (e) {
-        alert("Erro ao importar arquivo.");
-        console.error(e);
+        renderizarEquipamentos();
+        alert("Equipamentos importados com sucesso!");
+      } catch (err) {
+        alert("Erro ao importar JSON: " + err.message);
+        console.error(err);
       }
     };
     reader.readAsText(file);
   });
 
-  input.click();
+  input.click(); // ← ESSENCIAL
 });
+
+
+function renderizarEquipamentos() {
+  const listaCFTV = document.getElementById("listaCFTV");
+  const listaCA = document.getElementById("listaControleAcesso");
+
+  listaCFTV.innerHTML = "";
+  listaCA.innerHTML = "";
+
+  equipamentosCFTV.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "site-item";
+    div.innerHTML = `
+      <strong>${item.setor}</strong><br>
+      Andar: ${item.andar}<br>
+      IP: ${item.ip}<br>
+      Tipo: ${item.tipo} - Modelo: ${item.modelo}<br>
+      Instalação: ${item.instalacao}<br>
+      Sala Técnica: ${item.sala_tecnica} | Porta CFTV: ${item.porta_cftv}<br>
+      Obs: ${item.observacoes}
+    `;
+    listaCFTV.appendChild(div);
+  });
+
+  equipamentosControleAcesso.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "site-item";
+    div.innerHTML = `
+      <strong>${item.setor}</strong><br>
+      Andar: ${item.andar}<br>
+      IP: ${item.ip}<br>
+      Leitor Entrada: ${item.leitor_entrada} | Saída: ${item.leitor_saida}<br>
+      Botoeira: ${item.botoeira} | Eletroíma: ${item.eletroima}<br>
+      SW: ${item.sw} | Porta: ${item.porta_sw}<br>
+      Sala Técnica: ${item.sala_tecnica}<br>
+      Obs: ${item.observacoes}
+    `;
+    listaCA.appendChild(div);
+  });
+}
 
 // Modal de Detalhes
 function abrirModalDetalhes(texto) {
@@ -977,7 +998,7 @@ iniciar(); // ✅ já chama carregarAcessosRemotos normalmente
 </script>
 
 
- <script src="importar_equipamentos.js">
+ <script src="importar_equipamento.js">
 // Exportar acessos remotos para TXT
 function exportarAcessosRemotosTXT() {
   if (acessosRemotos.length === 0) {
