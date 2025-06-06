@@ -116,7 +116,7 @@
       <input id="inputIP" placeholder="Endereço IP" type="text" />
       <button class="test-button" id="btnCadastrarAcesso">Cadastrar</button>
       <button class="export-button" id="btnExportarAcessos">Exportar .TXT</button>
-      <button id="btnImportarEquipamentos">📥 Importar Equipamentos</button>
+      <button id="btnImportarEquipamentos">Importar Equipamentos (JSON)</button>
 
       <button class="clear-button" id="btnLimparAcesso">Limpar</button>
     </div>
@@ -124,9 +124,16 @@
 
   <div class="right-column">
     <h2>📋 Equipamentos Registrados</h2>
-    <div class="site-list" id="acessos-remotos-list">
-
+    <div id="equipamentosCFTVContainer">
+      <h3>📹 Equipamentos CFTV</h3>
+      <div id="listaCFTV"></div>
     </div>
+
+  <div id="equipamentosControleAcessoContainer">
+    <h3>🔐 Equipamentos Controle de Acesso</h3>
+    <div id="listaControleAcesso"></div>
+  </div>
+
 
     
   </div>
@@ -185,6 +192,8 @@
    let sites = [];
   let acessosRemotos = [];
   let carregaAnyDesk = [];
+  let equipamentosCFTV = [];
+  let equipamentosControleAcesso = [];
   let editIndex = null;
   let filtroAtual = '';
   let filtroStatus = 'todos';
@@ -774,6 +783,8 @@ async function removerAcessoRemoto(index){
       onsole.error(e);
     }
   }
+  
+
   
 
 // --- Renderizar acessos ---
