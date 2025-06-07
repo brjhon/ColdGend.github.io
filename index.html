@@ -583,13 +583,22 @@ async function cadastrarAnyDesk() {
     return;
   }
 
-  const novoAcesso = { nome, ip, login, senha };
-
   try {
+    // Busca todos os registros diretamente do Firebase
+    const querySnapshot = await getDocs(anydeskCollection);
+    const registrosExistentes = querySnapshot.docs.map(doc => doc.data());
+
+    const duplicado = registrosExistentes.some(item => item.ip === ip || item.nome === nome);
+    if (duplicado) {
+      alert("Já existe um terminal com esse nome ou IP!");
+      return;
+    }
+
+    const novoAcesso = { nome, ip, login, senha };
     await addDoc(anydeskCollection, novoAcesso);
     alert("Acesso AnyDesk salvo com sucesso!");
     limparAnyDesk();
-    await carregarAnyDesk(); // atualiza a lista após salvar
+    await carregarAnyDesk();
   } catch (e) {
     alert("Erro ao salvar no Firebase: " + e.message);
   }
@@ -890,22 +899,56 @@ document.getElementById("btnImportarEquipamentos").addEventListener("click", () 
     reader.onload = async function (event) {
       try {
         const dados = JSON.parse(event.target.result);
+        const snapshot = await getDocs(acessosRemotosCollection);
+        const existentes = snapshot.docs.map(doc => doc.data().ip);
 
-        equipamentosCFTV = dados.cftv || [];
-        equipamentosControleAcesso = dados.controle_acesso || [];
+        let inseridos = 0;
 
-        renderizarEquipamentos();
-        alert("Equipamentos importados com sucesso!");
-      } catch (err) {
-        alert("Erro ao importar JSON: " + err.message);
-        console.error(err);
+        for (const item of dados.cftv || []) {
+          if (!existentes.includes(item.ip)) {
+            await addDoc(acessosRemotosCollection, {
+              setor: item.setor,
+              andar: item.andar,
+              tipo: item.tipo,
+              camera: item.modelo,
+              sala: item.sala_tecnica,
+              ip: item.ip,
+              status: "inativa"
+            });
+            inseridos++;
+          }
+        }
+
+        for (const item of dados.controle_acesso || []) {
+          if (!existentes.includes(item.ip)) {
+            await addDoc(acessosRemotosCollection, {
+              setor: item.setor,
+              andar: item.andar,
+              tipo: item.tipo,
+              camera: "Controle de Acesso",
+              sala: item.sala_tecnica,
+              ip: item.ip,
+              status: "inativa"
+            });
+            inseridos++;
+          }
+        }
+
+        alert(`Importação concluída. ${inseridos} item(ns) adicionados.`);
+        await carregarAcessosRemotos(); // <- exibe na interface após importar
+      } catch (e) {
+        alert("Erro ao importar JSON.");
+        console.error(e);
       }
     };
+
     reader.readAsText(file);
   });
 
-  input.click(); // ← ESSENCIAL
+  input.click();
 });
+
+
 
 
 function renderizarEquipamentos() {
@@ -993,6 +1036,44 @@ window.addEventListener("load", () => {
   document.getElementById("btnLimparAcesso").addEventListener("click", limparAcessoRemoto);
 
 });
+
+async function removerDuplicadosAnyDesk() {
+  const FLAG = "anydesk_duplicatas_removidas";
+  if (localStorage.getItem(FLAG)) return; // Já foi rodado uma vez
+
+  try {
+    const snapshot = await getDocs(anydeskCollection);
+    const vistos = new Set();
+    const duplicatas = [];
+
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const ip = data.ip?.trim();
+      if (!ip) return;
+
+      if (vistos.has(ip)) {
+        duplicatas.push(docSnap.id); // duplicado
+      } else {
+        vistos.add(ip); // primeiro que apareceu
+      }
+    });
+
+    // Exclui duplicatas
+    const promises = duplicatas.map(id => deleteDoc(doc(db, "anydesk", id)));
+    await Promise.all(promises);
+
+    if (duplicatas.length > 0) {
+      console.log(`🧹 ${duplicatas.length} duplicatas removidas da coleção AnyDesk.`);
+    }
+
+    localStorage.setItem(FLAG, "true"); // Marca que foi executado
+  } catch (e) {
+    console.error("Erro ao remover duplicados do AnyDesk:", e);
+  }
+}
+
+// Executa ao carregar
+window.addEventListener("load", removerDuplicadosAnyDesk);
 
 iniciar(); // ✅ já chama carregarAcessosRemotos normalmente
 </script>

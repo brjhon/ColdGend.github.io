@@ -116,6 +116,7 @@
       <input id="inputIP" placeholder="Endereço IP" type="text" />
       <button class="test-button" id="btnCadastrarAcesso">Cadastrar</button>
       <button class="export-button" id="btnExportarAcessos">Exportar .TXT</button>
+      <button id="btnImportarEquipamentos">Importar Equipamentos (JSON)</button>
 
       <button class="clear-button" id="btnLimparAcesso">Limpar</button>
     </div>
@@ -123,14 +124,18 @@
 
   <div class="right-column">
     <h2>📋 Equipamentos Registrados</h2>
-    <div class="site-list" id="acessos-remotos-list">
-
+    <div id="equipamentosCFTVContainer">
+      <h3>📹 Equipamentos CFTV</h3>
+      <div id="listaCFTV"></div>
     </div>
 
+  <div id="equipamentosControleAcessoContainer">
+    <h3>🔐 Equipamentos Controle de Acesso</h3>
+    <div id="listaControleAcesso"></div>
+  </div>
     
   </div>
 </main>
-
 
 
 <!-- Modal de edição (sites) -->
@@ -149,10 +154,21 @@
   </div>
 </div>
 
+<!-- Modal de Detalhes de Equipamento -->
+<div id="modalDetalhesEquipamento" class="modal" style="display: none;">
+  <div class="modal-content">
+    <h3>Detalhes do Equipamento</h3>
+    <p id="detalhesTexto"></p>
+    <button id="btnCopiarDetalhes" class="test-button">📋 Copiar Dados</button>
+<button id="btnFecharDetalhes" class="clear-button">Fechar</button>
+  </div>
+</div>
+
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+  
 
   const firebaseConfig = {
     apiKey: "AIzaSyCpnDf40JQ3COptyNJFZnqj9niTn5iBDeY",
@@ -171,8 +187,11 @@
   const acessosRemotosCollection = collection(db, "acessos_remotos")
 
 
-  let sites = [];
+   let sites = [];
   let acessosRemotos = [];
+  let carregaAnyDesk = [];
+  let equipamentosCFTV = [];
+  let equipamentosControleAcesso = [];
   let editIndex = null;
   let filtroAtual = '';
   let filtroStatus = 'todos';
@@ -280,6 +299,7 @@
     renderizarSites();
   }
 
+
   async function adicionarSiteFirebase(site) {
     try {
       await addDoc(sitesCollection, site);
@@ -383,10 +403,10 @@
   });
 }
 
-window.addEventListener('load', () => {
+/* window.addEventListener('load', () => {
   document.getElementById('editModal').style.display = 'none';
   iniciar();
-});
+}); */
 
 async function recarregarTodosSites() {
     if (sites.length === 0) {
@@ -694,13 +714,13 @@ function renderizarAnyDesk() {
 }
 
 async function carregarAnyDesk() {
-  acessosAnyDesk = [];
-  const querySnapshot = await getDocs(anydeskCollection);
-  querySnapshot.forEach((docSnap) => {
-    acessosAnyDesk.push({ id: docSnap.id, ...docSnap.data() });
-  });
-  renderizarAnyDesk();
-}
+    acessosAnyDesk = [];
+    const querySnapshot = await getDocs(anydeskCollection);
+    querySnapshot.forEach((docSnap) => {
+      acessosAnyDesk.push({ id: docSnap.id, ...docSnap.data() });
+    });
+    renderizarAnyDesk();
+  }
 
 /* -----------------------------Área acesso Remoto--------------------------- */
 async function cadastrarAcessoRemoto() {
@@ -729,7 +749,7 @@ async function cadastrarAcessoRemoto() {
       }
     }
 /* ----------------Ponto importante-------------- */
-    function limparAcessoRemoto() {
+function limparAcessoRemoto() {
       document.getElementById("inputSetor").value = "";
       document.getElementById("inputAndar").value = "";
       document.getElementById("inputTipo").value = "";
@@ -738,21 +758,16 @@ async function cadastrarAcessoRemoto() {
       document.getElementById("inputIP").value = "";
     }
 
-    async function carregarAcessosRemotos() {
-      acessosRemotos = [];
-      try {
-        const querySnapshot = await getDocs(acessosRemotosCollection);
-        querySnapshot.forEach(docSnap => {
-          acessosRemotos.push({ id: docSnap.id, ...docSnap.data() });
-        });
-        renderizarAcessosRemotos();
-      } catch (e) {
-        console.error("Erro ao carregar acessos remotos:", e);
-        alert("Falha ao carregar Acessos Remotos.");
-      }
-    }
+async function carregarAcessosRemotos() {
+  acessosRemotos = []; // ← limpa tudo antes
+  const querySnapshot = await getDocs(acessosRemotosCollection);
+  querySnapshot.forEach(docSnap => {
+    acessosRemotos.push({ id: docSnap.id, ...docSnap.data() });
+  });
+  renderizarAcessosRemotos();
+}
 
-  async function removerAcessoRemoto(index){
+async function removerAcessoRemoto(index){
     const acesso = acessosRemotos[index];
     if(!acesso?.id) return;
 
@@ -768,11 +783,15 @@ async function cadastrarAcessoRemoto() {
   }
   
 
+
 // --- Renderizar acessos ---
 function renderizarAcessosRemotos() {
+
   const lista = document.getElementById("acessos-remotos-list");
   lista.innerHTML = "";
 
+  acessosRemotos.sort((a, b) => Number(a.setor) - Number(b.setor));
+  
   acessosRemotos.forEach((acesso, index) => {
     const item = document.createElement("div");
     item.className = "registro-item";
@@ -838,8 +857,151 @@ async function atualizarStatusCamera(id, status) {
 }
 
 
+// Exportar acessos remotos para TXT
+function exportarAcessosRemotosTXT() {
+  if (acessosRemotos.length === 0) {
+    alert("Nenhum acesso remoto para exportar.");
+    return;
+  }
 
-/* Sempre que for criar um botão para uma nova main, adcionar aqui */
+  let conteudo = acessosRemotos.map(acesso =>
+    `Setor: ${acesso.setor} | Andar: ${acesso.andar} | Tipo: ${acesso.tipo} | Câmera: ${acesso.camera || "---"} | Sala Técnica: ${acesso.sala || "---"} | IP: ${acesso.ip}`
+  ).join("\n");
+
+  const blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "acessos_remotos.txt";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById("btnExportarAcessos").addEventListener("click", exportarAcessosRemotosTXT);
+document.getElementById("btnImportarEquipamentos").addEventListener("click", () => {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".json";
+  input.addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async function (event) {
+      try {
+        const dados = JSON.parse(event.target.result);
+        const snapshot = await getDocs(acessosRemotosCollection);
+        const existentes = snapshot.docs.map(doc => doc.data().ip);
+
+        let inseridos = 0;
+
+        for (const item of dados.cftv || []) {
+          if (!existentes.includes(item.ip)) {
+            await addDoc(acessosRemotosCollection, {
+              setor: item.setor,
+              andar: item.andar,
+              tipo: item.tipo,
+              camera: item.modelo,
+              sala: item.sala_tecnica,
+              ip: item.ip,
+              status: "inativa"
+            });
+            inseridos++;
+          }
+        }
+
+        for (const item of dados.controle_acesso || []) {
+          if (!existentes.includes(item.ip)) {
+            await addDoc(acessosRemotosCollection, {
+              setor: item.setor,
+              andar: item.andar,
+              tipo: item.tipo,
+              camera: "Controle de Acesso",
+              sala: item.sala_tecnica,
+              ip: item.ip,
+              status: "inativa"
+            });
+            inseridos++;
+          }
+        }
+
+        alert(`Importação concluída. ${inseridos} item(ns) adicionados.`);
+        await carregarAcessosRemotos(); // <- exibe na interface após importar
+      } catch (e) {
+        alert("Erro ao importar JSON.");
+        console.error(e);
+      }
+    };
+
+    reader.readAsText(file);
+  });
+
+  input.click();
+});
+
+
+
+
+function renderizarEquipamentos() {
+  const listaCFTV = document.getElementById("listaCFTV");
+  const listaCA = document.getElementById("listaControleAcesso");
+
+  listaCFTV.innerHTML = "";
+  listaCA.innerHTML = "";
+
+  equipamentosCFTV.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "site-item";
+    div.innerHTML = `
+      <strong>${item.setor}</strong><br>
+      Andar: ${item.andar}<br>
+      IP: ${item.ip}<br>
+      Tipo: ${item.tipo} - Modelo: ${item.modelo}<br>
+      Instalação: ${item.instalacao}<br>
+      Sala Técnica: ${item.sala_tecnica} | Porta CFTV: ${item.porta_cftv}<br>
+      Obs: ${item.observacoes}
+    `;
+    listaCFTV.appendChild(div);
+  });
+
+  equipamentosControleAcesso.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "site-item";
+    div.innerHTML = `
+      <strong>${item.setor}</strong><br>
+      Andar: ${item.andar}<br>
+      IP: ${item.ip}<br>
+      Leitor Entrada: ${item.leitor_entrada} | Saída: ${item.leitor_saida}<br>
+      Botoeira: ${item.botoeira} | Eletroíma: ${item.eletroima}<br>
+      SW: ${item.sw} | Porta: ${item.porta_sw}<br>
+      Sala Técnica: ${item.sala_tecnica}<br>
+      Obs: ${item.observacoes}
+    `;
+    listaCA.appendChild(div);
+  });
+}
+
+// Modal de Detalhes
+function abrirModalDetalhes(texto) {
+  document.getElementById("detalhesTexto").innerText = texto;
+  document.getElementById("modalDetalhesEquipamento").style.display = "flex";
+}
+
+function fecharModalDetalhes() {
+  document.getElementById("modalDetalhesEquipamento").style.display = "none";
+}
+
+document.getElementById("btnFecharDetalhes").addEventListener("click", fecharModalDetalhes);
+
+document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
+  const texto = document.getElementById("detalhesTexto").innerText;
+  navigator.clipboard.writeText(texto).then(() => {
+    alert("Dados copiados para a área de transferência!");
+  });
+});
+
+
+/* Sempre que for criar um botão para uma nova main, adicionar aqui */
 window.addEventListener("load", () => {
   document.getElementById("btnSites").addEventListener("click", () => {
     document.getElementById("mainSites").style.display = "flex";
@@ -861,110 +1023,16 @@ window.addEventListener("load", () => {
 
   document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
   document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
-
   document.getElementById("btnCadastrarAcesso").addEventListener("click", cadastrarAcessoRemoto);
-    document.getElementById("btnLimparAcesso").addEventListener("click", limparAcessoRemoto);
-
-    window.addEventListener("load", carregarAcessosRemotos);
+  document.getElementById("btnLimparAcesso").addEventListener("click", limparAcessoRemoto);
 
 });
 
- iniciar();
-
-
-// Exportar acessos remotos para TXT
-function exportarAcessosRemotosTXT() {
-  if (acessosRemotos.length === 0) {
-    alert("Nenhum acesso remoto para exportar.");
-    return;
-  }
-
-  let conteudo = acessosRemotos.map(acesso =>
-    `Setor: ${acesso.setor} | Andar: ${acesso.andar} | Tipo: ${acesso.tipo} | Câmera: ${acesso.camera || "---"} | Sala Técnica: ${acesso.sala || "---"} | IP: ${acesso.ip}`
-  ).join("\n");
-
-  const blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "acessos_remotos.txt";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-document.getElementById("btnExportarAcessos").addEventListener("click", exportarAcessosRemotosTXT);
-
-
-// Modal de Detalhes
-function abrirModalDetalhes(texto) {
-  document.getElementById("detalhesTexto").innerText = texto;
-  document.getElementById("modalDetalhesEquipamento").style.display = "flex";
-}
-
-function fecharModalDetalhes() {
-  document.getElementById("modalDetalhesEquipamento").style.display = "none";
-}
-
-
-document.getElementById("btnFecharDetalhes").addEventListener("click", fecharModalDetalhes);
-
-document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
-  const texto = document.getElementById("detalhesTexto").innerText;
-  navigator.clipboard.writeText(texto).then(() => {
-    alert("Dados copiados para a área de transferência!");
-  });
-});
-
-
+iniciar(); // ✅ já chama carregarAcessosRemotos normalmente
 </script>
 
- <script src="importar_equipamentos.js">
-// Exportar acessos remotos para TXT
-function exportarAcessosRemotosTXT() {
-  if (acessosRemotos.length === 0) {
-    alert("Nenhum acesso remoto para exportar.");
-    return;
-  }
 
-  let conteudo = acessosRemotos.map(acesso =>
-    `Setor: ${acesso.setor} | Andar: ${acesso.andar} | Tipo: ${acesso.tipo} | Câmera: ${acesso.camera || "---"} | Sala Técnica: ${acesso.sala || "---"} | IP: ${acesso.ip}`
-  ).join("\n");
-
-  const blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "acessos_remotos.txt";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-document.getElementById("btnExportarAcessos").addEventListener("click", exportarAcessosRemotosTXT);
-
-
-// Modal de Detalhes
-function abrirModalDetalhes(texto) {
-  document.getElementById("detalhesTexto").innerText = texto;
-  document.getElementById("modalDetalhesEquipamento").style.display = "flex";
-}
-
-function fecharModalDetalhes() {
-  document.getElementById("modalDetalhesEquipamento").style.display = "none";
-}
-
-
-document.getElementById("btnFecharDetalhes").addEventListener("click", fecharModalDetalhes);
-
-document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
-  const texto = document.getElementById("detalhesTexto").innerText;
-  navigator.clipboard.writeText(texto).then(() => {
-    alert("Dados copiados para a área de transferência!");
-  });
-});
-
-
-</script>
-<script src="importar_equipamentos.js">
+ <script src="importar_equipamento.js">
 // Exportar acessos remotos para TXT
 function exportarAcessosRemotosTXT() {
   if (acessosRemotos.length === 0) {
@@ -1034,16 +1102,6 @@ document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
 
 
 </script>
-
-<!-- Modal de Detalhes de Equipamento -->
-<div id="modalDetalhesEquipamento" class="modal" style="display: none;">
-  <div class="modal-content">
-    <h3>Detalhes do Equipamento</h3>
-    <p id="detalhesTexto"></p>
-    <button id="btnCopiarDetalhes" class="test-button">📋 Copiar Dados</button>
-<button id="btnFecharDetalhes" class="clear-button">Fechar</button>
-  </div>
-</div>
 
 </body>
 </html>
