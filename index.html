@@ -187,7 +187,7 @@
   const acessosRemotosCollection = collection(db, "acessos_remotos")
 
 
-   let sites = [];
+  let sites = [];
   let acessosRemotos = [];
   let carregaAnyDesk = [];
   let equipamentosCFTV = [];
@@ -768,29 +768,13 @@ function limparAcessoRemoto() {
     }
 
 async function carregarAcessosRemotos() {
-  acessosRemotos = []; // ← limpa tudo antes
-  const querySnapshot = await getDocs(acessosRemotosCollection);
-  querySnapshot.forEach(docSnap => {
-    acessosRemotos.push({ id: docSnap.id, ...docSnap.data() });
-  });
-  renderizarAcessosRemotos();
-}
-
-async function removerAcessoRemoto(index){
-    const acesso = acessosRemotos[index];
-    if(!acesso?.id) return;
-
-    if (!confirm("tem certeza que deseja excluir este acesso?"))return;
-
-    try {
-      await deleteDoc(doc(db,"acessos_remotos", acesso.id));
-      await carregarAcessosRemotos();
-    }catch (e) {
-      alert("Erro ao excluir o acesso remoto.");
-      onsole.error(e);
-    }
+    acessosRemotos = [];
+    const querySnapshot = await getDocs(acessosRemotosCollection);
+    querySnapshot.forEach(docSnap => {
+      acessosRemotos.push({ id: docSnap.id, ...docSnap.data() });
+    });
+    renderizarEquipamentos(); // agora renderiza corretamente!
   }
-  
 
 
 // --- Renderizar acessos ---
@@ -1006,7 +990,7 @@ document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
   const texto = document.getElementById("detalhesTexto").innerText;
   navigator.clipboard.writeText(texto).then(() => {
     alert("Dados copiados para a área de transferência!");
-  });
+  }); 
 });
 
 
