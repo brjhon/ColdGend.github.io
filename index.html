@@ -1021,41 +1021,6 @@ window.addEventListener("load", () => {
 
 });
 
-async function removerDuplicadosAnyDesk() {
-  const FLAG = "anydesk_duplicatas_removidas";
-  if (localStorage.getItem(FLAG)) return; // Já foi rodado uma vez
-
-  try {
-    const snapshot = await getDocs(anydeskCollection);
-    const vistos = new Set();
-    const duplicatas = [];
-
-    snapshot.forEach(docSnap => {
-      const data = docSnap.data();
-      const ip = data.ip?.trim();
-      if (!ip) return;
-
-      if (vistos.has(ip)) {
-        duplicatas.push(docSnap.id); // duplicado
-      } else {
-        vistos.add(ip); // primeiro que apareceu
-      }
-    });
-
-    // Exclui duplicatas
-    const promises = duplicatas.map(id => deleteDoc(doc(db, "anydesk", id)));
-    await Promise.all(promises);
-
-    if (duplicatas.length > 0) {
-      console.log(`🧹 ${duplicatas.length} duplicatas removidas da coleção AnyDesk.`);
-    }
-
-    localStorage.setItem(FLAG, "true"); // Marca que foi executado
-  } catch (e) {
-    console.error("Erro ao remover duplicados do AnyDesk:", e);
-  }
-}
-
 // Executa ao carregar
 window.addEventListener("load", removerDuplicadosAnyDesk);
 
