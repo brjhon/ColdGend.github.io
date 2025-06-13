@@ -98,7 +98,22 @@
 
   <div class="right-column">
     <h2>📋 Conexões Registradas</h2>
-    <div class="site-list" id="anydesk-list"></div>
+    
+<!-- Modal de Edição AnyDesk -->
+<div id="editAnyModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <h3>Editar Conexão AnyDesk</h3>
+    <input type="text" id="editAnyNome" placeholder="Nome do terminal"/>
+    <input type="text" id="editAnyIP" placeholder="Endereço ou ID AnyDesk"/>
+    <input type="text" id="editAnyUser" placeholder="Usuário"/>
+    <input type="password" id="editAnySenha" placeholder="Senha"/>
+    <div class="modal-buttons">
+      <button id="btnSalvarAnyEdit">Salvar</button>
+      <button id="btnCancelarAnyEdit">Cancelar</button>
+    </div>
+  </div>
+</div>
+<div class="site-list" id="anydesk-list"></div>
   </div>
 </main>
 
@@ -167,119 +182,139 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    doc,
+    updateDoc,
+    deleteDoc
+  } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
+ const firebaseConfig = {
+  apiKey: "AIzaSyCpnDf40JQ3COptyNJFZnqj9niTn5iBDeY",
+  authDomain: "coldgend.firebaseapp.com",
+  projectId: "coldgend",
+  storageBucket: "coldgend.firebasestorage.app",
+  messagingSenderId: "82052509807",
+  appId: "1:82052509807:web:c03348372ed390ba101d9a",
+  measurementId: "G-7CN6FW8GDX"
+};
+
+// Inicialização do App e do Firestore
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+// ─────────────────────────────────────────────────────────────────
+// Referências às coleções
+const sitesCollection          = collection(db, "sites");
+const anydeskCollection        = collection(db, "anydesk");
+const acessosRemotosCollection = collection(db, "acessos_remotos");
+
+// ─────────────────────────────────────────────────────────────────
+
+// Variáveis de estado
+let sites                     = [];
+let acessosRemotos            = [];
+let carregaAnyDesk            = [];
+let equipamentosCFTV          = [];
+let equipamentosControleAcesso = [];
+
+let editIndex   = null;
+let filtroAtual = "";
+let filtroStatus = "todos";
+
+// ─────────────────────────────────────────────────────────────────
   
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCpnDf40JQ3COptyNJFZnqj9niTn5iBDeY",
-    authDomain: "coldgend.firebaseapp.com",
-    projectId: "coldgend",
-    storageBucket: "coldgend.firebasestorage.app",
-    messagingSenderId: "82052509807",
-    appId: "1:82052509807:web:c03348372ed390ba101d9a",
-    measurementId: "G-7CN6FW8GDX"
-  };
+  // RENDERING FUNCTIONS
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const sitesCollection = collection(db, "sites");
-  const anydeskCollection = collection(db, "anydesk");
-  const acessosRemotosCollection = collection(db, "acessos_remotos")
+// Sites
+function renderizarSites() {
+  const siteList = document.getElementById("site-list");
+  siteList.innerHTML = "";
 
+  let filtrados = sites.filter(s =>
+    s.nome.toLowerCase().includes(filtroAtual.toLowerCase())
+  );
 
-  let sites = [];
-  let acessosRemotos = [];
-  let carregaAnyDesk = [];
-  let equipamentosCFTV = [];
-  let equipamentosControleAcesso = [];
-  let editIndex = null;
-  let filtroAtual = '';
-  let filtroStatus = 'todos';
-  
+  if (filtroStatus === "online") {
+    filtrados = filtrados.filter(s => s.status === "online");
+  } else if (filtroStatus === "offline") {
+    filtrados = filtrados.filter(s => s.status === "offline");
+  }
 
-  function renderizarSites() {
-    const siteList = document.getElementById("site-list");
-    siteList.innerHTML = "";
+  filtrados.forEach(site => {
+    const idx = sites.findIndex(s => s.id === site.id);
+    const item = document.createElement("div");
+    item.className = "site-item";
 
-    let sitesFiltrados = sites.filter(site => site.nome.toLowerCase().includes(filtroAtual.toLowerCase()));
+    // Nome & link
+    const nomeLinha = document.createElement("div");
+    nomeLinha.innerHTML = `<strong title="${site.link}">${site.nome}</strong>`;
+    item.appendChild(nomeLinha);
 
-    if (filtroStatus === 'online') {
-      sitesFiltrados = sitesFiltrados.filter(site => site.status === 'online');
-    } else if (filtroStatus === 'offline') {
-      sitesFiltrados = sitesFiltrados.filter(site => site.status === 'offline');
-    }
+    // Status
+    const statusLinha = document.createElement("div");
+    statusLinha.className = "status-indicator";
+    statusLinha.innerHTML = `
+      <span>${site.status.charAt(0).toUpperCase() + site.status.slice(1)}</span>
+      <div class="dot ${site.status}"></div>
+    `;
+    item.appendChild(statusLinha);
 
-    sitesFiltrados.forEach((siteFiltrado) => {
-      const siteItem = document.createElement("div");
-      siteItem.className = "site-item";
+    // Credenciais (oculto inicialmente)
+    const dadosLinha = document.createElement("div");
+    dadosLinha.className = "credenciais";
+    dadosLinha.style.display = "none";
+    dadosLinha.innerHTML = `
+      Login: ${site.login || "---"}<br>
+      Senha: ${site.senha || "---"}<br>
+      Contato: ${site.contato || "---"}
+    `;
+    item.appendChild(dadosLinha);
 
-      const indexOriginal = sites.findIndex(s => s.id === siteFiltrado.id);
+    // Botões de ação
+    const botoes = document.createElement("div");
+    botoes.className = "action-buttons";
 
-      const nomeLinha = document.createElement("div");
-      nomeLinha.innerHTML = `<strong title="${siteFiltrado.link}">${siteFiltrado.nome}</strong>`;
-
-      const statusLinha = document.createElement("div");
-      statusLinha.className = "status-indicator";
-      statusLinha.innerHTML = `
-        <span>${siteFiltrado.status.charAt(0).toUpperCase() + siteFiltrado.status.slice(1)}</span>
-        <div class="dot ${siteFiltrado.status}"></div>
-      `;
-
-      const dadosLinha = document.createElement("div");
-      dadosLinha.className = "credenciais";
-      dadosLinha.style.display = "none";
-      dadosLinha.innerHTML = `
-        Login: ${siteFiltrado.login || "---"}<br>
-        Senha: ${siteFiltrado.senha || "---"}<br>
-        Contato: ${siteFiltrado.contato || "---"}
-      `;
-
-      const botoes = document.createElement("div");
-      botoes.className = "action-buttons";
-
-      const toggleBtn = document.createElement("button");
-      toggleBtn.textContent = "Exibir";
-      toggleBtn.className = "toggle-button";
-      toggleBtn.addEventListener("click", () => {
-        const ativo = dadosLinha.style.display === "block";
-        dadosLinha.style.display = ativo ? "none" : "block";
-        toggleBtn.textContent = ativo ? "Exibir" : "Ocultar";
-      });
-
-      const editBtn = document.createElement("button");
-      editBtn.textContent = "Editar";
-      editBtn.className = "edit-button";
-      editBtn.addEventListener("click", () => abrirModalEdicao(indexOriginal));
-
-      const deleteBtn = document.createElement("button");
-      deleteBtn.textContent = "Excluir";
-      deleteBtn.className = "delete-button";
-      deleteBtn.addEventListener("click", async () => {
-        if (confirm("Tem certeza que deseja excluir este site?")) {
-          await removerSiteFirebase(siteFiltrado.id);
-        }
-      });
-
-      const openBtn = document.createElement("button");
-      openBtn.textContent = "Abrir";
-      openBtn.className = "open-button";
-      openBtn.addEventListener("click", () => abrirSiteComLogin(siteFiltrado));
-
-      botoes.appendChild(toggleBtn);
-      botoes.appendChild(editBtn);
-      botoes.appendChild(deleteBtn);
-      botoes.appendChild(openBtn);
-
-      siteItem.appendChild(nomeLinha);
-      siteItem.appendChild(statusLinha);
-      siteItem.appendChild(dadosLinha);
-      siteItem.appendChild(botoes);
-
-      siteList.appendChild(siteItem);
+    const toggleBtn = document.createElement("button");
+    toggleBtn.textContent = "Exibir";
+    toggleBtn.className = "toggle-button";
+    toggleBtn.addEventListener("click", () => {
+      const aberto = dadosLinha.style.display === "block";
+      dadosLinha.style.display = aberto ? "none" : "block";
+      toggleBtn.textContent = aberto ? "Exibir" : "Ocultar";
     });
 
-    atualizarContadores();
-  }
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Editar";
+    editBtn.className = "edit-button";
+    editBtn.addEventListener("click", () => abrirModalEdicao(idx));
+
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "Excluir";
+    delBtn.className = "delete-button";
+    delBtn.addEventListener("click", async () => {
+      if (confirm("Tem certeza que deseja excluir este site?")) {
+        await removerSiteFirebase(site.id);
+      }
+    });
+
+    const openBtn = document.createElement("button");
+    openBtn.textContent = "Abrir";
+    openBtn.className = "open-button";
+    openBtn.addEventListener("click", () => abrirSiteComLogin(site));
+
+    [toggleBtn, editBtn, delBtn, openBtn].forEach(b => botoes.appendChild(b));
+    item.appendChild(botoes);
+
+    siteList.appendChild(item);
+  });
+
+  atualizarContadores();
+}
 
   function atualizarContadores() {
     const online = sites.filter(s => s.status === "online").length;
@@ -531,7 +566,38 @@ async function recarregarTodosSites() {
     document.getElementById(id).classList.add("active");
   }
 
-  async function iniciar() {
+  
+// Funções de edição AnyDesk
+let editAnyIndex = null;
+function abrirModalEditAny(index) {
+  editAnyIndex = index;
+  const item = acessosAnyDesk[index];
+  document.getElementById("editAnyNome").value = item.nome;
+  document.getElementById("editAnyIP").value = item.ip;
+  document.getElementById("editAnyUser").value = item.login;
+  document.getElementById("editAnySenha").value = item.senha;
+  document.getElementById("editAnyModal").style.display = "flex";
+}
+function fecharModalEditAny() {
+  document.getElementById("editAnyModal").style.display = "none";
+}
+async function salvarEdicaoAny() {
+  const nome = document.getElementById("editAnyNome").value.trim();
+  const ip = document.getElementById("editAnyIP").value.trim();
+  const login = document.getElementById("editAnyUser").value.trim();
+  const senha = document.getElementById("editAnySenha").value.trim();
+  const id = acessosAnyDesk[editAnyIndex].id;
+  await updateDoc(doc(db, "anydesk", id), { nome, ip, login, senha });
+  await carregarAnyDesk();
+  fecharModalEditAny();
+}
+// Event listeners
+window.addEventListener("load", () => {
+  document.getElementById("btnCancelarAnyEdit").onclick = fecharModalEditAny;
+  document.getElementById("btnSalvarAnyEdit").onclick = salvarEdicaoAny;
+});
+
+async function iniciar() {
   await carregarSitesFirebase();
   await carregarAnyDesk();
   await carregarAcessosRemotos(); // agora ele carrega os acessos também!
@@ -693,6 +759,11 @@ function renderizarAnyDesk() {
       window.location.href = `anydesk:${item.ip}`;
     });
 
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Editar";
+    editBtn.className = "edit-button";
+    editBtn.addEventListener("click", () => abrirModalEditAny(index));
+
     const copiarBtn = document.createElement("button");
     copiarBtn.textContent = "Copiar";
     copiarBtn.className = "open-button";
@@ -712,6 +783,7 @@ function renderizarAnyDesk() {
 
     botoes.appendChild(exibirBtn);
     botoes.appendChild(abrirBtn);
+    botoes.appendChild(editBtn);
     botoes.appendChild(copiarBtn);
     botoes.appendChild(deleteBtn);
 
@@ -934,14 +1006,14 @@ document.getElementById("btnImportarEquipamentos").addEventListener("click", () 
 
 
 
-
 function renderizarEquipamentos() {
   const listaCFTV = document.getElementById("listaCFTV");
-  const listaCA = document.getElementById("listaControleAcesso");
+  const listaCA   = document.getElementById("listaControleAcesso");
 
   listaCFTV.innerHTML = "";
-  listaCA.innerHTML = "";
+  listaCA.innerHTML  = "";
 
+  // Equipamentos CFTV
   equipamentosCFTV.forEach(item => {
     const div = document.createElement("div");
     div.className = "site-item";
@@ -952,11 +1024,12 @@ function renderizarEquipamentos() {
       Tipo: ${item.tipo} - Modelo: ${item.modelo}<br>
       Instalação: ${item.instalacao}<br>
       Sala Técnica: ${item.sala_tecnica} | Porta CFTV: ${item.porta_cftv}<br>
-      Obs: ${item.observacoes}
+      Obs: ${item.observacoes}<br>
     `;
     listaCFTV.appendChild(div);
   });
 
+  // Equipamentos de Controle de Acesso
   equipamentosControleAcesso.forEach(item => {
     const div = document.createElement("div");
     div.className = "site-item";
@@ -968,7 +1041,7 @@ function renderizarEquipamentos() {
       Botoeira: ${item.botoeira} | Eletroíma: ${item.eletroima}<br>
       SW: ${item.sw} | Porta: ${item.porta_sw}<br>
       Sala Técnica: ${item.sala_tecnica}<br>
-      Obs: ${item.observacoes}
+      Obs: ${item.observacoes}<br>
     `;
     listaCA.appendChild(div);
   });
