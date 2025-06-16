@@ -10,7 +10,7 @@
 <body>
 <header>
   <div class="Estagio">
-    <iframe frameborder="0" src="http://10.50.30.160/estagios/"></iframe>
+    <iframe frameborder="0" src="https://10.50.30.160/estagios/"></iframe>
   </div>
   <img alt="Centro de Operações - Prefeitura do Rio" src="img/Imagem do WhatsApp de 2025-05-24 à(s) 14_LE_upscale_magic_x4_strength_75_similarity_50.jpg"/>
 
@@ -1004,48 +1004,6 @@ document.getElementById("btnImportarEquipamentos").addEventListener("click", () 
   input.click();
 });
 
-
-
-function renderizarEquipamentos() {
-  const listaCFTV = document.getElementById("listaCFTV");
-  const listaCA   = document.getElementById("listaControleAcesso");
-
-  listaCFTV.innerHTML = "";
-  listaCA.innerHTML  = "";
-
-  // Equipamentos CFTV
-  equipamentosCFTV.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "site-item";
-    div.innerHTML = `
-      <strong>${item.setor}</strong><br>
-      Andar: ${item.andar}<br>
-      IP: ${item.ip}<br>
-      Tipo: ${item.tipo} - Modelo: ${item.modelo}<br>
-      Instalação: ${item.instalacao}<br>
-      Sala Técnica: ${item.sala_tecnica} | Porta CFTV: ${item.porta_cftv}<br>
-      Obs: ${item.observacoes}<br>
-    `;
-    listaCFTV.appendChild(div);
-  });
-
-  // Equipamentos de Controle de Acesso
-  equipamentosControleAcesso.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "site-item";
-    div.innerHTML = `
-      <strong>${item.setor}</strong><br>
-      Andar: ${item.andar}<br>
-      IP: ${item.ip}<br>
-      Leitor Entrada: ${item.leitor_entrada} | Saída: ${item.leitor_saida}<br>
-      Botoeira: ${item.botoeira} | Eletroíma: ${item.eletroima}<br>
-      SW: ${item.sw} | Porta: ${item.porta_sw}<br>
-      Sala Técnica: ${item.sala_tecnica}<br>
-      Obs: ${item.observacoes}<br>
-    `;
-    listaCA.appendChild(div);
-  });
-}
 
 // Modal de Detalhes
 function abrirModalDetalhes(texto) {
