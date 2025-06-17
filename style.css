@@ -35,6 +35,16 @@ body::before {
   box-sizing: border-box;
 }
 
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  gap: 20px;
+  position: relative;
+}
+
 .right-image-panel {
   position: absolute;
   right: 20px; /* alinha na direita */
@@ -79,12 +89,17 @@ body::before {
   box-shadow: 0 0 8px rgba(0,0,0,0.5);
 }
 
-  header img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
+header img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.main-logo {
+  height: 100%;
+  object-fit: contain;
+}
 
   /* bões de leaytes */
   
@@ -658,4 +673,166 @@ body::before {
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
+}
+
+/* Oculta para desktop, mostra só no mobile */
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  header {
+    height: auto;
+    
+    padding-bottom: 0px;
+  }
+
+  .header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0px;
+    padding-top: 10px;
+  }
+
+  .main-logo {
+    width: 100%;
+
+    height: 100px;
+    max-height: 100px;
+    object-fit: contain;
+  }
+
+  .mobile-only {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+  }
+
+  .Estagio iframe {
+    margin-top: 100%;
+    margin-left: 9%;
+    width: 30vw;
+    height: 17vw;
+    border-radius: 8px;
+  }
+
+  .right-image-panel {
+    margin-top: 13%;
+    width: 30vw;
+    height: 17vw;
+    border-radius: 10px;
+  }
+
+  .right-image-panel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+
+  /* Botões do modal */
+  .top-buttons {
+    position: static;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 50%;
+    margin-top: 10%;
+    padding:  0px;
+    width: 50%;
+  }
+
+  .top-buttons .menu-btn {
+    flex:  1 auto;
+    min-width: 120%;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .left-column {
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin-bottom: 0px;
+    margin-top: 0px;
+  }
+}
+
+  @media (max-width: 320px) {
+  header {
+    height: 100%;
+    
+    padding-bottom: 0px;
+  }
+
+  .header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0px;
+    padding-top: 10px;
+    width: 100%;
+  }
+
+  .main-logo {
+    width: 100%;
+    height: 100%;
+    
+    object-fit: contain;
+  }
+
+  .mobile-only {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+  }
+
+  .Estagio iframe {
+    margin-top: 50%;
+    width: 85vw;
+    height: 27vw;
+    border-radius: 10px;
+    position: static;
+    flex-direction: column;
+  }
+
+  .right-image-panel {
+    margin-top: 43%;
+    width: 82vw;
+    height: 27vw;
+    border-radius: 10px;
+    margin-right: 0vw;
+  }
+
+  .right-image-panel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Botões do modal */
+  .top-buttons {
+    position: static;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 50%;
+    margin-top: 90%;
+    width: 100%;
+  }
+
+  .top-buttons .menu-btn {
+    flex:  1 auto;
+    min-width: 120%;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .left-column {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
 }
