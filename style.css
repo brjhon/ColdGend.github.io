@@ -666,6 +666,23 @@ header img {
   font-size: 1rem;
 }
 
+#acessos-remotos-list {
+  max-height: 500px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+#acessos-remotos-list::-webkit-scrollbar { width: 8px; }
+#acessos-remotos-list::-webkit-scrollbar-track {
+  background: #1c3b3c;
+  border-radius: 10px;
+}
+#acessos-remotos-list::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 10px;
+  border: 2px solid #1c3b3c;
+}
+
+
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
