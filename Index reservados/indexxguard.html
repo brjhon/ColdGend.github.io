@@ -7,705 +7,6 @@
 <link rel="stylesheet" href="style.css"/>
 <title>ColdGend com Estilo Corrigido</title>
 </head>
-
-<style>
-    body {
-  position: relative;
-  margin: 0;
-  font-family: Arial, sans-serif;
-  color: white;
-  overflow-x: hidden;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
- /*  background: url(img/FundoUP.jpg) no-repeat center center fixed; */
-  background-size: cover;
-  /* box-shadow: inset 10000px 10px 100px rgba(0,0,0,0.7); */
-  background-image: linear-gradient(rgba(29, 29, 29, 0.3), rgba(29, 29, 29, 0.8)), url(img/FundoUP.jpg);
-  z-index: -1; /* fica atrás do conteúdo */
-}
-
-  header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 170px;
-  background-color: #0f2b2c;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 0 0px;
-  box-sizing: border-box;
-}
-
-.right-image-panel {
-  position: absolute;
-  right: 20px; /* alinha na direita */
-  top: 15px; /* ajuste vertical */
-  width: 300px; /* tamanho fixo */
-  height: 140px;
-  background-color: #1c3b3c;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.4);
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.right-image-panel img {
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 10px;
-  transition: transform 0.3s ease;
-}
-
-.right-image-panel:hover img {
-  transform: scale(1.05);
-}
-
-/* Container do iframe, posicionado no canto esquerdo */
-.Estagio {
-  position: absolute;
-  left: 0px;
-  height: 100%;
-  width: auto; /* ajuste o tamanho conforme necessário*/
-  display: flex;
-  align-items: center;
-} 
-
-.Estagio iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 6px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.5);
-}
-
-  header img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  /* bões de leaytes */
-  
-  .top-buttons {
-  
-  gap: 20px;
-  padding: 20px 20px 5px 0px ;
-}
-
-.action-button {
-  padding: 12px 30px;
-  background-color: #3a5a5a;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.action-button:hover {
-  background-color: #55a67a;
-}
-
-  main {
-    margin-top: 0px;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 20px;
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .left-column {
-    flex: 0 0 340px;
-    background-color: #1c3b3c;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.4);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 20px;
-  }
-  .left-column:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 30px rgba(0,0,0,0.6);
-  }
-  .right-column {
-    flex: 1 1 600px;
-    background-color: #1c3b3c;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.4);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 20px;
-    overflow-x: hidden;
-  }
-  .right-column:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 30px rgba(0,0,0,0.6);
-  }
-  /* Melhorias no bloco exportação */
-  .export-status-container {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  .export-status-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #294848;
-    padding: 10px 15px;
-    border-radius: 8px;
-    box-shadow: inset 2px 2px 5px #1b2a2a, inset -2px -2px 5px #3a5a5a;
-  }
-  .export-status-label-group {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    font-weight: 600;
-    color: #aad4a6;
-    font-size: 1rem;
-  }
-  .export-status-count {
-    color: #7fb69e;
-    font-weight: 400;
-    font-size: 0.9rem;
-  }
-  .export-status-button {
-    padding: 8px 20px;
-    background-color: #3a5a5a;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.3s ease;
-  }
-  .export-status-button:hover {
-    background-color: #55a67a;
-  }
-  /* Status bar */
-  .status-bar {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
-    font-weight: bold;
-  }
-  .status-bar span {
-    padding: 5px 15px;
-    border-radius: 20px;
-  }
-  .online {
-    background-color: #004d00;
-  }
-  .offline {
-    background-color: #660000;
-  }
-  /* Inputs e botões */
-  .input-area {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  .input-area input {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-  }
-  button {
-    cursor: pointer;
-  }
-  .test-button,
-  .clear-button,
-  .export-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #555;
-    color: white;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
-  .test-button:hover,
-  .clear-button:hover,
-  .export-button:hover {
-    background-color: #444;
-  }
-  /* Lista de sites */
-  .site-list {
-    background-color: #2b4a4a;
-    border-radius: 10px;
-    padding: 15px;
-    max-height: 500px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-  }
-  .site-list::-webkit-scrollbar {
-    width: 8px;
-  }
-  .site-list::-webkit-scrollbar-track {
-    background: #1c3b3c;
-    border-radius: 10px;
-  }
-  .site-list::-webkit-scrollbar-thumb {
-    background-color: #555;
-    border-radius: 10px;
-    border: 2px solid #1c3b3c;
-  }
-  .site-item {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #3a5a5a;
-    border-radius: 5px;
-  }
-  .status-indicator {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-  }
-  .dot.online {
-    background-color: limegreen;
-  }
-  .dot.offline {
-    background-color: red;
-  }
-  .action-buttons {
-    display: flex;
-    gap: 10px;
-  }
-  .delete-button,
-  .toggle-button,
-  .edit-button,
-  .open-button {
-    background: none;
-    border: none;
-    color: #ccc;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    transition: color 0.3s ease;
-  }
-  .delete-button:hover,
-  .toggle-button:hover,
-  .edit-button:hover {
-    color: red;
-  }
-  .open-button {
-    color: #aad4a6;
-  }
-  .open-button:hover {
-    color: #4caf50;
-  }
-
-  /* Modal */
-  .modal {
-  display: none;
-  /* demais estilos da modal */
-  }
-
-  .modal {
-    z-index: 1000;
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(4px);
-    transition: opacity 0.3s ease;
-  }
-  .modal-content {
-    background: linear-gradient(145deg, #2e3a3a, #223232);
-    padding: 30px 25px;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 420px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    color: #e0e0e0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    position: relative;
-  }
-  .modal-content h3 {
-    margin-bottom: 20px;
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: #a2d5c6;
-    text-align: center;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-  }
-  .modal-content input {
-    width: 90%;
-    padding: 12px 15px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 10px;
-    background-color: #2a3a3a; /* fundo escuro */
-    color: #e0e0e0; /* texto claro */
-    font-size: 1rem;
-    box-shadow: inset 2px 2px 5px #162020, inset -2px -2px 5px #3a4a4a;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  .modal-content input::placeholder {
-    color: #7f9a9a; /* cor do placeholder */
-  }
-  .modal-content input:focus {
-    outline: none;
-    background-color: #1f2b2b;
-    color: white;
-    box-shadow: 0 0 8px #63cdda;
-  }
-  .modal-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 25px;
-  }
-  .modal-buttons button {
-    flex: 1;
-    margin: 0 5px;
-    padding: 12px 0;
-    border: none;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    color: #1f2b2b;
-    background: #63cdda;
-    box-shadow: 0 4px 10px rgba(99, 205, 218, 0.5);
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  .modal-buttons button:hover {
-    background-color: #4bb3c0;
-    color: #e0f7fa;
-  }
-  .modal-buttons button:first-child {
-    background: #4caf50;
-    color: white;
-    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.6);
-  }
-  .modal-buttons button:first-child:hover {
-    background-color: #3a8a32;
-  }
-  .modal-buttons button:last-child {
-    background: #f44336;
-    color: white;
-    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.6);
-  }
-  .modal-buttons button:last-child:hover {
-    background-color: #aa2e25;
-  }
-  /* Barra de pesquisa */
-  #searchInput {
-    width: 100%;
-    padding: 10px 15px;
-    border-radius: 10px;
-    border: none;
-    margin-bottom: 15px;
-    font-size: 1rem;
-    box-shadow: inset 2px 2px 5px #162020, inset -2px -2px 5px #2e3e3e;
-    background-color: #1c3b3c;
-    color: white;
-    transition: background-color 0.3s ease;
-    display: block; /* garante que não se comporte como inline */
-    max-width: 100%; /* não ultrapasse a largura do container */
-  }
-  #searchInput::placeholder {
-    color: #a8b3b3;
-  }
-  #searchInput:focus {
-    outline: none;
-    background-color: #254848;
-    box-shadow: 0 0 8px #63cdda;
-    color: white;
-  }
-
-  /* Botões de filtro e recarregar */
-  .reload-all-button,
-  .filter-status-button {
-    padding: 8px 18px;
-    border: none;
-    border-radius: 8px;
-    background-color: #3a5a5a;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.3s ease;
-  }
-  .reload-all-button:hover,
-  .filter-status-button:hover {
-    background-color: #55a67a;
-  }
-  .filter-status-button.active {
-    background-color: #4caf50;
-    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.7);
-  }
-
-
-
-.top-buttons {
-  position: fixed;
-  top: 200px;
-  left: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 10000;
-}
-
-/* Estilo aprimorado para os botões laterais */
-.top-buttons {
-  position: fixed;
-  top: 50%;
-  left: 15px;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 10000;
-}
-
-.top-buttons button {
-  padding: 12px 20px;
-  background-color: #2e4e4e;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.top-buttons button:hover {
-  background-color: #55a67a;
-  transform: scale(1.05);
-}
-
-.top-buttons button.active {
-  background-color: #4caf50;
-  color: white;
-}
-
-.top-buttons {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 10000;
-}
-
-/* Botões ao lado da primeira coluna */
-.top-buttons {
-  position: absolute;
-  top: 210px;
-  left: calc(50% - 640px); /* alinhado à esquerda da primeira coluna */
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 10000;
-}
-
-/* Ajuste refinado dos botões ao lado da primeira coluna */
-.top-buttons {
-  position: absolute;
-  top: 220px;
-  left: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 10000;
-}
-
-.top-buttons button {
-  min-width: 120px;
-  padding: 10px;
-  font-size: 14px;
-  text-align: center;
-  background-color: #1c3b3c;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  transition: all 0.3s ease;
-}
-
-.top-buttons button:hover {
-  background-color: #2e6f67;
-  transform: translateX(2px);
-}
-
-/* Ajuste final para alinhar ao centro vertical da coluna e evitar topo */
-.top-buttons {
-  position: absolute;
-  top: 250px; /* deslocado para evitar sobrepor header */
-  left: calc(50% - 685px); /* alinhado com a borda da .left-column */
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 10000;
-}
-
-.top-buttons button {
-  min-width: 130px;
-  padding: 10px 14px;
-  font-size: 15px;
-  text-align: center;
-  background-color: #1f3e3e;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  transition: all 0.3s ease;
-}
-
-.top-buttons button:hover {
-  background-color: #399b7d;
-  transform: translateX(2px);
-}
-
-.registro-item {
-  background-color: #2f4f4f;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 15px;
-  color: #fff;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-}
-
-.info-topo {
-  margin-bottom: 10px;
-  line-height: 1.5;
-}
-
-.registro-botoes {
-  display: flex;
-  gap: 10px;
-}
-
-.registro-botoes button {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  background-color: #446;
-  color: white;
-  transition: background-color 0.3s ease;
-}
-
-.registro-botoes button:hover {
-  background-color: #5a8;
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0,0,0,0.6);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-/* modal da parte do acesso remoto - Botão detalhe */
-.modal-content {
-  background-color: #1e3a3a;
-  padding: 30px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 500px;
-  color: #e6f5f5;
-  box-shadow: 0 0 25px rgba(0,0,0,0.4);
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.modal-content h3 {
-  margin-top: 0;
-  margin-bottom: 15px;
-  text-align: center;
-  color: #aaf0dc;
-  font-size: 1.4rem;
-}
-
-.modal-content p {
-  line-height: 1.6;
-  white-space: pre-wrap;
-  font-family: monospace;
-  font-size: 1rem;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-@media (max-width: 768px) {
-  .top-buttons {
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    padding: 10px;
-    margin: 0 auto 10px;
-  }
-
-  .top-buttons button {
-    padding: 10px 12px;
-    font-size: 13px;
-    min-width: unset;
-    flex: 1 1 auto;
-    background-color: #216363;
-    border-radius: 8px;
-    text-align: center;
-    white-space: nowrap;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-
-  .top-buttons button:hover {
-    background-color: #38a988;
-    transform: scale(1.03);
-  }
-}
-
-</style>
 <body>
 <header>
   <div class="Estagio">
@@ -797,7 +98,22 @@ body::before {
 
   <div class="right-column">
     <h2>📋 Conexões Registradas</h2>
-    <div class="site-list" id="anydesk-list"></div>
+    
+<!-- Modal de Edição AnyDesk -->
+<div id="editAnyModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <h3>Editar Conexão AnyDesk</h3>
+    <input type="text" id="editAnyNome" placeholder="Nome do terminal"/>
+    <input type="text" id="editAnyIP" placeholder="Endereço ou ID AnyDesk"/>
+    <input type="text" id="editAnyUser" placeholder="Usuário"/>
+    <input type="password" id="editAnySenha" placeholder="Senha"/>
+    <div class="modal-buttons">
+      <button id="btnSalvarAnyEdit">Salvar</button>
+      <button id="btnCancelarAnyEdit">Cancelar</button>
+    </div>
+  </div>
+</div>
+<div class="site-list" id="anydesk-list"></div>
   </div>
 </main>
 
@@ -823,14 +139,8 @@ body::before {
 
   <div class="right-column">
     <h2>📋 Equipamentos Registrados</h2>
-    <div id="equipamentosCFTVContainer">
-      <h3>📹 Equipamentos CFTV</h3>
-      <div id="listaCFTV"></div>
-    </div>
-
-  <div id="equipamentosControleAcessoContainer">
-    <h3>🔐 Equipamentos Controle de Acesso</h3>
-    <div id="listaControleAcesso"></div>
+    <div id="acessos-remotos-list" class="site-list"></div>
+    
   </div>
     
   </div>
@@ -1294,7 +604,6 @@ async function cadastrarAnyDesk() {
   }
 }
 
-
 function limparAnyDesk() {
   document.getElementById("nomeAny").value = "";
   document.getElementById("ipAny").value = "";
@@ -1341,10 +650,6 @@ async function removerAnyDesk(index) {
 document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
 document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
 
-
-/* Banco de Dados do Anydesk */
- 
-
 function renderizarAnyDesk() {
   const lista = document.getElementById("anydesk-list");
   lista.innerHTML = "";
@@ -1383,6 +688,11 @@ function renderizarAnyDesk() {
       window.location.href = `anydesk:${item.ip}`;
     });
 
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Editar";
+    editBtn.className = "edit-button";
+    editBtn.addEventListener("click", () => abrirModalEditAny(index));
+
     const copiarBtn = document.createElement("button");
     copiarBtn.textContent = "Copiar";
     copiarBtn.className = "open-button";
@@ -1402,6 +712,7 @@ function renderizarAnyDesk() {
 
     botoes.appendChild(exibirBtn);
     botoes.appendChild(abrirBtn);
+    botoes.appendChild(editBtn);
     botoes.appendChild(copiarBtn);
     botoes.appendChild(deleteBtn);
 
@@ -1465,88 +776,81 @@ async function carregarAcessosRemotos() {
   });
   renderizarAcessosRemotos();
 }
-
-async function removerAcessoRemoto(index){
-    const acesso = acessosRemotos[index];
-    if(!acesso?.id) return;
-
-    if (!confirm("tem certeza que deseja excluir este acesso?"))return;
-
-    try {
-      await deleteDoc(doc(db,"acessos_remotos", acesso.id));
-      await carregarAcessosRemotos();
-    }catch (e) {
-      alert("Erro ao excluir o acesso remoto.");
-      onsole.error(e);
-    }
-  }
-  
-
-
 // --- Renderizar acessos ---
+// Renderiza a lista inteira
 function renderizarAcessosRemotos() {
-
   const lista = document.getElementById("acessos-remotos-list");
   lista.innerHTML = "";
 
-  acessosRemotos.sort((a, b) => Number(a.setor) - Number(b.setor));
-  
-  acessosRemotos.forEach((acesso, index) => {
+  // Ordena
+  acessosRemotos.sort((a,b)=>Number(a.setor)-Number(b.setor));
+
+  acessosRemotos.forEach(acesso => {
     const item = document.createElement("div");
     item.className = "registro-item";
 
+    // Info
     const info = document.createElement("div");
     info.className = "info-topo";
     info.innerHTML = `
-      <strong>Nome:</strong> ${acesso.setor}<br>
-      <strong>Local:</strong> ${acesso.sala || '---'}<br>
-      <strong>IP:</strong> ${acesso.ip}<br>
-      <strong>Status:</strong> ${acesso.status === 'ativa' ? 'Ativa' : 'Inativa'}
+      <strong>Setor:</strong> ${acesso.setor}<br>
+      <strong>Andar:</strong> ${acesso.andar}<br>
+      <strong>Tipo:</strong> ${acesso.tipo}<br>
+      <strong>Câmera:</strong> ${acesso.camera||"N/A"}<br>
+      <strong>Sala Técnica:</strong> ${acesso.sala||"N/A"}<br>
+      <strong>IP:</strong> ${acesso.ip}
     `;
 
+    // Botões
     const botoes = document.createElement("div");
     botoes.className = "registro-botoes";
 
-    const verificarBtn = document.createElement("button");
-    verificarBtn.textContent = "Verificar";
-    verificarBtn.className = "verificar-btn";
-    verificarBtn.addEventListener("click", () => {
+    // Verificar
+    const btnVerificar = document.createElement("button");
+    btnVerificar.className = "verificar-btn";
+    btnVerificar.textContent = "Verificar";
+    btnVerificar.addEventListener("click", () => {
       testarCameraIndividual(acesso.ip, acesso.id);
     });
 
-    const detalhesBtn = document.createElement("button");
-    detalhesBtn.innerHTML = "🔍 Detalhes";
-    detalhesBtn.className = "detalhes-btn";
-    detalhesBtn.addEventListener("click", () => {
-      abrirModalDetalhes(`Setor: ${acesso.setor}\nAndar: ${acesso.andar}\nTipo: ${acesso.tipo}\nCâmera: ${acesso.camera || "N/A"}\nSala Técnica: ${acesso.sala || "N/A"}`);
+    // Detalhes
+    const btnDetalhes = document.createElement("button");
+    btnDetalhes.className = "detalhes-btn";
+    btnDetalhes.textContent = "🔍 Detalhes";
+    btnDetalhes.addEventListener("click", () => {
+      const texto =
+        `Setor: ${acesso.setor}\n` +
+        `Andar: ${acesso.andar}\n` +
+        `Tipo: ${acesso.tipo}\n` +
+        `Câmera: ${acesso.camera||"N/A"}\n` +
+        `Sala Técnica: ${acesso.sala||"N/A"}\n` +
+        `IP: ${acesso.ip}`;
+      abrirModalDetalhes(texto);
     });
 
-    const excluirBtn = document.createElement("button");
-    excluirBtn.innerHTML = "❌ Excluir";
-    excluirBtn.className = "excluir-btn";
-    excluirBtn.addEventListener("click", () => {
-      removerAcessoRemoto(index);
+    // Excluir
+    const btnExcluir = document.createElement("button");
+    btnExcluir.className = "excluir-btn";
+    btnExcluir.textContent = "❌ Excluir";
+    btnExcluir.addEventListener("click", () => {
+      removerAcessoRemoto(acesso.id);
     });
 
-    botoes.appendChild(verificarBtn);
-    botoes.appendChild(detalhesBtn);
-    botoes.appendChild(excluirBtn);
-
-    item.appendChild(info);
-    item.appendChild(botoes);
+    botoes.append(btnVerificar, btnDetalhes, btnExcluir);
+    item.append(info, botoes);
     lista.appendChild(item);
   });
 }
 
-
 /*Ponte de verifica*/
-  async function testarCameraIndividual(ip, id) {
+async function testarCameraIndividual(ip, id) {
   try {
-    const resposta = await fetch(`http://${ip}`, { mode: "no-cors" });
-    await atualizarStatusCamera(id, "ativa");
-  } catch (e) {
-    await atualizarStatusCamera(id, "inativa");
+    await fetch(`http://${ip}`, { mode: "no-cors" });
+    await updateDoc(doc(db, "acessos_remotos", id), { status: "ativa" });
+  } catch {
+    await updateDoc(doc(db, "acessos_remotos", id), { status: "inativa" });
   }
+  carregarAcessosRemotos();
 }
 
 async function atualizarStatusCamera(id, status) {
@@ -1576,109 +880,6 @@ function exportarAcessosRemotosTXT() {
   URL.revokeObjectURL(url);
 }
 
-document.getElementById("btnExportarAcessos").addEventListener("click", exportarAcessosRemotosTXT);
-document.getElementById("btnImportarEquipamentos").addEventListener("click", () => {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".json";
-  input.addEventListener("change", async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = async function (event) {
-      try {
-        const dados = JSON.parse(event.target.result);
-        const snapshot = await getDocs(acessosRemotosCollection);
-        const existentes = snapshot.docs.map(doc => doc.data().ip);
-
-        let inseridos = 0;
-
-        for (const item of dados.cftv || []) {
-          if (!existentes.includes(item.ip)) {
-            await addDoc(acessosRemotosCollection, {
-              setor: item.setor,
-              andar: item.andar,
-              tipo: item.tipo,
-              camera: item.modelo,
-              sala: item.sala_tecnica,
-              ip: item.ip,
-              status: "inativa"
-            });
-            inseridos++;
-          }
-        }
-
-        for (const item of dados.controle_acesso || []) {
-          if (!existentes.includes(item.ip)) {
-            await addDoc(acessosRemotosCollection, {
-              setor: item.setor,
-              andar: item.andar,
-              tipo: item.tipo,
-              camera: "Controle de Acesso",
-              sala: item.sala_tecnica,
-              ip: item.ip,
-              status: "inativa"
-            });
-            inseridos++;
-          }
-        }
-
-        alert(`Importação concluída. ${inseridos} item(ns) adicionados.`);
-        await carregarAcessosRemotos(); // <- exibe na interface após importar
-      } catch (e) {
-        alert("Erro ao importar JSON.");
-        console.error(e);
-      }
-    };
-
-    reader.readAsText(file);
-  });
-
-  input.click();
-});
-
-
-
-
-function renderizarEquipamentos() {
-  const listaCFTV = document.getElementById("listaCFTV");
-  const listaCA = document.getElementById("listaControleAcesso");
-
-  listaCFTV.innerHTML = "";
-  listaCA.innerHTML = "";
-
-  equipamentosCFTV.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "site-item";
-    div.innerHTML = `
-      <strong>${item.setor}</strong><br>
-      Andar: ${item.andar}<br>
-      IP: ${item.ip}<br>
-      Tipo: ${item.tipo} - Modelo: ${item.modelo}<br>
-      Instalação: ${item.instalacao}<br>
-      Sala Técnica: ${item.sala_tecnica} | Porta CFTV: ${item.porta_cftv}<br>
-      Obs: ${item.observacoes}
-    `;
-    listaCFTV.appendChild(div);
-  });
-
-  equipamentosControleAcesso.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "site-item";
-    div.innerHTML = `
-      <strong>${item.setor}</strong><br>
-      Andar: ${item.andar}<br>
-      IP: ${item.ip}<br>
-      Leitor Entrada: ${item.leitor_entrada} | Saída: ${item.leitor_saida}<br>
-      Botoeira: ${item.botoeira} | Eletroíma: ${item.eletroima}<br>
-      SW: ${item.sw} | Porta: ${item.porta_sw}<br>
-      Sala Técnica: ${item.sala_tecnica}<br>
-      Obs: ${item.observacoes}
-    `;
-    listaCA.appendChild(div);
-  });
-}
 
 // Modal de Detalhes
 function abrirModalDetalhes(texto) {
@@ -1696,9 +897,8 @@ document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
   const texto = document.getElementById("detalhesTexto").innerText;
   navigator.clipboard.writeText(texto).then(() => {
     alert("Dados copiados para a área de transferência!");
-  });
+  }); 
 });
-
 
 /* Sempre que for criar um botão para uma nova main, adicionar aqui */
 window.addEventListener("load", () => {

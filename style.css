@@ -682,6 +682,12 @@ header img {
   border: 2px solid #1c3b3c;
 }
 
+#camera-section video,
+#camera-section canvas {
+  max-width: 100%;
+}
+
+
 
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
