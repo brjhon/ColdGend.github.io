@@ -687,6 +687,21 @@ header img {
   max-width: 100%;
 }
 
+.type-filter {
+  flex:1;
+  padding:8px;
+  border:none;
+  border-radius:6px;
+  background:#3a5a5a;
+  color:white;
+  cursor:pointer;
+  transition:background 0.2s;
+}
+.type-filter.active,
+.type-filter:hover {
+  background:#55a67a;
+}
+
 
 
 @keyframes fadeIn {

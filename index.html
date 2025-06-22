@@ -81,6 +81,22 @@
   </div>
 </main>
 
+<!-- Modal de edição (sites) -->
+<div class="modal" id="editModal" style="display: none;">
+  <div class="modal-content">
+    <h3>Editar Registro</h3>
+    <input id="editNome" placeholder="Nome do sistema" type="text"/>
+    <input id="editLogin" placeholder="Usuário de acesso" type="text"/>
+    <input id="editSenha" placeholder="Senha de acesso" type="text"/>
+    <input id="editContato" placeholder="Contato responsável" type="text"/>
+
+    <div class="modal-buttons">
+      <button id="btnSalvarEdicao">Salvar Alterações</button>
+      <button id="btnCancelarEdicao">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 <!-- Área AnyDesk -->
 <main id="mainAnyDesk" style="display:none;">
   <div class="left-column">
@@ -139,6 +155,21 @@
 
   <div class="right-column">
     <h2>📋 Equipamentos Registrados</h2>
+
+    <!-- Barra de pesquisa -->
+    <input id="searchRemoteInput"
+       placeholder="🔍 Buscar equipamento..."
+       type="text"
+       style="width:100%; padding:8px; margin-bottom:8px;"/>
+
+    <!-- Botões de filtro por tipo -->
+    <div class="type-filter-buttons" style="display:flex; gap:8px; margin-bottom:12px;">
+      <button id="typeAll"     class="type-filter active">Todos</button>
+      <button id="typeCFTV"    class="type-filter">CFTV</button>
+      <button id="typeControle"class="type-filter">Controle de Acesso</button>
+    </div>
+
+    <!-- Lista filtrada -->
     <div id="acessos-remotos-list" class="site-list"></div>
     
   </div>
@@ -146,33 +177,6 @@
   </div>
 </main>
 
-<!-- Modal de Snapshot da Câmera IP -->
-<div id="cameraSnapshotModal" class="modal" style="display:none;">
-  <div class="modal-content">
-    <h3>Snapshot da Câmera</h3>
-    <img id="cameraSnapshotImg" src="" alt="Snapshot da câmera" style="width:100%; border-radius:8px;"/>
-    <div class="modal-buttons">
-      <button id="btnCloseSnapshot">Fechar</button>
-    </div>
-  </div>
-</div>
-
-
-<!-- Modal de edição (sites) -->
-<div class="modal" id="editModal" style="display: none;">
-  <div class="modal-content">
-    <h3>Editar Registro</h3>
-    <input id="editNome" placeholder="Nome do sistema" type="text"/>
-    <input id="editLogin" placeholder="Usuário de acesso" type="text"/>
-    <input id="editSenha" placeholder="Senha de acesso" type="text"/>
-    <input id="editContato" placeholder="Contato responsável" type="text"/>
-
-    <div class="modal-buttons">
-      <button id="btnSalvarEdicao">Salvar Alterações</button>
-      <button id="btnCancelarEdicao">Cancelar</button>
-    </div>
-  </div>
-</div>
 
 <!-- Modal de Detalhes de Equipamento -->
 <div id="modalDetalhesEquipamento" class="modal" style="display: none;">
@@ -180,16 +184,14 @@
     <h3>Detalhes do Equipamento</h3>
     <p id="detalhesTexto"></p>
     <button id="btnCopiarDetalhes" class="test-button">📋 Copiar Dados</button>
-<button id="btnFecharDetalhes" class="clear-button">Fechar</button>
+    <button id="btnFecharDetalhes" class="clear-button">Fechar</button>
   </div>
 </div>
-
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
   
-
   const firebaseConfig = {
     apiKey: "AIzaSyCpnDf40JQ3COptyNJFZnqj9niTn5iBDeY",
     authDomain: "coldgend.firebaseapp.com",
@@ -216,6 +218,8 @@
 
    let sites = [];
   let acessosRemotos = [];
+  let filtroRemoto = "";
+  let filtroTipo   = "todos";
   let carregaAnyDesk = [];
   let equipamentosCFTV = [];
   let equipamentosControleAcesso = [];
@@ -529,7 +533,6 @@ async function recarregarTodosSites() {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") fecharModal();
   });
-
   document.getElementById("filterAllBtn").addEventListener("click", () => {
     filtroStatus = "todos";
     setActiveButton("filterAllBtn");
@@ -546,6 +549,45 @@ async function recarregarTodosSites() {
     renderizarSites();
   });
 
+  // Filtro de texto
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("searchRemoteInput")
+      .addEventListener("input", e => {
+        filtroRemoto = e.target.value;
+        renderizarAcessosRemotos();
+      });
+
+  // Tipo: Todos
+    document.getElementById("typeAll")
+      .addEventListener("click", () => {
+        filtroTipo = "todos";
+        setActiveTypeButton("typeAll");
+        renderizarAcessosRemotos();
+      });
+
+    // Tipo: CFTV
+    document.getElementById("typeCFTV")
+      .addEventListener("click", () => {
+        filtroTipo = "CFTV";
+        setActiveTypeButton("typeCFTV");
+        renderizarAcessosRemotos();
+      });
+
+    // Tipo: Controle de Acesso
+    document.getElementById("typeControle")
+      .addEventListener("click", () => {
+        filtroTipo = "Controle de Acesso";
+        setActiveTypeButton("typeControle");
+        renderizarAcessosRemotos();
+      });
+});
+
+// Função de helper para marcar o botão ativo
+function setActiveTypeButton(activeId) {
+  document.querySelectorAll(".type-filter").forEach(btn => {
+    btn.classList.toggle("active", btn.id === activeId);
+  });
+}
   function setActiveButton(id) {
     document.querySelectorAll(".filter-status-button").forEach(btn => {
       btn.classList.remove("active");
@@ -558,7 +600,16 @@ async function recarregarTodosSites() {
   await carregarAnyDesk();
   await carregarAcessosRemotos(); // agora ele carrega os acessos também!
 }
-  
+
+// Filtra equipamento remoto conforme o usuário digita
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputRemoto = document.getElementById("searchRemoteInput");
+    inputRemoto.addEventListener("input", e => {
+      filtroRemoto = e.target.value.trim().toLowerCase();
+      renderizarAcessosRemotos();
+    });
+  });
+
   window.addEventListener('load', () => {
   document.getElementById('editModal').style.display = 'none';
   iniciar();
@@ -823,25 +874,56 @@ async function carregarAcessosRemotos() {
 function renderizarAcessosRemotos() {
   const lista = document.getElementById("acessos-remotos-list");
   lista.innerHTML = "";
-  acessosRemotos.sort((a,b)=>Number(a.setor)-Number(b.setor));
 
-  acessosRemotos.forEach(acesso => {
+  // 1) Ordena por setor
+  const ordenados = [...acessosRemotos].sort(
+    (a, b) => Number(a.setor) - Number(b.setor)
+  );
+
+  // 2) Filtra por texto
+  const viaTexto = ordenados.filter(acesso => {
+    const combinado = `
+      ${acesso.setor}
+      ${acesso.andar}
+      ${acesso.tipo}
+      ${acesso.camera || ""}
+      ${acesso.sala || ""}
+      ${acesso.ip}
+    `.toLowerCase();
+    return combinado.includes(filtroRemoto.trim().toLowerCase());
+  });
+
+  // 3) Filtra por tipo
+  const finalList = viaTexto.filter(acesso => {
+    return filtroTipo === "todos" || acesso.tipo === filtroTipo;
+  });
+
+  // 4) Se não houver resultados, exibe mensagem
+  if (finalList.length === 0) {
+    const msg = document.createElement("div");
+    msg.textContent = "Nenhum equipamento encontrado.";
+    msg.style.padding = "15px";
+    return lista.appendChild(msg);
+  }
+
+  // 5) Monta cada item filtrado
+  finalList.forEach(acesso => {
     const item = document.createElement("div");
     item.className = "registro-item";
 
-    // ───── Informações ───────────────────────
+    // Info
     const info = document.createElement("div");
     info.className = "info-topo";
     info.innerHTML = `
       <strong>Setor:</strong> ${acesso.setor}<br>
       <strong>Andar:</strong> ${acesso.andar}<br>
       <strong>Tipo:</strong> ${acesso.tipo}<br>
-      <strong>Câmera:</strong> ${acesso.camera||"N/A"}<br>
-      <strong>Sala Técnica:</strong> ${acesso.sala||"N/A"}<br>
+      <strong>Câmera:</strong> ${acesso.camera || "N/A"}<br>
+      <strong>Sala Técnica:</strong> ${acesso.sala || "N/A"}<br>
       <strong>IP:</strong> ${acesso.ip}
     `;
 
-    // ───── Botões ────────────────────────────
+    // Botões
     const botoes = document.createElement("div");
     botoes.className = "registro-botoes";
 
@@ -852,23 +934,21 @@ function renderizarAcessosRemotos() {
     btnVerificar.addEventListener("click", () => {
       testarCameraIndividual(acesso.ip, acesso.id);
     });
-    botoes.appendChild(btnVerificar);
 
     // Detalhes
     const btnDetalhes = document.createElement("button");
     btnDetalhes.className = "detalhes-btn";
     btnDetalhes.textContent = "🔍 Detalhes";
     btnDetalhes.addEventListener("click", () => {
-      const texto =
-        `Setor: ${acesso.setor}\n`+
-        `Andar: ${acesso.andar}\n`+
-        `Tipo: ${acesso.tipo}\n`+
-        `Câmera: ${acesso.camera||"N/A"}\n`+
-        `Sala: ${acesso.sala||"N/A"}\n`+
+      const textoDetalhes =
+        `Setor: ${acesso.setor}\n` +
+        `Andar: ${acesso.andar}\n` +
+        `Tipo: ${acesso.tipo}\n` +
+        `Câmera: ${acesso.camera || "N/A"}\n` +
+        `Sala Técnica: ${acesso.sala || "N/A"}\n` +
         `IP: ${acesso.ip}`;
-      abrirModalDetalhes(texto);
+      abrirModalDetalhes(textoDetalhes);
     });
-    botoes.appendChild(btnDetalhes);
 
     // Excluir
     const btnExcluir = document.createElement("button");
@@ -877,38 +957,15 @@ function renderizarAcessosRemotos() {
     btnExcluir.addEventListener("click", () => {
       removerAcessoRemoto(acesso.id);
     });
-    botoes.appendChild(btnExcluir);
 
-    // 📸 Snapshot (novo)
-    const btnSnapshot = document.createElement("button");
-    btnSnapshot.className = "snapshot-btn";
-    btnSnapshot.textContent = "📸 Snapshot";
-    btnSnapshot.addEventListener("click", () => {
-      capturarSnapshot(acesso.ip);
-    });
-    botoes.appendChild(btnSnapshot);
-
-    item.appendChild(info);
-    item.appendChild(botoes);
+    botoes.append(btnVerificar, btnDetalhes, btnExcluir);
+    item.append(info, botoes);
     lista.appendChild(item);
   });
 }
 
-// ───── Captura de Snapshot ─────────────────────────
-function capturarSnapshot(ip) {
-  const url = `http://${ip}/snapshot.jpg`; // ajuste se necessário
-  const img = document.getElementById("cameraSnapshotImg");
-  img.src = url;
-  img.onerror = () => alert("Não consegui capturar snapshot de " + ip);
-  document.getElementById("cameraSnapshotModal").style.display = "flex";
-}
 
-// Fecha o modal de snapshot
-document.getElementById("btnCloseSnapshot")
-  .addEventListener("click", () => {
-    document.getElementById("cameraSnapshotModal").style.display = "none";
-  });
-  
+
 /*Ponte de verifica*/
 async function testarCameraIndividual(ip, id) {
   try {
@@ -920,43 +977,11 @@ async function testarCameraIndividual(ip, id) {
   carregarAcessosRemotos();
 }
 
-// Ao clicar em “Iniciar Câmera”
-btnStart.addEventListener('click', async () => {
-  // 1) enche o vídeo só se houver câmeras
-  const devices = await navigator.mediaDevices.enumerateDevices();
-  const cams = devices.filter(d => d.kind === 'videoinput');
-  if (!cams.length) {
-    alert('Nenhuma câmera detectada.');
-    return;
-  }
-
-  // 2) solicita o primeiro deviceId
-  const constraints = { video: { deviceId: { exact: cams[0].deviceId } } };
-  try {
-    stream = await navigator.mediaDevices.getUserMedia(constraints);
-    video.srcObject = stream;
-    btnSnap.disabled = false;
-  } catch (err) {
-    alert('Não foi possível acessar a câmera: ' + err.message);
-  }
-});
-
-// Ao clicar em “Capturar Foto”
-btnSnap.addEventListener('click', () => {
-  // Exibe o canvas e desenha o frame atual do vídeo
-  canvas.style.display = 'block';
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  // Opcional: parar a câmera após captura
-  // stream.getTracks().forEach(track => track.stop());
-});
-
 async function atualizarStatusCamera(id, status) {
   const docRef = doc(db, "acessos_remotos", id);
   await updateDoc(docRef, { status });
   await carregarAcessosRemotos();
 }
-
 
 // Exportar acessos remotos para TXT
 function exportarAcessosRemotosTXT() {
@@ -996,7 +1021,6 @@ document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
     alert("Dados copiados para a área de transferência!");
   }); 
 });
-
 
 /* Sempre que for criar um botão para uma nova main, adicionar aqui */
 window.addEventListener("load", () => {

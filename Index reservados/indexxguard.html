@@ -146,7 +146,7 @@
   </div>
 </main>
 
-<section id="camera-section" style="padding:20px; background:#1c3b3c; border-radius:10px; margin:20px 0;">
+<!-- <section id="camera-section" style="padding:20px; background:#1c3b3c; border-radius:10px; margin:20px 0;">
   <h2>📷 Captura de Câmera</h2>
   <video id="video" width="320" height="240" autoplay playsinline style="border:2px solid #555; border-radius:8px;"></video>
   <br/>
@@ -154,7 +154,7 @@
   <button id="btnSnap" class="action-button" disabled>Capturar Foto</button>
   <br/><br/>
   <canvas id="canvas" width="320" height="240" style="display:none; border:2px solid #555; border-radius:8px;"></canvas>
-</section>
+</section> -->
 
 
 <!-- Modal de edição (sites) -->
@@ -894,43 +894,11 @@ async function testarCameraIndividual(ip, id) {
   carregarAcessosRemotos();
 }
 
-// Ao clicar em “Iniciar Câmera”
-btnStart.addEventListener('click', async () => {
-  // 1) enche o vídeo só se houver câmeras
-  const devices = await navigator.mediaDevices.enumerateDevices();
-  const cams = devices.filter(d => d.kind === 'videoinput');
-  if (!cams.length) {
-    alert('Nenhuma câmera detectada.');
-    return;
-  }
-
-  // 2) solicita o primeiro deviceId
-  const constraints = { video: { deviceId: { exact: cams[0].deviceId } } };
-  try {
-    stream = await navigator.mediaDevices.getUserMedia(constraints);
-    video.srcObject = stream;
-    btnSnap.disabled = false;
-  } catch (err) {
-    alert('Não foi possível acessar a câmera: ' + err.message);
-  }
-});
-
-// Ao clicar em “Capturar Foto”
-btnSnap.addEventListener('click', () => {
-  // Exibe o canvas e desenha o frame atual do vídeo
-  canvas.style.display = 'block';
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  // Opcional: parar a câmera após captura
-  // stream.getTracks().forEach(track => track.stop());
-});
-
 async function atualizarStatusCamera(id, status) {
   const docRef = doc(db, "acessos_remotos", id);
   await updateDoc(docRef, { status });
   await carregarAcessosRemotos();
 }
-
 
 // Exportar acessos remotos para TXT
 function exportarAcessosRemotosTXT() {
@@ -970,26 +938,6 @@ document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
     alert("Dados copiados para a área de transferência!");
   }); 
 });
-
-function capturarSnapshot(ip) {
-  const url = `http://${ip}/snapshot.jpg`; // ou outro endpoint: /image.jpg, /cgi-bin/shot.jpg…
-  const img = new Image();
-  img.crossOrigin = "anonymous";
-  img.onload = () => {
-    document.getElementById("cameraSnapshotImg").src = url;
-    document.getElementById("cameraSnapshotModal").style.display = "flex";
-  };
-  img.onerror = () => {
-    alert("Falha ao capturar snapshot da câmera em " + ip);
-  };
-  img.src = url;
-}
-
-// Fecha o modal de snapshot
-document.getElementById("btnCloseSnapshot")
-  .addEventListener("click", () => {
-    document.getElementById("cameraSnapshotModal").style.display = "none";
-  });
 
 /* Sempre que for criar um botão para uma nova main, adicionar aqui */
 window.addEventListener("load", () => {
