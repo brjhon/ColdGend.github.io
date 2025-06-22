@@ -146,15 +146,16 @@
   </div>
 </main>
 
-<section id="camera-section" style="padding:20px; background:#1c3b3c; border-radius:10px; margin:20px 0;">
-  <h2>📷 Captura de Câmera</h2>
-  <video id="video" width="320" height="240" autoplay playsinline style="border:2px solid #555; border-radius:8px;"></video>
-  <br/>
-  <button id="btnStartCam" class="action-button">Iniciar Câmera</button>
-  <button id="btnSnap" class="action-button" disabled>Capturar Foto</button>
-  <br/><br/>
-  <canvas id="canvas" width="320" height="240" style="display:none; border:2px solid #555; border-radius:8px;"></canvas>
-</section>
+<!-- Modal de Snapshot da Câmera IP -->
+<div id="cameraSnapshotModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <h3>Snapshot da Câmera</h3>
+    <img id="cameraSnapshotImg" src="" alt="Snapshot da câmera" style="width:100%; border-radius:8px;"/>
+    <div class="modal-buttons">
+      <button id="btnCloseSnapshot">Fechar</button>
+    </div>
+  </div>
+</div>
 
 
 <!-- Modal de edição (sites) -->
@@ -822,15 +823,13 @@ async function carregarAcessosRemotos() {
 function renderizarAcessosRemotos() {
   const lista = document.getElementById("acessos-remotos-list");
   lista.innerHTML = "";
-
-  // Ordena
   acessosRemotos.sort((a,b)=>Number(a.setor)-Number(b.setor));
 
   acessosRemotos.forEach(acesso => {
     const item = document.createElement("div");
     item.className = "registro-item";
 
-    // Info
+    // ───── Informações ───────────────────────
     const info = document.createElement("div");
     info.className = "info-topo";
     info.innerHTML = `
@@ -842,7 +841,7 @@ function renderizarAcessosRemotos() {
       <strong>IP:</strong> ${acesso.ip}
     `;
 
-    // Botões
+    // ───── Botões ────────────────────────────
     const botoes = document.createElement("div");
     botoes.className = "registro-botoes";
 
@@ -853,6 +852,7 @@ function renderizarAcessosRemotos() {
     btnVerificar.addEventListener("click", () => {
       testarCameraIndividual(acesso.ip, acesso.id);
     });
+    botoes.appendChild(btnVerificar);
 
     // Detalhes
     const btnDetalhes = document.createElement("button");
@@ -860,14 +860,15 @@ function renderizarAcessosRemotos() {
     btnDetalhes.textContent = "🔍 Detalhes";
     btnDetalhes.addEventListener("click", () => {
       const texto =
-        `Setor: ${acesso.setor}\n` +
-        `Andar: ${acesso.andar}\n` +
-        `Tipo: ${acesso.tipo}\n` +
-        `Câmera: ${acesso.camera||"N/A"}\n` +
-        `Sala Técnica: ${acesso.sala||"N/A"}\n` +
+        `Setor: ${acesso.setor}\n`+
+        `Andar: ${acesso.andar}\n`+
+        `Tipo: ${acesso.tipo}\n`+
+        `Câmera: ${acesso.camera||"N/A"}\n`+
+        `Sala: ${acesso.sala||"N/A"}\n`+
         `IP: ${acesso.ip}`;
       abrirModalDetalhes(texto);
     });
+    botoes.appendChild(btnDetalhes);
 
     // Excluir
     const btnExcluir = document.createElement("button");
@@ -876,13 +877,38 @@ function renderizarAcessosRemotos() {
     btnExcluir.addEventListener("click", () => {
       removerAcessoRemoto(acesso.id);
     });
+    botoes.appendChild(btnExcluir);
 
-    botoes.append(btnVerificar, btnDetalhes, btnExcluir);
-    item.append(info, botoes);
+    // 📸 Snapshot (novo)
+    const btnSnapshot = document.createElement("button");
+    btnSnapshot.className = "snapshot-btn";
+    btnSnapshot.textContent = "📸 Snapshot";
+    btnSnapshot.addEventListener("click", () => {
+      capturarSnapshot(acesso.ip);
+    });
+    botoes.appendChild(btnSnapshot);
+
+    item.appendChild(info);
+    item.appendChild(botoes);
     lista.appendChild(item);
   });
 }
 
+// ───── Captura de Snapshot ─────────────────────────
+function capturarSnapshot(ip) {
+  const url = `http://${ip}/snapshot.jpg`; // ajuste se necessário
+  const img = document.getElementById("cameraSnapshotImg");
+  img.src = url;
+  img.onerror = () => alert("Não consegui capturar snapshot de " + ip);
+  document.getElementById("cameraSnapshotModal").style.display = "flex";
+}
+
+// Fecha o modal de snapshot
+document.getElementById("btnCloseSnapshot")
+  .addEventListener("click", () => {
+    document.getElementById("cameraSnapshotModal").style.display = "none";
+  });
+  
 /*Ponte de verifica*/
 async function testarCameraIndividual(ip, id) {
   try {
@@ -970,6 +996,7 @@ document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
     alert("Dados copiados para a área de transferência!");
   }); 
 });
+
 
 /* Sempre que for criar um botão para uma nova main, adicionar aqui */
 window.addEventListener("load", () => {

@@ -131,7 +131,7 @@
       <input id="inputIP" placeholder="Endereço IP" type="text" />
       <button class="test-button" id="btnCadastrarAcesso">Cadastrar</button>
       <button class="export-button" id="btnExportarAcessos">Exportar .TXT</button>
-      <button id="btnImportarEquipamentos">Importar Equipamentos (JSON)</button>
+      <!-- <button id="btnImportarEquipamentos">Importar Equipamentos (JSON)</button> -->
 
       <button class="clear-button" id="btnLimparAcesso">Limpar</button>
     </div>
@@ -145,6 +145,16 @@
     
   </div>
 </main>
+
+<section id="camera-section" style="padding:20px; background:#1c3b3c; border-radius:10px; margin:20px 0;">
+  <h2>📷 Captura de Câmera</h2>
+  <video id="video" width="320" height="240" autoplay playsinline style="border:2px solid #555; border-radius:8px;"></video>
+  <br/>
+  <button id="btnStartCam" class="action-button">Iniciar Câmera</button>
+  <button id="btnSnap" class="action-button" disabled>Capturar Foto</button>
+  <br/><br/>
+  <canvas id="canvas" width="320" height="240" style="display:none; border:2px solid #555; border-radius:8px;"></canvas>
+</section>
 
 
 <!-- Modal de edição (sites) -->
@@ -195,6 +205,13 @@
   const anydeskCollection = collection(db, "anydesk");
   const acessosRemotosCollection = collection(db, "acessos_remotos")
 
+  // --- Camera Capture ---
+  const video   = document.getElementById('video');
+  const canvas  = document.getElementById('canvas');
+  const btnStart = document.getElementById('btnStartCam');
+  const btnSnap  = document.getElementById('btnSnap');
+  let stream;
+
 
    let sites = [];
   let acessosRemotos = [];
@@ -204,6 +221,7 @@
   let editIndex = null;
   let filtroAtual = '';
   let filtroStatus = 'todos';
+  let editAnyIndex = null;
   
 
   function renderizarSites() {
@@ -308,7 +326,6 @@
     renderizarSites();
   }
 
-
   async function adicionarSiteFirebase(site) {
     try {
       await addDoc(sitesCollection, site);
@@ -411,11 +428,6 @@
     alert("Não foi possível copiar os dados para a área de transferência.");
   });
 }
-
-/* window.addEventListener('load', () => {
-  document.getElementById('editModal').style.display = 'none';
-  iniciar();
-}); */
 
 async function recarregarTodosSites() {
     if (sites.length === 0) {
@@ -545,6 +557,7 @@ async function recarregarTodosSites() {
   await carregarAnyDesk();
   await carregarAcessosRemotos(); // agora ele carrega os acessos também!
 }
+  
   window.addEventListener('load', () => {
   document.getElementById('editModal').style.display = 'none';
   iniciar();
@@ -558,7 +571,6 @@ async function recarregarTodosSites() {
     btnLimpar.addEventListener("click", limparAnyDesk);
   }
 });
-
 
 const images = [
   "nils-calor/1.jpg",
@@ -576,9 +588,8 @@ imgElement.addEventListener("click", () => {
   imgElement.src = images[currentIndex];
 });
 
+
 /* Parte onde ficara O script do anydek */
-
-
   let acessosAnyDesk = [];
 
 async function cadastrarAnyDesk() {
@@ -723,6 +734,36 @@ function renderizarAnyDesk() {
   });
 }
 
+// ─── AnyDesk: Editar Conexão ─────────────────────────────────────────
+// Abre o modal preenchendo com os dados atuais
+function abrirModalEditAny(index) {
+  editAnyIndex = index;
+  const item = acessosAnyDesk[index];
+  document.getElementById("editAnyNome").value  = item.nome;
+  document.getElementById("editAnyIP").value    = item.ip;
+  document.getElementById("editAnyUser").value  = item.login;
+  document.getElementById("editAnySenha").value = item.senha;
+  document.getElementById("editAnyModal").style.display = "flex";
+}
+
+// Fecha o modal sem salvar
+function fecharModalEditAny() {
+  document.getElementById("editAnyModal").style.display = "none";
+}
+
+// Salva as alterações no Firestore e recarrega a lista
+async function salvarEdicaoAny() {
+  const nome  = document.getElementById("editAnyNome").value.trim();
+  const ip    = document.getElementById("editAnyIP").value.trim();
+  const login = document.getElementById("editAnyUser").value.trim();
+  const senha = document.getElementById("editAnySenha").value.trim();
+  const id    = acessosAnyDesk[editAnyIndex].id;
+
+  await updateDoc(doc(db, "anydesk", id), { nome, ip, login, senha });
+  fecharModalEditAny();
+  await carregarAnyDesk();
+}
+
 async function carregarAnyDesk() {
     acessosAnyDesk = [];
     const querySnapshot = await getDocs(anydeskCollection);
@@ -853,6 +894,37 @@ async function testarCameraIndividual(ip, id) {
   carregarAcessosRemotos();
 }
 
+// Ao clicar em “Iniciar Câmera”
+btnStart.addEventListener('click', async () => {
+  // 1) enche o vídeo só se houver câmeras
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  const cams = devices.filter(d => d.kind === 'videoinput');
+  if (!cams.length) {
+    alert('Nenhuma câmera detectada.');
+    return;
+  }
+
+  // 2) solicita o primeiro deviceId
+  const constraints = { video: { deviceId: { exact: cams[0].deviceId } } };
+  try {
+    stream = await navigator.mediaDevices.getUserMedia(constraints);
+    video.srcObject = stream;
+    btnSnap.disabled = false;
+  } catch (err) {
+    alert('Não foi possível acessar a câmera: ' + err.message);
+  }
+});
+
+// Ao clicar em “Capturar Foto”
+btnSnap.addEventListener('click', () => {
+  // Exibe o canvas e desenha o frame atual do vídeo
+  canvas.style.display = 'block';
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  // Opcional: parar a câmera após captura
+  // stream.getTracks().forEach(track => track.stop());
+});
+
 async function atualizarStatusCamera(id, status) {
   const docRef = doc(db, "acessos_remotos", id);
   await updateDoc(docRef, { status });
@@ -892,13 +964,32 @@ function fecharModalDetalhes() {
 }
 
 document.getElementById("btnFecharDetalhes").addEventListener("click", fecharModalDetalhes);
-
 document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
   const texto = document.getElementById("detalhesTexto").innerText;
   navigator.clipboard.writeText(texto).then(() => {
     alert("Dados copiados para a área de transferência!");
   }); 
 });
+
+function capturarSnapshot(ip) {
+  const url = `http://${ip}/snapshot.jpg`; // ou outro endpoint: /image.jpg, /cgi-bin/shot.jpg…
+  const img = new Image();
+  img.crossOrigin = "anonymous";
+  img.onload = () => {
+    document.getElementById("cameraSnapshotImg").src = url;
+    document.getElementById("cameraSnapshotModal").style.display = "flex";
+  };
+  img.onerror = () => {
+    alert("Falha ao capturar snapshot da câmera em " + ip);
+  };
+  img.src = url;
+}
+
+// Fecha o modal de snapshot
+document.getElementById("btnCloseSnapshot")
+  .addEventListener("click", () => {
+    document.getElementById("cameraSnapshotModal").style.display = "none";
+  });
 
 /* Sempre que for criar um botão para uma nova main, adicionar aqui */
 window.addEventListener("load", () => {
@@ -924,10 +1015,11 @@ window.addEventListener("load", () => {
   document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
   document.getElementById("btnCadastrarAcesso").addEventListener("click", cadastrarAcessoRemoto);
   document.getElementById("btnLimparAcesso").addEventListener("click", limparAcessoRemoto);
-
+  document.getElementById("btnSalvarAnyEdit").addEventListener("click", salvarEdicaoAny);
+  document.getElementById("btnCancelarAnyEdit").addEventListener("click", fecharModalEditAny);
 });
 
-iniciar(); // ✅ já chama carregarAcessosRemotos normalmente
+// ✅ já chama carregarAcessosRemotos normalmente
 </script>
 
 
