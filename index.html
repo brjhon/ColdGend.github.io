@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
 <head>
 <meta charset="utf-8"/>
@@ -156,27 +155,28 @@
   <div class="right-column">
     <h2>📋 Equipamentos Registrados</h2>
 
-    <!-- Barra de pesquisa -->
-    <input id="searchRemoteInput"
-       placeholder="🔍 Buscar equipamento..."
-       type="text"
-       style="width:100%; padding:8px; margin-bottom:8px;"/>
+    <!-- Barra de pesquisa igual a Sistemas Registrados -->
+<div style="margin-bottom:12px;">
+  <input
+    id="searchRemoteInput"
+    class="search-input"
+    placeholder="🔍 Buscar equipamento..."
+    type="text"
+  />
+</div>
 
-    <!-- Botões de filtro por tipo -->
-    <div class="type-filter-buttons" style="display:flex; gap:8px; margin-bottom:12px;">
-      <button id="typeAll"     class="type-filter active">Todos</button>
-      <button id="typeCFTV"    class="type-filter">CFTV</button>
-      <button id="typeControle"class="type-filter">Controle de Acesso</button>
-    </div>
+<!-- Botões de filtro iguais aos de Sistemas Registrados -->
+  <div style="margin-bottom:12px;">
+    <button id="filterRemoteAll"      class="filter-status-button active">Todos</button>
+    <button id="filterRemoteCFTV"     class="filter-status-button">CFTV</button>
+    <button id="filterRemoteContAcesso" class="filter-status-button">Cont.Acesso</button>
+  </div>
 
     <!-- Lista filtrada -->
     <div id="acessos-remotos-list" class="site-list"></div>
     
   </div>
-    
-  </div>
 </main>
-
 
 <!-- Modal de Detalhes de Equipamento -->
 <div id="modalDetalhesEquipamento" class="modal" style="display: none;">
@@ -216,17 +216,22 @@
   let stream;
 
 
-   let sites = [];
+  let sites = [];
+  let filtroTipo   = "todos";
+  let filtroStatus = 'todos';
+
+  let carregaAnyDesk = [];
+  let filtroAtual = '';
+  let editAnyIndex = null;
+
+  let filtroTipoRemoto = "todos";
+  let equipamentosCFTV = [];
   let acessosRemotos = [];
   let filtroRemoto = "";
-  let filtroTipo   = "todos";
-  let carregaAnyDesk = [];
-  let equipamentosCFTV = [];
   let equipamentosControleAcesso = [];
+
   let editIndex = null;
-  let filtroAtual = '';
-  let filtroStatus = 'todos';
-  let editAnyIndex = null;
+
   
 
   function renderizarSites() {
@@ -434,7 +439,7 @@
   });
 }
 
-async function recarregarTodosSites() {
+  async function recarregarTodosSites() {
     if (sites.length === 0) {
       alert("Nenhum site cadastrado para recarregar.");
       return;
@@ -583,7 +588,7 @@ async function recarregarTodosSites() {
 });
 
 // Função de helper para marcar o botão ativo
-function setActiveTypeButton(activeId) {
+  function setActiveTypeButton(activeId) {
   document.querySelectorAll(".type-filter").forEach(btn => {
     btn.classList.toggle("active", btn.id === activeId);
   });
@@ -632,10 +637,10 @@ const images = [
   "nils-calor/5.jpg",
 ];
 
-const imgElement = document.getElementById("clicavelImage");
-let currentIndex = 0;
+  const imgElement = document.getElementById("clicavelImage");
+  let currentIndex = 0;
 
-imgElement.addEventListener("click", () => {
+  imgElement.addEventListener("click", () => {
   currentIndex = (currentIndex + 1) % images.length;
   imgElement.src = images[currentIndex];
 });
@@ -644,7 +649,7 @@ imgElement.addEventListener("click", () => {
 /* Parte onde ficara O script do anydek */
   let acessosAnyDesk = [];
 
-async function cadastrarAnyDesk() {
+  async function cadastrarAnyDesk() {
   const nome = document.getElementById("nomeAny").value.trim();
   const ip = document.getElementById("ipAny").value.trim();
   const login = document.getElementById("loginAny").value.trim();
@@ -667,14 +672,14 @@ async function cadastrarAnyDesk() {
   }
 }
 
-function limparAnyDesk() {
+  function limparAnyDesk() {
   document.getElementById("nomeAny").value = "";
   document.getElementById("ipAny").value = "";
   document.getElementById("loginAny").value = "";
   document.getElementById("senhaAny").value = "";
 }
 
-function REMOVED_renderizarAnyDesk() {
+  function REMOVED_renderizarAnyDesk() {
   const lista = document.getElementById("anydesk-list");
   lista.innerHTML = "";
 
@@ -694,7 +699,7 @@ function REMOVED_renderizarAnyDesk() {
   });
 }
 
-async function removerAnyDesk(index) {
+  async function removerAnyDesk(index) {
   const acesso = acessosAnyDesk[index];
   if (!acesso.id) return;
 
@@ -709,11 +714,11 @@ async function removerAnyDesk(index) {
   }
 }
 
-// Lidar com eventos dos botões AnyDesk
-document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
-document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
+  // Lidar com eventos dos botões AnyDesk
+  document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
+  document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
 
-function renderizarAnyDesk() {
+  function renderizarAnyDesk() {
   const lista = document.getElementById("anydesk-list");
   lista.innerHTML = "";
 
@@ -786,9 +791,9 @@ function renderizarAnyDesk() {
   });
 }
 
-// ─── AnyDesk: Editar Conexão ─────────────────────────────────────────
+  // ─── AnyDesk: Editar Conexão ─────────────────────────────────────────
 // Abre o modal preenchendo com os dados atuais
-function abrirModalEditAny(index) {
+  function abrirModalEditAny(index) {
   editAnyIndex = index;
   const item = acessosAnyDesk[index];
   document.getElementById("editAnyNome").value  = item.nome;
@@ -798,13 +803,13 @@ function abrirModalEditAny(index) {
   document.getElementById("editAnyModal").style.display = "flex";
 }
 
-// Fecha o modal sem salvar
-function fecharModalEditAny() {
+  // Fecha o modal sem salvar
+  function fecharModalEditAny() {
   document.getElementById("editAnyModal").style.display = "none";
 }
 
-// Salva as alterações no Firestore e recarrega a lista
-async function salvarEdicaoAny() {
+  // Salva as alterações no Firestore e recarrega a lista
+  async function salvarEdicaoAny() {
   const nome  = document.getElementById("editAnyNome").value.trim();
   const ip    = document.getElementById("editAnyIP").value.trim();
   const login = document.getElementById("editAnyUser").value.trim();
@@ -816,7 +821,7 @@ async function salvarEdicaoAny() {
   await carregarAnyDesk();
 }
 
-async function carregarAnyDesk() {
+  async function carregarAnyDesk() {
     acessosAnyDesk = [];
     const querySnapshot = await getDocs(anydeskCollection);
     querySnapshot.forEach((docSnap) => {
@@ -825,8 +830,8 @@ async function carregarAnyDesk() {
     renderizarAnyDesk();
   }
 
-/* -----------------------------Área acesso Remoto--------------------------- */
-async function cadastrarAcessoRemoto() {
+  /* -----------------------------Área acesso Remoto--------------------------- */
+  async function cadastrarAcessoRemoto() {
       const setor = document.getElementById("inputSetor").value.trim();
       const andar = document.getElementById("inputAndar").value.trim();
       const tipo = document.getElementById("inputTipo").value.trim();
@@ -851,8 +856,9 @@ async function cadastrarAcessoRemoto() {
         console.error("Erro:", e);
       }
     }
-/* ----------------Ponto importante-------------- */
-function limparAcessoRemoto() {
+
+  /* ----------------Ponto importante-------------- */
+  function limparAcessoRemoto() {
       document.getElementById("inputSetor").value = "";
       document.getElementById("inputAndar").value = "";
       document.getElementById("inputTipo").value = "";
@@ -861,7 +867,7 @@ function limparAcessoRemoto() {
       document.getElementById("inputIP").value = "";
     }
 
-async function carregarAcessosRemotos() {
+  async function carregarAcessosRemotos() {
   acessosRemotos = []; // ← limpa tudo antes
   const querySnapshot = await getDocs(acessosRemotosCollection);
   querySnapshot.forEach(docSnap => {
@@ -869,9 +875,25 @@ async function carregarAcessosRemotos() {
   });
   renderizarAcessosRemotos();
 }
-// --- Renderizar acessos ---
-// Renderiza a lista inteira
-function renderizarAcessosRemotos() {
+
+/** * Exclui um acesso remoto do Firestore e recarrega a lista.*/
+async function removerAcessoRemoto(id) {
+  if (!confirm("Tem certeza que deseja excluir este equipamento?")) return;
+  try {
+    await deleteDoc(doc(db, "acessos_remotos", id));
+    console.log("✅ Equipamento remoto excluído:", id);
+  } catch (err) {
+    console.error("❌ Erro ao excluir equipamento:", err);
+    alert("Erro ao excluir equipamento: " + err.message);
+    return;
+  }
+  // Recarrega a lista após exclusão
+  carregarAcessosRemotos();
+}
+
+  // --- Renderizar acessos ---
+  // Renderiza a lista inteira
+  function renderizarAcessosRemotos() {
   const lista = document.getElementById("acessos-remotos-list");
   lista.innerHTML = "";
 
@@ -880,25 +902,26 @@ function renderizarAcessosRemotos() {
     (a, b) => Number(a.setor) - Number(b.setor)
   );
 
-  // 2) Filtra por texto
-  const viaTexto = ordenados.filter(acesso => {
-    const combinado = `
-      ${acesso.setor}
-      ${acesso.andar}
-      ${acesso.tipo}
-      ${acesso.camera || ""}
-      ${acesso.sala || ""}
-      ${acesso.ip}
-    `.toLowerCase();
-    return combinado.includes(filtroRemoto.trim().toLowerCase());
-  });
+  // 2) Aplica filtros de texto e de tipo em sequência
+  const finalList = ordenados
+    .filter(acesso => {
+      const combinado = `
+        ${acesso.setor}
+        ${acesso.andar}
+        ${acesso.tipo}
+        ${acesso.camera || ""}
+        ${acesso.sala   || ""}
+        ${acesso.ip     || ""}
+      `.toLowerCase();
+      return combinado.includes(filtroRemoto.trim().toLowerCase());
+    })
+    .filter(acesso => {
+      // usa filtroTipoRemoto (declared no topo do seu script)
+      return filtroTipoRemoto === "todos"
+        || acesso.tipo === filtroTipoRemoto;
+    });
 
-  // 3) Filtra por tipo
-  const finalList = viaTexto.filter(acesso => {
-    return filtroTipo === "todos" || acesso.tipo === filtroTipo;
-  });
-
-  // 4) Se não houver resultados, exibe mensagem
+  // 3) Se não houver resultados, exibe mensagem
   if (finalList.length === 0) {
     const msg = document.createElement("div");
     msg.textContent = "Nenhum equipamento encontrado.";
@@ -906,12 +929,12 @@ function renderizarAcessosRemotos() {
     return lista.appendChild(msg);
   }
 
-  // 5) Monta cada item filtrado
+  // 4) Renderiza cada item filtrado
   finalList.forEach(acesso => {
     const item = document.createElement("div");
     item.className = "registro-item";
 
-    // Info
+    // —— Info —— 
     const info = document.createElement("div");
     info.className = "info-topo";
     info.innerHTML = `
@@ -923,7 +946,7 @@ function renderizarAcessosRemotos() {
       <strong>IP:</strong> ${acesso.ip}
     `;
 
-    // Botões
+    // —— Botões —— 
     const botoes = document.createElement("div");
     botoes.className = "registro-botoes";
 
@@ -931,9 +954,10 @@ function renderizarAcessosRemotos() {
     const btnVerificar = document.createElement("button");
     btnVerificar.className = "verificar-btn";
     btnVerificar.textContent = "Verificar";
-    btnVerificar.addEventListener("click", () => {
-      testarCameraIndividual(acesso.ip, acesso.id);
-    });
+    btnVerificar.addEventListener("click", () =>
+      testarCameraIndividual(acesso.ip, acesso.id)
+    );
+    botoes.appendChild(btnVerificar);
 
     // Detalhes
     const btnDetalhes = document.createElement("button");
@@ -949,25 +973,27 @@ function renderizarAcessosRemotos() {
         `IP: ${acesso.ip}`;
       abrirModalDetalhes(textoDetalhes);
     });
+    botoes.appendChild(btnDetalhes);
 
-    // Excluir
+    // Excluir (com data-id e debug)
     const btnExcluir = document.createElement("button");
     btnExcluir.className = "excluir-btn";
     btnExcluir.textContent = "❌ Excluir";
-    btnExcluir.addEventListener("click", () => {
-      removerAcessoRemoto(acesso.id);
+    btnExcluir.dataset.id = acesso.id;
+    btnExcluir.addEventListener("click", e => {
+      const idParaExcluir = e.currentTarget.dataset.id;
+      console.log("🔴 Clique em Excluir, id =", idParaExcluir);
+      removerAcessoRemoto(idParaExcluir);
     });
+    botoes.appendChild(btnExcluir);
 
-    botoes.append(btnVerificar, btnDetalhes, btnExcluir);
     item.append(info, botoes);
     lista.appendChild(item);
   });
 }
 
-
-
-/*Ponte de verifica*/
-async function testarCameraIndividual(ip, id) {
+  /*Ponte de verifica*/
+  async function testarCameraIndividual(ip, id) {
   try {
     await fetch(`http://${ip}`, { mode: "no-cors" });
     await updateDoc(doc(db, "acessos_remotos", id), { status: "ativa" });
@@ -977,14 +1003,14 @@ async function testarCameraIndividual(ip, id) {
   carregarAcessosRemotos();
 }
 
-async function atualizarStatusCamera(id, status) {
+  async function atualizarStatusCamera(id, status) {
   const docRef = doc(db, "acessos_remotos", id);
   await updateDoc(docRef, { status });
   await carregarAcessosRemotos();
 }
 
-// Exportar acessos remotos para TXT
-function exportarAcessosRemotosTXT() {
+  // Exportar acessos remotos para TXT
+  function exportarAcessosRemotosTXT() {
   if (acessosRemotos.length === 0) {
     alert("Nenhum acesso remoto para exportar.");
     return;
@@ -1004,26 +1030,26 @@ function exportarAcessosRemotosTXT() {
 }
 
 
-// Modal de Detalhes
-function abrirModalDetalhes(texto) {
+  // Modal de Detalhes
+  function abrirModalDetalhes(texto) {
   document.getElementById("detalhesTexto").innerText = texto;
   document.getElementById("modalDetalhesEquipamento").style.display = "flex";
 }
 
-function fecharModalDetalhes() {
+  function fecharModalDetalhes() {
   document.getElementById("modalDetalhesEquipamento").style.display = "none";
 }
 
-document.getElementById("btnFecharDetalhes").addEventListener("click", fecharModalDetalhes);
-document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
+  document.getElementById("btnFecharDetalhes").addEventListener("click", fecharModalDetalhes);
+  document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
   const texto = document.getElementById("detalhesTexto").innerText;
   navigator.clipboard.writeText(texto).then(() => {
     alert("Dados copiados para a área de transferência!");
   }); 
 });
 
-/* Sempre que for criar um botão para uma nova main, adicionar aqui */
 window.addEventListener("load", () => {
+  // Seções principais
   document.getElementById("btnSites").addEventListener("click", () => {
     document.getElementById("mainSites").style.display = "flex";
     document.getElementById("mainAnyDesk").style.display = "none";
@@ -1042,12 +1068,49 @@ window.addEventListener("load", () => {
     document.getElementById("mainAcessosRemotos").style.display = "flex";
   });
 
-  document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
-  document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
-  document.getElementById("btnCadastrarAcesso").addEventListener("click", cadastrarAcessoRemoto);
-  document.getElementById("btnLimparAcesso").addEventListener("click", limparAcessoRemoto);
-  document.getElementById("btnSalvarAnyEdit").addEventListener("click", salvarEdicaoAny);
-  document.getElementById("btnCancelarAnyEdit").addEventListener("click", fecharModalEditAny);
+  // AnyDesk
+  document.getElementById("btnCadastrarAny")
+    .addEventListener("click", cadastrarAnyDesk);
+  document.getElementById("btnLimparAny")
+    .addEventListener("click", limparAnyDesk);
+  document.getElementById("btnSalvarAnyEdit")
+    .addEventListener("click", salvarEdicaoAny);
+  document.getElementById("btnCancelarAnyEdit")
+    .addEventListener("click", fecharModalEditAny);
+
+  // Infraestrutura Remota
+  document.getElementById("btnCadastrarAcesso")
+    .addEventListener("click", cadastrarAcessoRemoto);
+  document.getElementById("btnLimparAcesso")
+    .addEventListener("click", limparAcessoRemoto);
+
+  // Busca por texto na lista de remotos
+  document.getElementById("searchRemoteInput")
+    .addEventListener("input", e => {
+      filtroRemoto = e.target.value;
+      renderizarAcessosRemotos();
+    });
+
+    // Botões de filtro por tipo na lista de remotos
+    ["filterRemoteAll","filterRemoteCFTV","filterRemoteContAcesso"].forEach(btnId => {
+    document.getElementById(btnId).addEventListener("click", () => {
+      // Todos → mostra tudo
+      if (btnId === "filterRemoteAll") {
+        filtroTipoRemoto = "todos";
+      } else {
+        // CFTV e Cont.Acesso → ambos filtram por acesso.tipo === "CFTV"
+        filtroTipoRemoto = "CFTV";
+      }
+
+      // ajusta classe .active
+      document.querySelectorAll(".filter-status-button")
+        .forEach(b => b.classList.remove("active"));
+      document.getElementById(btnId).classList.add("active");
+
+      // re-renderiza com o filtro aplicado
+      renderizarAcessosRemotos();
+    });
+  });
 });
 
 // ✅ já chama carregarAcessosRemotos normalmente
@@ -1099,7 +1162,7 @@ document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
 });
 
 
-</script>
+  </script>
 
 <script src="corrigir_status_acessos.js">
 // Modal de Detalhes

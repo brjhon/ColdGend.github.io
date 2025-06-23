@@ -97,10 +97,8 @@ header img {
   object-fit: contain;
 }
 
-  /* bões de leaytes */
-  
-  .top-buttons {
-  
+/* bões de leaytes */
+.top-buttons {
   gap: 20px;
   padding: 20px 20px 5px 0px ;
 }
@@ -132,6 +130,7 @@ header img {
     flex-wrap: wrap;
     justify-content: center;
   }
+
   .left-column {
     flex: 0 0 340px;
     background-color: #1c3b3c;
@@ -141,10 +140,12 @@ header img {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
   }
+
   .left-column:hover {
     transform: translateY(-2px);
     box-shadow: 0 0 30px rgba(0,0,0,0.6);
   }
+
   .right-column {
     flex: 1 1 600px;
     background-color: #1c3b3c;
@@ -155,10 +156,12 @@ header img {
     margin-bottom: 20px;
     overflow-x: hidden;
   }
+
   .right-column:hover {
     transform: translateY(-2px);
     box-shadow: 0 0 30px rgba(0,0,0,0.6);
   }
+
   /* Melhorias no bloco exportação */
   .export-status-container {
     margin-top: 20px;
@@ -312,14 +315,17 @@ header img {
     font-weight: bold;
     transition: color 0.3s ease;
   }
+  
   .delete-button:hover,
   .toggle-button:hover,
   .edit-button:hover {
     color: red;
   }
+
   .open-button {
     color: #aad4a6;
   }
+
   .open-button:hover {
     color: #4caf50;
   }
@@ -343,6 +349,7 @@ header img {
     backdrop-filter: blur(4px);
     transition: opacity 0.3s ease;
   }
+
   .modal-content {
     background: linear-gradient(145deg, #2e3a3a, #223232);
     padding: 30px 25px;
@@ -354,6 +361,7 @@ header img {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     position: relative;
   }
+
   .modal-content h3 {
     margin-bottom: 20px;
     font-weight: 700;
@@ -362,6 +370,7 @@ header img {
     text-align: center;
     text-shadow: 0 1px 3px rgba(0,0,0,0.6);
   }
+
   .modal-content input {
     width: 90%;
     padding: 12px 15px;
@@ -374,20 +383,24 @@ header img {
     box-shadow: inset 2px 2px 5px #162020, inset -2px -2px 5px #3a4a4a;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
+
   .modal-content input::placeholder {
     color: #7f9a9a; /* cor do placeholder */
   }
+
   .modal-content input:focus {
     outline: none;
     background-color: #1f2b2b;
     color: white;
     box-shadow: 0 0 8px #63cdda;
   }
+
   .modal-buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 25px;
   }
+
   .modal-buttons button {
     flex: 1;
     margin: 0 5px;
@@ -402,26 +415,32 @@ header img {
     box-shadow: 0 4px 10px rgba(99, 205, 218, 0.5);
     transition: background-color 0.3s ease, color 0.3s ease;
   }
+
   .modal-buttons button:hover {
     background-color: #4bb3c0;
     color: #e0f7fa;
   }
+
   .modal-buttons button:first-child {
     background: #4caf50;
     color: white;
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.6);
   }
+
   .modal-buttons button:first-child:hover {
     background-color: #3a8a32;
   }
+
   .modal-buttons button:last-child {
     background: #f44336;
     color: white;
     box-shadow: 0 4px 12px rgba(244, 67, 54, 0.6);
   }
+
   .modal-buttons button:last-child:hover {
     background-color: #aa2e25;
   }
+
   /* Barra de pesquisa */
   #searchInput {
     width: 100%;
@@ -437,6 +456,7 @@ header img {
     display: block; /* garante que não se comporte como inline */
     max-width: 100%; /* não ultrapasse a largura do container */
   }
+
   #searchInput::placeholder {
     color: #a8b3b3;
   }
@@ -691,7 +711,7 @@ header img {
   flex:1;
   padding:8px;
   border:none;
-  border-radius:6px;
+  border-radius:5px;
   background:#3a5a5a;
   color:white;
   cursor:pointer;
@@ -701,7 +721,6 @@ header img {
 .type-filter:hover {
   background:#55a67a;
 }
-
 
 
 @keyframes fadeIn {
