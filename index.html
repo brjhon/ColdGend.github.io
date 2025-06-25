@@ -154,7 +154,6 @@
 
   <div class="right-column">
     <h2>📋 Equipamentos Registrados</h2>
-
     <!-- Barra de pesquisa igual a Sistemas Registrados -->
 <div style="margin-bottom:12px;">
   <input
@@ -468,7 +467,6 @@
   a.click();
   URL.revokeObjectURL(url);
 }
-
 
   function exportarTodosTXT() {
     exportarTXT(sites);
@@ -995,6 +993,7 @@ async function removerAcessoRemoto(id) {
   /*Ponte de verifica*/
   async function testarCameraIndividual(ip, id) {
   try {
+  
     await fetch(`http://${ip}`, { mode: "no-cors" });
     await updateDoc(doc(db, "acessos_remotos", id), { status: "ativa" });
   } catch {
@@ -1028,7 +1027,6 @@ async function removerAcessoRemoto(id) {
   a.click();
   URL.revokeObjectURL(url);
 }
-
 
   // Modal de Detalhes
   function abrirModalDetalhes(texto) {
@@ -1069,20 +1067,14 @@ window.addEventListener("load", () => {
   });
 
   // AnyDesk
-  document.getElementById("btnCadastrarAny")
-    .addEventListener("click", cadastrarAnyDesk);
-  document.getElementById("btnLimparAny")
-    .addEventListener("click", limparAnyDesk);
-  document.getElementById("btnSalvarAnyEdit")
-    .addEventListener("click", salvarEdicaoAny);
-  document.getElementById("btnCancelarAnyEdit")
-    .addEventListener("click", fecharModalEditAny);
+  document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
+  document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
+  document.getElementById("btnSalvarAnyEdit").addEventListener("click", salvarEdicaoAny);
+  document.getElementById("btnCancelarAnyEdit").addEventListener("click", fecharModalEditAny);
 
   // Infraestrutura Remota
-  document.getElementById("btnCadastrarAcesso")
-    .addEventListener("click", cadastrarAcessoRemoto);
-  document.getElementById("btnLimparAcesso")
-    .addEventListener("click", limparAcessoRemoto);
+  document.getElementById("btnCadastrarAcesso").addEventListener("click", cadastrarAcessoRemoto);
+  document.getElementById("btnLimparAcesso").addEventListener("click", limparAcessoRemoto);
 
   // Busca por texto na lista de remotos
   document.getElementById("searchRemoteInput")
@@ -1092,24 +1084,23 @@ window.addEventListener("load", () => {
     });
 
     // Botões de filtro por tipo na lista de remotos
-    ["filterRemoteAll","filterRemoteCFTV","filterRemoteContAcesso"].forEach(btnId => {
-    document.getElementById(btnId).addEventListener("click", () => {
-      // Todos → mostra tudo
-      if (btnId === "filterRemoteAll") {
-        filtroTipoRemoto = "todos";
-      } else {
-        // CFTV e Cont.Acesso → ambos filtram por acesso.tipo === "CFTV"
-        filtroTipoRemoto = "CFTV";
-      }
+    ["filterRemoteAll","filterRemoteCFTV","filterRemoteContAcesso"]
+  .forEach(btnId => {
+    document.getElementById(btnId)
+      .addEventListener("click", () => {
+        // define filtroTipoRemoto
+        if (btnId === "filterRemoteAll")       filtroTipoRemoto = "todos";
+        else if (btnId === "filterRemoteCFTV") filtroTipoRemoto = "CFTV";
+        else if (btnId === "filterRemoteContAcesso") filtroTipoRemoto = "Cont.Acesso";
 
-      // ajusta classe .active
-      document.querySelectorAll(".filter-status-button")
-        .forEach(b => b.classList.remove("active"));
-      document.getElementById(btnId).classList.add("active");
+        // ajusta classe .active
+        document.querySelectorAll(".filter-status-button")
+          .forEach(b => b.classList.remove("active"));
+        document.getElementById(btnId).classList.add("active");
 
-      // re-renderiza com o filtro aplicado
-      renderizarAcessosRemotos();
-    });
+        // re-renderiza
+        renderizarAcessosRemotos();
+      });
   });
 });
 

@@ -441,31 +441,40 @@ header img {
     background-color: #aa2e25;
   }
 
-  /* Barra de pesquisa */
-  #searchInput {
+/* Estilo da barra de pesquisa em sites */
+  #searchInput{
     width: 100%;
     padding: 10px 15px;
-    border-radius: 10px;
     border: none;
-    margin-bottom: 15px;
-    font-size: 1rem;
-    box-shadow: inset 2px 2px 5px #162020, inset -2px -2px 5px #2e3e3e;
+    border-radius: 10px;
     background-color: #1c3b3c;
     color: white;
-    transition: background-color 0.3s ease;
-    display: block; /* garante que não se comporte como inline */
-    max-width: 100%; /* não ultrapasse a largura do container */
+    box-shadow: inset 2px 2px 5px #162020, inset -2px -2px 5px #2e3e3e;
+    margin-bottom: 12px;
+ }
+
+ /* Estilo da barra de pesquisa em Equipamentos Registrados */
+  #searchRemoteInput {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    background-color: #1c3b3c;
+    color: white;
+    box-shadow: inset 2px 2px 5px #162020, inset -2px -2px 5px #2e3e3e;
+    margin-bottom: 12px;
   }
 
-  #searchInput::placeholder {
+  #searchRemoteInput::placeholder {
     color: #a8b3b3;
   }
-  #searchInput:focus {
-    outline: none;
-    background-color: #254848;
-    box-shadow: 0 0 8px #63cdda;
-    color: white;
-  }
+
+#searchRemoteInput:focus {
+  outline: none;
+  background-color: #254848;
+  box-shadow: 0 0 8px #63cdda;
+}
+
 
   /* Botões de filtro e recarregar */
   .reload-all-button,
