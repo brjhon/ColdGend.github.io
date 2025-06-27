@@ -753,8 +753,6 @@ header img {
   box-shadow: 0 0 8px #63cdda;
 }
 
-
-
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
@@ -764,6 +762,35 @@ header img {
 .mobile-only {
   display: none;
 }
+
+/* Badge de status */
+.badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.badge.online {
+  background-color: #4caf50;
+  color: white;
+}
+.badge.offline {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Verificar: cursor e transição */
+.verificar-btn {
+  transition: background-color 0.2s;
+}
+.verificar-btn:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
 
 @media (max-width: 768px) {
   header {
@@ -845,7 +872,7 @@ header img {
   }
 }
 
-  @media (max-width: 320px) {
+@media (max-width: 320px) {
   header {
     height: 100%;
     

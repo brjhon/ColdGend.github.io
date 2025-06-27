@@ -162,6 +162,11 @@
   <div class="right-column">
     <h2>📋 Equipamentos Registrados</h2>
     <!-- Barra de pesquisa igual a Sistemas Registrados -->
+      <div class="status-bar" style="margin-bottom:12px;">
+        <span class="online">Ativos: <span id="remoteOnlineCount">0</span></span>
+        <span class="offline">Inativos: <span id="remoteOfflineCount">0</span></span>
+      </div>
+
 <div style="margin-bottom:12px;">
   <input
     id="searchRemoteInput"
@@ -173,6 +178,9 @@
 
 <!-- Botões de filtro iguais aos de Sistemas Registrados -->
   <div style="margin-bottom:12px;">
+    <button id="btnVerificarRemotos" class="action-button" style="margin-bottom:12px;">
+      Verificar Todas
+    </button>
     <button id="filterRemoteAll"      class="filter-status-button active">Todos</button>
     <button id="filterRemoteCFTV"     class="filter-status-button">CFTV</button>
     <button id="filterRemoteContAcesso" class="filter-status-button">Cont.Acesso</button>
@@ -239,7 +247,13 @@
 
   let editIndex = null;
 
-  
+function updateContadoresRemotos() {
+  const total = acessosRemotos.length;
+  const ativos = acessosRemotos.filter(item => item.status === "ativa").length;
+  const inativos = total - ativos;
+  document.getElementById("remoteOnlineCount").textContent = ativos;
+  document.getElementById("remoteOfflineCount").textContent = inativos;
+}
 
   function renderizarSites() {
     const siteList = document.getElementById("site-list");
@@ -333,6 +347,17 @@
     document.getElementById("onlineExportCount").textContent = `(${online})`;
     document.getElementById("offlineExportCount").textContent = `(${offline})`;
   }
+
+ 
+/*   Revalida o status de todas as câmeras (Infra Remota). */
+
+  async function recarregarTodosAcessosRemotos() {
+    if (acessosRemotos.length === 0) return;
+    await Promise.all(
+      acessosRemotos.map(ac => testarCameraIndividual(ac.ip, ac.id))
+    );
+  await carregarAcessosRemotos();
+}
 
   async function carregarSitesFirebase() {
     sites = [];
@@ -447,15 +472,18 @@
 }
 
   async function recarregarTodosSites() {
-    if (sites.length === 0) {
-      alert("Nenhum site cadastrado para recarregar.");
-      return;
-    }
-    const promises = sites.map((site) =>
-      testarSiteIndividual(site.nome, site.link, site.login, site.senha, site.contato, site.id)
-    );
-    await Promise.all(promises);
+  if (sites.length === 0) {
+    return;
   }
+  // testa todos em paralelo
+  const promises = sites.map(site =>
+    testarSiteIndividual(site.nome, site.link, site.login, site.senha, site.contato, site.id)
+  );
+  await Promise.all(promises);
+
+  // RE-RENDERIZA a lista e atualiza contadores
+  renderizarSites();
+}
 
   function exportarTXT(dados) {
   if (dados.length === 0) {
@@ -610,6 +638,7 @@
   await carregarSitesFirebase();
   await carregarAnyDesk();
   await carregarAcessosRemotos(); // agora ele carrega os acessos também!
+  await recarregarTodosSites();
 }
 
 // Filtra equipamento remoto conforme o usuário digita
@@ -621,13 +650,22 @@
     });
   });
 
-  window.addEventListener('load', () => {
+  window.addEventListener('load',async () => {
   document.getElementById('editModal').style.display = 'none';
   iniciar();
 
   // Configura os botões do AnyDesk
   const btnCadastrar = document.getElementById("btnCadastrarAny");
   const btnLimpar = document.getElementById("btnLimparAny");
+  
+  await recarregarTodosSites();
+  // 4) Agenda revalidação de Sites a cada 2 minutos
+  setInterval(recarregarTodosSites, 120000);
+
+  // 5) Verifica imediatamente o status de todos os Equipamentos Remotos
+  await recarregarTodosAcessosRemotos();
+  // 6) Agenda revalidação de Infra Remota a cada 2 minutos
+  setInterval(recarregarTodosAcessosRemotos, 120000);
 
   if (btnCadastrar && btnLimpar) {
     btnCadastrar.addEventListener("click", cadastrarAnyDesk);
@@ -724,11 +762,11 @@ const images = [
   document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
   document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
 
-  function renderizarAnyDesk() {
+function renderizarAnyDesk() {
   const lista = document.getElementById("anydesk-list");
   lista.innerHTML = "";
 
-  // 1) filtra pelo texto digitado em filtroAnyDesk (declared no topo)
+  // 1) filtra pelo texto digitado em filtroAnyDesk
   const filtrados = acessosAnyDesk.filter(item => {
     const combo = `${item.nome} ${item.ip}`.toLowerCase();
     return combo.includes(filtroAnyDesk.trim().toLowerCase());
@@ -790,9 +828,10 @@ const images = [
     const editBtn = document.createElement("button");
     editBtn.className = "edit-button";
     editBtn.textContent = "Editar";
-    editBtn.addEventListener("click", () => abrirModalEditAny(
-      acessosAnyDesk.findIndex(i => i.id === item.id)
-    ));
+    editBtn.addEventListener("click", () => {
+      const idx = acessosAnyDesk.findIndex(i => i.id === item.id);
+      abrirModalEditAny(idx);
+    });
     botoes.appendChild(editBtn);
 
     // Copiar credenciais
@@ -807,14 +846,12 @@ const images = [
     });
     botoes.appendChild(copiarBtn);
 
-    // Excluir
+    // Excluir (usa o ID direto)
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "delete-button";
     deleteBtn.textContent = "Excluir";
     deleteBtn.addEventListener("click", () => {
-      // encontra o índice original no array completo
-      const idxOriginal = acessosAnyDesk.findIndex(i => i.id === item.id);
-      removerAnyDesk(idxOriginal);
+      removerAnyDesk(item.id);
     });
     botoes.appendChild(deleteBtn);
 
@@ -823,9 +860,8 @@ const images = [
   });
 }
 
-
   // ─── AnyDesk: Editar Conexão ─────────────────────────────────────────
-// Abre o modal preenchendo com os dados atuais
+  // Abre o modal preenchendo com os dados atuais
   function abrirModalEditAny(index) {
   editAnyIndex = index;
   const item = acessosAnyDesk[index];
@@ -906,6 +942,7 @@ const images = [
   querySnapshot.forEach(docSnap => {
     acessosRemotos.push({ id: docSnap.id, ...docSnap.data() });
   });
+  updateContadoresRemotos();
   renderizarAcessosRemotos();
 }
 
@@ -1023,6 +1060,7 @@ async function removerAcessoRemoto(id) {
     item.append(info, botoes);
     lista.appendChild(item);
   });
+  
 }
 
   /*Ponte de verifica*/
@@ -1110,6 +1148,7 @@ window.addEventListener("load", () => {
   // Infraestrutura Remota
   document.getElementById("btnCadastrarAcesso").addEventListener("click", cadastrarAcessoRemoto);
   document.getElementById("btnLimparAcesso").addEventListener("click", limparAcessoRemoto);
+  document.getElementById("btnVerificarRemotos").addEventListener("click", recarregarTodosAcessosRemotos);
 
   // Busca por texto na lista de remotos
   document.getElementById("searchRemoteInput")
