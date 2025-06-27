@@ -113,22 +113,29 @@
 
   <div class="right-column">
     <h2>📋 Conexões Registradas</h2>
+
+    <!-- Barra de pesquisa AnyDesk -->
+    <input
+      id="searchAnyDeskInput"
+      placeholder="🔍 Buscar conexão..."
+      type="text"
+    />
     
-<!-- Modal de Edição AnyDesk -->
-<div id="editAnyModal" class="modal" style="display:none;">
-  <div class="modal-content">
-    <h3>Editar Conexão AnyDesk</h3>
-    <input type="text" id="editAnyNome" placeholder="Nome do terminal"/>
-    <input type="text" id="editAnyIP" placeholder="Endereço ou ID AnyDesk"/>
-    <input type="text" id="editAnyUser" placeholder="Usuário"/>
-    <input type="password" id="editAnySenha" placeholder="Senha"/>
-    <div class="modal-buttons">
-      <button id="btnSalvarAnyEdit">Salvar</button>
-      <button id="btnCancelarAnyEdit">Cancelar</button>
+    <!-- Modal de Edição AnyDesk -->
+  <div id="editAnyModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <h3>Editar Conexão AnyDesk</h3>
+        <input type="text" id="editAnyNome" placeholder="Nome do terminal"/>
+        <input type="text" id="editAnyIP" placeholder="Endereço ou ID AnyDesk"/>
+        <input type="text" id="editAnyUser" placeholder="Usuário"/>
+        <input type="password" id="editAnySenha" placeholder="Senha"/>
+        <div class="modal-buttons">
+          <button id="btnSalvarAnyEdit">Salvar</button>
+          <button id="btnCancelarAnyEdit">Cancelar</button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="site-list" id="anydesk-list"></div>
+    <div class="site-list" id="anydesk-list"></div>
   </div>
 </main>
 
@@ -222,6 +229,7 @@
   let carregaAnyDesk = [];
   let filtroAtual = '';
   let editAnyIndex = null;
+  let filtroAnyDesk="";
 
   let filtroTipoRemoto = "todos";
   let equipamentosCFTV = [];
@@ -720,13 +728,31 @@ const images = [
   const lista = document.getElementById("anydesk-list");
   lista.innerHTML = "";
 
-  acessosAnyDesk.forEach((item, index) => {
+  // 1) filtra pelo texto digitado em filtroAnyDesk (declared no topo)
+  const filtrados = acessosAnyDesk.filter(item => {
+    const combo = `${item.nome} ${item.ip}`.toLowerCase();
+    return combo.includes(filtroAnyDesk.trim().toLowerCase());
+  });
+
+  // 2) se não houver resultados, mostra mensagem
+  if (filtrados.length === 0) {
+    const msg = document.createElement("div");
+    msg.textContent = "Nenhuma conexão encontrada.";
+    msg.style.padding = "15px";
+    return lista.appendChild(msg);
+  }
+
+  // 3) renderiza cada item filtrado
+  filtrados.forEach(item => {
     const div = document.createElement("div");
     div.className = "site-item";
 
+    // cabeçalho
     const header = document.createElement("div");
     header.innerHTML = `<strong>${item.nome}</strong><br>IP/ID: ${item.ip}`;
+    div.appendChild(header);
 
+    // credenciais ocultas
     const dados = document.createElement("div");
     dados.className = "credenciais";
     dados.style.display = "none";
@@ -734,60 +760,69 @@ const images = [
       <strong>Login:</strong> ${item.login || "---"}<br>
       <strong>Senha:</strong> ${item.senha || "---"}
     `;
+    div.appendChild(dados);
 
+    // botões
     const botoes = document.createElement("div");
     botoes.className = "action-buttons";
 
+    // Exibir/Ocultar detalhes
     const exibirBtn = document.createElement("button");
-    exibirBtn.textContent = "Exibir Detalhes";
     exibirBtn.className = "toggle-button";
+    exibirBtn.textContent = "Exibir Detalhes";
     exibirBtn.addEventListener("click", () => {
-      const ativo = dados.style.display === "block";
-      dados.style.display = ativo ? "none" : "block";
-      exibirBtn.textContent = ativo ? "Exibir Detalhes" : "Ocultar Detalhes";
+      const aberto = dados.style.display === "block";
+      dados.style.display = aberto ? "none" : "block";
+      exibirBtn.textContent = aberto ? "Exibir Detalhes" : "Ocultar Detalhes";
     });
+    botoes.appendChild(exibirBtn);
 
+    // Abrir AnyDesk
     const abrirBtn = document.createElement("button");
-    abrirBtn.textContent = "Abrir";
     abrirBtn.className = "open-button";
+    abrirBtn.textContent = "Abrir";
     abrirBtn.addEventListener("click", () => {
       window.location.href = `anydesk:${item.ip}`;
     });
+    botoes.appendChild(abrirBtn);
 
+    // Editar
     const editBtn = document.createElement("button");
-    editBtn.textContent = "Editar";
     editBtn.className = "edit-button";
-    editBtn.addEventListener("click", () => abrirModalEditAny(index));
+    editBtn.textContent = "Editar";
+    editBtn.addEventListener("click", () => abrirModalEditAny(
+      acessosAnyDesk.findIndex(i => i.id === item.id)
+    ));
+    botoes.appendChild(editBtn);
 
+    // Copiar credenciais
     const copiarBtn = document.createElement("button");
-    copiarBtn.textContent = "Copiar";
     copiarBtn.className = "open-button";
+    copiarBtn.textContent = "Copiar";
     copiarBtn.addEventListener("click", () => {
       const texto = `Login: ${item.login}\nSenha: ${item.senha}`;
-      navigator.clipboard.writeText(texto).then(() => {
-        alert("Login e senha copiados para a área de transferência.");
-      });
+      navigator.clipboard.writeText(texto).then(() =>
+        alert("Login e senha copiados!")
+      );
     });
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Excluir";
-    deleteBtn.className = "delete-button";
-    deleteBtn.addEventListener("click", () => {
-      removerAnyDesk(index);
-    });
-
-    botoes.appendChild(exibirBtn);
-    botoes.appendChild(abrirBtn);
-    botoes.appendChild(editBtn);
     botoes.appendChild(copiarBtn);
+
+    // Excluir
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "delete-button";
+    deleteBtn.textContent = "Excluir";
+    deleteBtn.addEventListener("click", () => {
+      // encontra o índice original no array completo
+      const idxOriginal = acessosAnyDesk.findIndex(i => i.id === item.id);
+      removerAnyDesk(idxOriginal);
+    });
     botoes.appendChild(deleteBtn);
 
-    div.appendChild(header);
-    div.appendChild(dados);
     div.appendChild(botoes);
     lista.appendChild(div);
   });
 }
+
 
   // ─── AnyDesk: Editar Conexão ─────────────────────────────────────────
 // Abre o modal preenchendo com os dados atuais
@@ -1102,8 +1137,14 @@ window.addEventListener("load", () => {
         renderizarAcessosRemotos();
       });
   });
-});
 
+  document.getElementById("searchAnyDeskInput")
+    .addEventListener("input", e => {
+      filtroAnyDesk = e.target.value.trim().toLowerCase();
+      renderizarAnyDesk();
+    });
+
+});
 // ✅ já chama carregarAcessosRemotos normalmente
 </script>
 

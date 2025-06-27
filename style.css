@@ -731,6 +731,29 @@ header img {
   background:#55a67a;
 }
 
+/* Busca AnyDesk */
+#searchAnyDeskInput {
+  width: 100%;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  background-color: #1c3b3c;
+  color: white;
+  box-shadow: inset 2px 2px 5px #162020, inset -2px -2px 5px #2e3e3e;
+  margin-bottom: 12px;
+}
+
+#searchAnyDeskInput::placeholder {
+  color: #a8b3b3;
+}
+
+#searchAnyDeskInput:focus {
+  outline: none;
+  background-color: #254848;
+  box-shadow: 0 0 8px #63cdda;
+}
+
+
 
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
