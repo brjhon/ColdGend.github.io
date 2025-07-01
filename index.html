@@ -104,7 +104,7 @@
     <div class="input-area">
       <input id="nomeAny" placeholder="Nome do terminal" type="text"/>
       <input id="ipAny" placeholder="Endereço ou ID AnyDesk" type="text"/>
-      <input id="loginAny" placeholder="Usuário" type="text"/>
+      <input id="loginAny" placeholder="MCOR" type="text"/>
       <input id="senhaAny" placeholder="Senha" type="password"/>
       <button class="test-button" id="btnCadastrarAny">Cadastrar</button>
       <button class="clear-button" id="btnLimparAny">Limpar</button>
@@ -127,7 +127,7 @@
         <h3>Editar Conexão AnyDesk</h3>
         <input type="text" id="editAnyNome" placeholder="Nome do terminal"/>
         <input type="text" id="editAnyIP" placeholder="Endereço ou ID AnyDesk"/>
-        <input type="text" id="editAnyUser" placeholder="Usuário"/>
+        <input type="text" id="editAnyUser" placeholder="MCOR"/>
         <input type="password" id="editAnySenha" placeholder="Senha"/>
         <div class="modal-buttons">
           <button id="btnSalvarAnyEdit">Salvar</button>
@@ -795,7 +795,7 @@ function renderizarAnyDesk() {
     dados.className = "credenciais";
     dados.style.display = "none";
     dados.innerHTML = `
-      <strong>Login:</strong> ${item.login || "---"}<br>
+      <strong>MCOR:</strong> ${item.login || "---"}<br>
       <strong>Senha:</strong> ${item.senha || "---"}
     `;
     div.appendChild(dados);
@@ -839,12 +839,13 @@ function renderizarAnyDesk() {
     copiarBtn.className = "open-button";
     copiarBtn.textContent = "Copiar";
     copiarBtn.addEventListener("click", () => {
-      const texto = `Login: ${item.login}\nSenha: ${item.senha}`;
-      navigator.clipboard.writeText(texto).then(() =>
-        alert("Login e senha copiados!")
+      const texto = item.senha || "";
+        navigator.clipboard.writeText(texto).then(() =>
+      alert("Senha copiada para a área de transferência!")
       );
-    });
-    botoes.appendChild(copiarBtn);
+  });
+botoes.appendChild(copiarBtn);
+
 
     // Excluir (usa o ID direto)
     const deleteBtn = document.createElement("button");
@@ -1064,15 +1065,13 @@ async function removerAcessoRemoto(id) {
 }
 
   /*Ponte de verifica*/
-  async function testarCameraIndividual(ip, id) {
+async function testarCameraIndividual(ip, id) {
   try {
-  
     await fetch(`http://${ip}`, { mode: "no-cors" });
     await updateDoc(doc(db, "acessos_remotos", id), { status: "ativa" });
   } catch {
     await updateDoc(doc(db, "acessos_remotos", id), { status: "inativa" });
   }
-  carregarAcessosRemotos();
 }
 
   async function atualizarStatusCamera(id, status) {
@@ -1148,7 +1147,23 @@ window.addEventListener("load", () => {
   // Infraestrutura Remota
   document.getElementById("btnCadastrarAcesso").addEventListener("click", cadastrarAcessoRemoto);
   document.getElementById("btnLimparAcesso").addEventListener("click", limparAcessoRemoto);
-  document.getElementById("btnVerificarRemotos").addEventListener("click", recarregarTodosAcessosRemotos);
+  document.getElementById("btnVerificarRemotos")
+  .addEventListener("click", async () => {
+    const btn = document.getElementById("btnVerificarRemotos");
+    btn.disabled = true;
+    btn.textContent = "Verificando...";
+
+    // dispara TODOS os testes em paralelo
+    await Promise.all(
+      acessosRemotos.map(a => testarCameraIndividual(a.ip, a.id))
+    );
+
+    // só depois de todos, recarrega e atualiza a tela
+    await carregarAcessosRemotos();
+
+    btn.disabled = false;
+    btn.textContent = "Verificar Todas";
+  });
 
   // Busca por texto na lista de remotos
   document.getElementById("searchRemoteInput")
