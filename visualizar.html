@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Visualizar Estágio</title>
+  <style>
+    html, body { margin:0; padding:0; width:100vw; height:100vh; background:#000; overflow:hidden; }
+    #imgEstagio { position:fixed; top:0; left:0; width:100vw; height:100vh; object-fit:cover; background:#000; border:none; cursor:pointer; display:block; }
+    #msg { color:#fff; position:fixed; top:14px; left:0; width:100vw; text-align:center; font-size:1.2em; opacity:0.85; pointer-events:none; z-index:2; text-shadow:0 2px 8px #000; }
+  </style>
+</head>
+<body>
+  <div id="msg">Clique na imagem para tela cheia</div>
+  <img id="imgEstagio" src="" alt="Estágio" title="Clique para tela cheia" />
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCpnDf40JQ3COptyNJFZnqj9niTn5iBDeY",
+      authDomain: "coldgend.firebaseapp.com",
+      projectId: "coldgend",
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const imgEstagio = document.getElementById('imgEstagio');
+    function atualizarImg(estagio) {
+      imgEstagio.src = 'estagios/estagio' + estagio + '.jpg';
+      document.title = 'Estágio ' + estagio;
+    }
+
+    // Sempre que o valor mudar no Firestore, atualiza a imagem!
+    const docRef = doc(db, "painel", "estagio_atual");
+    onSnapshot(docRef, (snapshot) => {
+      const data = snapshot.data();
+      if (data && data.valor) {
+        atualizarImg(data.valor);
+      }
+    });
+
+    // Fullscreen ao clicar na imagem
+    function enterFullscreen() {
+      if (document.fullscreenElement) return;
+      const el = document.documentElement;
+      if (el.requestFullscreen) el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      else if (el.msRequestFullscreen) el.msRequestFullscreen();
+    }
+    imgEstagio.addEventListener('click', enterFullscreen);
+
+    document.addEventListener('fullscreenchange', () => {
+      document.getElementById('msg').style.display = document.fullscreenElement ? 'none' : '';
+    });
+    setTimeout(enterFullscreen, 100);
+  </script>
+</body>
+</html>

@@ -8,14 +8,30 @@
 </head>
 <body>
 <header>
-  <div class="Estagio">
-    <iframe frameborder="0" src="http://10.50.30.160/estagios/"></iframe>
+ <!-- Seletor de Estágio -->
+<div class="seletor-estagio">
+  <!-- Fundo institucional Prefeitura -->
+  <img
+    alt="Centro de Operações - Prefeitura do Rio"
+    src="img/Imagem do WhatsApp de 2025-05-24 à(s) 14_LE_upscale_magic_x4_strength_75_similarity_50.jpg"
+    class="fundo-prefeitura"
+  />
+  <!-- Card do Estágio -->
+  <div id="estagioBanner" class="card-estagio">
+    <img
+      id="estagioImgBanner"
+      src="estagios/estagio1.jpg"
+      alt="Estágio Atual"
+    />
+    <div id="menuEstagios">
+      <!-- Itens são criados pelo JS -->
+      <button id="btnAbrirVisualizador">Abrir em tela cheia</button>
+    </div>
   </div>
-  <img alt="Centro de Operações - Prefeitura do Rio" src="img/Imagem do WhatsApp de 2025-05-24 à(s) 14_LE_upscale_magic_x4_strength_75_similarity_50.jpg"/>
+</div>
 
-  <div class="right-image-panel">
-    <img alt="Banner institucional" id="clicavelImage" src="nils-calor/1.jpg"/>
-  </div>
+
+
 </header>
 
 <div class="top-buttons">
@@ -229,6 +245,19 @@
   const btnSnap  = document.getElementById('btnSnap');
   let stream;
 
+  // Referências DOM
+  const estagioImgBanner = document.getElementById("estagioImgBanner");
+  const estagioBanner = document.getElementById("estagioBanner");
+  const menuEstagios = document.getElementById("menuEstagios");
+  const btnAbrirVisualizador = document.getElementById("btnAbrirVisualizador");
+
+  // Imagens dos estágios (ajuste a quantidade conforme necessário)
+  const totalEstagios = 5;
+  const pastaEstagios = "estagios";
+  const extensao = ".jpg";
+  let estagioAtual = 1;
+
+  
 
   let sites = [];
   let filtroTipo   = "todos";
@@ -247,7 +276,60 @@
 
   let editIndex = null;
 
-function updateContadoresRemotos() {
+  
+// Cria itens do menu de estágios
+for (let i = 1; i <= totalEstagios; i++) {
+  const item = document.createElement('div');
+  item.className = 'estagio-item' + (i === estagioAtual ? ' selected' : '');
+  const mini = document.createElement('img');
+  mini.src = `${pastaEstagios}/estagio${i}${extensao}`;
+  mini.alt = `Miniatura Estágio ${i}`;
+  const label = document.createElement('span');
+  label.textContent = `Estágio ${i}`;
+  item.appendChild(mini);
+  item.appendChild(label);
+
+  item.dataset.estagio = i;
+  item.addEventListener('click', function (e) {
+    estagioAtual = Number(this.dataset.estagio);
+    estagioImgBanner.src = `${pastaEstagios}/estagio${estagioAtual}${extensao}`;
+    // Atualiza visual
+    menuEstagios.querySelectorAll('.estagio-item').forEach(el => el.classList.remove('selected'));
+    this.classList.add('selected');
+    menuEstagios.style.display = 'none';
+    // Salva no Firestore (sincroniza remotos)
+    atualizarEstagioFirebase(estagioAtual);
+    e.stopPropagation();
+  });
+  menuEstagios.insertBefore(item, btnAbrirVisualizador);
+}
+
+  // Abrir menu ao clicar no banner
+  estagioBanner.addEventListener('click', function (e) {
+
+  menuEstagios.style.display = menuEstagios.style.display === 'flex' ? 'none' : 'flex';
+  e.stopPropagation();
+});
+
+  // Fecha menu ao clicar fora
+  document.body.addEventListener('click', function () {
+
+  menuEstagios.style.display = 'none';
+});
+
+  // Previne fechamento do menu ao clicar dentro
+  menuEstagios.addEventListener('click', function (e) {
+
+  e.stopPropagation();
+});
+
+  // Botão para abrir o visualizador em tela cheia
+  btnAbrirVisualizador.addEventListener('click', function () {
+
+  window.open(`visualizar.html`, '_blank');
+});
+
+  function updateContadoresRemotos() {
   const total = acessosRemotos.length;
   const ativos = acessosRemotos.filter(item => item.status === "ativa").length;
   const inativos = total - ativos;
@@ -348,9 +430,11 @@ function updateContadoresRemotos() {
     document.getElementById("offlineExportCount").textContent = `(${offline})`;
   }
 
- 
-/*   Revalida o status de todas as câmeras (Infra Remota). */
+  async function atualizarEstagioFirebase(estagioAtual) {
+  await setDoc(doc(db, "painel", "estagio_atual"), { valor: estagioAtual });
+}
 
+/*   Revalida o status de todas as câmeras (Infra Remota). */
   async function recarregarTodosAcessosRemotos() {
     if (acessosRemotos.length === 0) return;
     await Promise.all(
@@ -872,6 +956,7 @@ botoes.appendChild(copiarBtn);
   document.getElementById("editAnySenha").value = item.senha;
   document.getElementById("editAnyModal").style.display = "flex";
 }
+
 
   // Fecha o modal sem salvar
   function fecharModalEditAny() {
