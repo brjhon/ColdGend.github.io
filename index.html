@@ -1229,6 +1229,18 @@ window.addEventListener("load", () => {
   document.getElementById("btnSalvarAnyEdit").addEventListener("click", salvarEdicaoAny);
   document.getElementById("btnCancelarAnyEdit").addEventListener("click", fecharModalEditAny);
 
+  /* Estagio */
+  estagioBanner.addEventListener('click', function (e) {
+    menuEstagios.style.display = menuEstagios.style.display === 'flex' ? 'none' : 'flex';
+    e.stopPropagation();
+  });
+  document.body.addEventListener('click', function () {
+    menuEstagios.style.display = 'none';
+  });
+  menuEstagios.addEventListener('click', function (e) {
+    e.stopPropagation();
+  });
+
   // Infraestrutura Remota
   document.getElementById("btnCadastrarAcesso").addEventListener("click", cadastrarAcessoRemoto);
   document.getElementById("btnLimparAcesso").addEventListener("click", limparAcessoRemoto);

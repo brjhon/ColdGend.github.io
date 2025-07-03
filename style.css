@@ -70,7 +70,7 @@ body::before {
   width: 100%;
   background: #222e;
   border-radius: 0 0 12px 12px;
-  z-index: 10;
+  z-index: 100; /* z-index ALTO para ficar acima do card/fundo */
   padding-bottom: 10px;
 }
 
