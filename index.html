@@ -1272,6 +1272,11 @@ window.addEventListener("load", () => {
   btnAbrirVisualizadorCalor.addEventListener('click', function () {window.open(`visualizar_calor.html`, '_blank');
   });
 
+   btnAbrirVisualizadorCalor.addEventListener('click', function () {
+  // Modo 1: Abre página visualizadora passando o calor selecionado
+  window.open(`visualizar.html?tipo=calor&nivel=${calorAtual}`, '_blank');
+   });
+ 
   document.getElementById("btnAnyDesk").addEventListener("click", () => {
     document.getElementById("mainSites").style.display = "none";
     document.getElementById("mainAnyDesk").style.display = "flex";
@@ -1346,6 +1351,7 @@ window.addEventListener("load", () => {
 
 });
 // ✅ já chama carregarAcessosRemotos normalmente
+
 </script>
 
 </body>
