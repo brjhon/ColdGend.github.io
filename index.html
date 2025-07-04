@@ -7,30 +7,48 @@
 <title>ColdGend com Estilo Corrigido</title>
 </head>
 <body>
-<header>
- <!-- Seletor de Estágio -->
-<div class="seletor-estagio">
-  <!-- Fundo institucional Prefeitura -->
-  <img
-    alt="Centro de Operações - Prefeitura do Rio"
-    src="img/Imagem do WhatsApp de 2025-05-24 à(s) 14_LE_upscale_magic_x4_strength_75_similarity_50.jpg"
-    class="fundo-prefeitura"
-  />
-  <!-- Card do Estágio -->
-  <div id="estagioBanner" class="card-estagio">
-    <img
-      id="estagioImgBanner"
-      src="estagios/estagio1.jpg"
-      alt="Estágio Atual"
-    />
-    <div id="menuEstagios">
-      <!-- Itens são criados pelo JS -->
-      <button id="btnAbrirVisualizador">Abrir em tela cheia</button>
+<header style="position:relative; width:100%; height:180px;">
+  <!-- Banner institucional de fundo -->
+  <img alt="Centro de Operações - Prefeitura do Rio" src="img/banner-institucional.jpg"
+    style="width:100%; height:180px; object-fit:cover; border-radius:0; position:absolute; left:0; top:0; z-index:1;">
+
+  <!-- Seletor de estágio flutuando -->
+  <div class="seletor-estagio"
+    style="position:absolute; top:0px; left:0px; z-index:10;">
+    <div id="estagioBanner" style="cursor:pointer; position:relative; width:320px; height:179px;">
+      <img id="estagioImgBanner" src="estagios/estagio1.jpg" alt="Estágio Atual"
+        style="width:100%; height:100%; object-fit:cover; border-radius:14px; box-shadow:0 2px 12px #0005;">
+      <div id="menuEstagios"
+        style="display:none; position:absolute; top:auto; left:0; width:320px; background:#222e; border-radius:0 0 14px 14px; z-index:100;">
+        <!-- Itens criados pelo JS -->
+        <button id="btnAbrirVisualizador"
+          style="width:90%;margin:14px 5%;background:#2979ff;color:#fff;font-size:1.05em;border:none;padding:10px;border-radius:7px;cursor:pointer;">
+          Abrir em tela cheia
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Painel direito ou outros elementos do header -->
+  <div class="right-image-panel" style="position:absolute; right:14px; top:14px; height:110px; width:210px;">
+    <img alt="Banner institucional" id="clicavelImage" src="nils-calor/1.jpg"
+      style="width:100%; height:100%; object-fit:cover; border-radius:12px;"/>
+  </div>
+
+    <div class="seletor-estagio seletor-calor" style="position:absolute; top:0px; right:0px; z-index:10;">
+  <div id="calorBanner" style="cursor:pointer; position:relative; width:320px; height:179px;">
+    <img id="calorImgBanner" src="nils-calor/calor1.jpg" alt="Calor Atual"
+      style="width:100%; height:100%; object-fit:cover; border-radius:14px; box-shadow:0 2px 12px #0005;">
+    <div id="menuCalor"
+      style="display:none; position:absolute; top:auto; left:0; width:320px; background:#222e; border-radius:14px 14px 14px 14px; z-index:100;">
+      <!-- Itens criados pelo JS -->
+      <button id="btnAbrirVisualizadorCalor"
+        style="width:90%;margin:14px 5%;background:#2979ff;color:#fff;font-size:1.05em;border:none;padding:10px;border-radius:7px;cursor:pointer;">
+        Abrir em tela cheia
+      </button>
     </div>
   </div>
 </div>
-
-
 
 </header>
 
@@ -39,7 +57,7 @@
   <button class="action-button" id="btnAnyDesk">Conexões AnyDesk</button>
   <button class="action-button" id="btnAcessosRemotos">Infraestrutura Remota</button>
 </div>
-
+ 
 <!-- Área Sites -->
 <main id="mainSites">
   <div class="left-column">
@@ -243,31 +261,44 @@
   const canvas  = document.getElementById('canvas');
   const btnStart = document.getElementById('btnStartCam');
   const btnSnap  = document.getElementById('btnSnap');
-  let stream;
 
-  // Referências DOM
+  /* Parte de Nivels de Calor */
   const estagioImgBanner = document.getElementById("estagioImgBanner");
   const estagioBanner = document.getElementById("estagioBanner");
   const menuEstagios = document.getElementById("menuEstagios");
   const btnAbrirVisualizador = document.getElementById("btnAbrirVisualizador");
 
-  // Imagens dos estágios (ajuste a quantidade conforme necessário)
+  /* Parte de Estagio */
+  const calorImgBanner = document.getElementById("calorImgBanner");
+  const calorBanner = document.getElementById("calorBanner");
+  const menuCalor = document.getElementById("menuCalor");
+  const btnAbrirVisualizadorCalor = document.getElementById("btnAbrirVisualizadorCalor");
+  let stream;
+
+  // Seletor de estágio
   const totalEstagios = 5;
   const pastaEstagios = "estagios";
   const extensao = ".jpg";
   let estagioAtual = 1;
 
-  
+  // Seletor de Niveis de Calor
+  const totalCalor = 5;
+  const pastaCalor = "nils-calor";
+  const extCalor = ".jpg";
+  let calorAtual = 1;
 
+/* Seletor do Gerenciar Sistemas Web */
   let sites = [];
   let filtroTipo   = "todos";
   let filtroStatus = 'todos';
 
+  /* Seletor do Anydesk */
   let carregaAnyDesk = [];
   let filtroAtual = '';
   let editAnyIndex = null;
   let filtroAnyDesk="";
 
+  /* Seletor do infraestrutura remota */
   let filtroTipoRemoto = "todos";
   let equipamentosCFTV = [];
   let acessosRemotos = [];
@@ -276,8 +307,7 @@
 
   let editIndex = null;
 
-  
-// Cria itens do menu de estágios
+  // Cria itens do menu de estágios - link que abre em outro navegador
 for (let i = 1; i <= totalEstagios; i++) {
   const item = document.createElement('div');
   item.className = 'estagio-item' + (i === estagioAtual ? ' selected' : '');
@@ -293,41 +323,39 @@ for (let i = 1; i <= totalEstagios; i++) {
   item.addEventListener('click', function (e) {
     estagioAtual = Number(this.dataset.estagio);
     estagioImgBanner.src = `${pastaEstagios}/estagio${estagioAtual}${extensao}`;
-    // Atualiza visual
     menuEstagios.querySelectorAll('.estagio-item').forEach(el => el.classList.remove('selected'));
     this.classList.add('selected');
     menuEstagios.style.display = 'none';
-    // Salva no Firestore (sincroniza remotos)
-    atualizarEstagioFirebase(estagioAtual);
+    atualizarEstagioFirebase(estagioAtual); // Função do Firestore (já existente no seu projeto)
     e.stopPropagation();
   });
   menuEstagios.insertBefore(item, btnAbrirVisualizador);
 }
+  
+// Cria itens do menu de calor
+for (let i = 1; i <= totalCalor; i++) {
+  const item = document.createElement('div');
+  item.className = 'calor-item' + (i === calorAtual ? ' selected' : '');
+  const mini = document.createElement('img');
+  mini.src = `${pastaCalor}/calor${i}${extCalor}`;
+  mini.alt = `Miniatura Calor ${i}`;
+  const label = document.createElement('span');
+  label.textContent = `Calor ${i}`;
+  item.appendChild(mini);
+  item.appendChild(label);
 
-  // Abrir menu ao clicar no banner
-  estagioBanner.addEventListener('click', function (e) {
-
-  menuEstagios.style.display = menuEstagios.style.display === 'flex' ? 'none' : 'flex';
-  e.stopPropagation();
-});
-
-  // Fecha menu ao clicar fora
-  document.body.addEventListener('click', function () {
-
-  menuEstagios.style.display = 'none';
-});
-
-  // Previne fechamento do menu ao clicar dentro
-  menuEstagios.addEventListener('click', function (e) {
-
-  e.stopPropagation();
-});
-
-  // Botão para abrir o visualizador em tela cheia
-  btnAbrirVisualizador.addEventListener('click', function () {
-
-  window.open(`visualizar.html`, '_blank');
-});
+  item.dataset.calor = i;
+  item.addEventListener('click', function (e) {
+    calorAtual = Number(this.dataset.calor);
+    calorImgBanner.src = `${pastaCalor}/calor${calorAtual}${extCalor}`;
+    menuCalor.querySelectorAll('.calor-item').forEach(el => el.classList.remove('selected'));
+    this.classList.add('selected');
+    menuCalor.style.display = 'none';
+    // Se quiser sincronizar com Firebase, chame aqui!
+    e.stopPropagation();
+  });
+  menuCalor.insertBefore(item, btnAbrirVisualizadorCalor);
+}
 
   function updateContadoresRemotos() {
   const total = acessosRemotos.length;
@@ -757,7 +785,7 @@ for (let i = 1; i <= totalEstagios; i++) {
   }
 });
 
-const images = [
+  const images = [
   "nils-calor/1.jpg",
   "nils-calor/2.jpg",
   "nils-calor/3.jpg",
@@ -846,7 +874,7 @@ const images = [
   document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
   document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
 
-function renderizarAnyDesk() {
+  function renderizarAnyDesk() {
   const lista = document.getElementById("anydesk-list");
   lista.innerHTML = "";
 
@@ -1211,6 +1239,39 @@ window.addEventListener("load", () => {
     document.getElementById("mainAcessosRemotos").style.display = "none";
   });
 
+  // Abrir menu ao clicar no banner
+  estagioBanner.addEventListener('click', function (e) {menuEstagios.style.display = menuEstagios.style.display === 'flex' ? 'none' : 'flex';
+    e.stopPropagation();
+  });
+
+  // Fecha menu ao clicar fora
+  document.body.addEventListener('click', function () {menuEstagios.style.display = 'none';
+  });
+
+  // Previne fechamento do menu ao clicar dentro
+  menuEstagios.addEventListener('click', function (e) {
+    e.stopPropagation();
+  });
+
+  // Botão para abrir o visualizador em tela cheia
+  btnAbrirVisualizador.addEventListener('click', function () {window.open(`visualizar.html`, '_blank');
+  });
+
+  // Abrir menu ao clicar no banner
+  calorBanner.addEventListener('click', function (e) {menuCalor.style.display = menuCalor.style.display === 'flex' ? 'none' : 'flex';
+    e.stopPropagation();
+  });
+
+  document.body.addEventListener('click', function () {menuCalor.style.display = 'none';
+  });
+
+  menuCalor.addEventListener('click', function (e) {e.stopPropagation();
+  });
+
+  // Botão para abrir o visualizador em tela cheia
+  btnAbrirVisualizadorCalor.addEventListener('click', function () {window.open(`visualizar_calor.html`, '_blank');
+  });
+
   document.getElementById("btnAnyDesk").addEventListener("click", () => {
     document.getElementById("mainSites").style.display = "none";
     document.getElementById("mainAnyDesk").style.display = "flex";
@@ -1228,18 +1289,6 @@ window.addEventListener("load", () => {
   document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
   document.getElementById("btnSalvarAnyEdit").addEventListener("click", salvarEdicaoAny);
   document.getElementById("btnCancelarAnyEdit").addEventListener("click", fecharModalEditAny);
-
-  /* Estagio */
-  estagioBanner.addEventListener('click', function (e) {
-    menuEstagios.style.display = menuEstagios.style.display === 'flex' ? 'none' : 'flex';
-    e.stopPropagation();
-  });
-  document.body.addEventListener('click', function () {
-    menuEstagios.style.display = 'none';
-  });
-  menuEstagios.addEventListener('click', function (e) {
-    e.stopPropagation();
-  });
 
   // Infraestrutura Remota
   document.getElementById("btnCadastrarAcesso").addEventListener("click", cadastrarAcessoRemoto);
@@ -1297,78 +1346,6 @@ window.addEventListener("load", () => {
 
 });
 // ✅ já chama carregarAcessosRemotos normalmente
-</script>
-
-
- <script src="importar_equipamento.js">
-// Exportar acessos remotos para TXT
-function exportarAcessosRemotosTXT() {
-  if (acessosRemotos.length === 0) {
-    alert("Nenhum acesso remoto para exportar.");
-    return;
-  }
-
-  let conteudo = acessosRemotos.map(acesso =>
-    `Setor: ${acesso.setor} | Andar: ${acesso.andar} | Tipo: ${acesso.tipo} | Câmera: ${acesso.camera || "---"} | Sala Técnica: ${acesso.sala || "---"} | IP: ${acesso.ip}`
-  ).join("\n");
-
-  const blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "acessos_remotos.txt";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-document.getElementById("btnExportarAcessos").addEventListener("click", exportarAcessosRemotosTXT);
-
-
-// Modal de Detalhes
-function abrirModalDetalhes(texto) {
-  document.getElementById("detalhesTexto").innerText = texto;
-  document.getElementById("modalDetalhesEquipamento").style.display = "flex";
-}
-
-function fecharModalDetalhes() {
-  document.getElementById("modalDetalhesEquipamento").style.display = "none";
-}
-
-
-document.getElementById("btnFecharDetalhes").addEventListener("click", fecharModalDetalhes);
-
-document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
-  const texto = document.getElementById("detalhesTexto").innerText;
-  navigator.clipboard.writeText(texto).then(() => {
-    alert("Dados copiados para a área de transferência!");
-  });
-});
-
-
-  </script>
-
-<script src="corrigir_status_acessos.js">
-// Modal de Detalhes
-function abrirModalDetalhes(texto) {
-  document.getElementById("detalhesTexto").innerText = texto;
-  document.getElementById("modalDetalhesEquipamento").style.display = "flex";
-}
-
-function fecharModalDetalhes() {
-  document.getElementById("modalDetalhesEquipamento").style.display = "none";
-}
-
-
-document.getElementById("btnFecharDetalhes").addEventListener("click", fecharModalDetalhes);
-
-document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
-  const texto = document.getElementById("detalhesTexto").innerText;
-  navigator.clipboard.writeText(texto).then(() => {
-    alert("Dados copiados para a área de transferência!");
-  });
-});
-
-
 </script>
 
 </body>

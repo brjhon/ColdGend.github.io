@@ -32,46 +32,57 @@ body::before {
   box-sizing: border-box;
 }
 
+
+
 /* ---------- SELETOR DE ESTÁGIO ---------- */
 
+.seletor-estagio {
+width: 10%;
+  height: 120px;
+  /* NÃO usar margin-left ou margin-top! */
+  box-shadow: 0 4px 18px #0005;
+}
 .fundo-prefeitura {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  border-radius: 14px;
-  filter: brightness(0.9);
+  border-radius: 15px;
+  filter: brightness(0.6);
   z-index: 1;
 }
-
 .card-estagio {
-  position: relative;
+  margin-bottom: 0%;
   z-index: 2;
-  width: 17.2%;
+  width: 100%;
   height: 100%;
   cursor: pointer;
-  border-radius: 14px;
+  border-radius: 15px;
   overflow: hidden;
-  background: transparent;
 }
-
 .card-estagio img#estagioImgBanner {
   width: 100%; height: 100%;
   object-fit: cover;
-  border-radius: 14px;
+  border-radius: 15px;
   box-shadow: 0 2px 12px #0005;
   display: block;
 }
-
 #menuEstagios {
   display: none;
   position: absolute;
-  top: 100%; left: 0;
+  top: 0%;
+  left: 0;
   width: 100%;
-  background: #222e;
-  border-radius: 0 0 12px 12px;
-  z-index: 100; /* z-index ALTO para ficar acima do card/fundo */
-  padding-bottom: 10px;
+  min-width: 240px;
+  background: rgba(34, 46, 56, 0.97);
+  border-radius: 0 0 14px 14px;
+  z-index: 20000; /* mais alto que outros menus */
+  padding-bottom: 14px;
+  box-shadow: 0 12px 32px 0 #0008, 0 1.5px 3px #0009;
+  flex-direction: column;
+  align-items: stretch;
+  backdrop-filter: blur(1.5px);
+  border-top: 2px solid #18798055;
 }
 
 #menuEstagios .estagio-item {
@@ -79,17 +90,21 @@ body::before {
   align-items: center;
   gap: 12px;
   padding: 12px 18px;
+  border-radius: 10px 10px 10px 10px;
   color: #fff;
   font-size: 1.08em;
   cursor: pointer;
   transition: background .15s, border-color .18s;
   border-left: 3px solid transparent;
+  background: transparent;
 }
+
 #menuEstagios .estagio-item.selected,
 #menuEstagios .estagio-item:hover {
   background: #21796c;
   border-left: 3px solid #fff;
 }
+
 #menuEstagios .estagio-item img {
   width: 60px;
   height: 40px;
@@ -99,6 +114,7 @@ body::before {
   border: 1.8px solid #fff2;
   box-shadow: 0 1px 4px #0002;
 }
+
 #btnAbrirVisualizador {
   width: 90%;
   margin: 14px 5% 0 5%;
@@ -112,13 +128,96 @@ body::before {
   font-weight: bold;
   box-shadow: 0 2px 6px #0003;
   transition: background 0.18s;
+  display: block;
+  text-align: center;
 }
+
 #btnAbrirVisualizador:hover {
   background: #1565c0;
 }
 
+#menuEstagios {
+  display: none;
+  position: absolute;
+  top: 100%; left: 0;
+  width: 100%;
+  background: #222e;
+  border-radius: 0 0 12px 12px;
+  z-index: 100; /* z-index ALTO para ficar acima do card/fundo */
+  padding-bottom: 10px;
+}
 /* ---------- FIM DO SELETOR DE ESTÁGIO ---------- */
 
+
+/* ---------- SELETOR DE Niveis de Calor ---------- */
+.seletor-calor {
+  position: absolute;
+  /* top e left conforme quiser */
+  width: 320px;
+  height: 110px;
+  z-index: 10;
+}
+#menuCalor {
+  display: none;
+  position: absolute;
+  top: 0%;
+  left: 0;
+  width: 320px;
+  background: #21796c;
+  border-radius: 0 0 14px 14px;
+  z-index: 100;
+  box-shadow: 0 8px 24px #0008;
+  flex-direction: column;
+  align-items: stretch;
+}
+#menuCalor .calor-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-radius: 10px 10px 10px 10px;
+  color: #fff;
+  font-size: 1.08em;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  background: transparent;
+  transition: background .15s, border-color .18s;
+}
+#menuCalor .calor-item.selected,
+#menuCalor .calor-item:hover {
+  background: #21796c;
+  border-left: 3px solid #fff;
+}
+#menuCalor .calor-item img {
+  width: 60px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #181818;
+  border: 1.8px solid #fff2;
+  box-shadow: 0 1px 4px #0002;
+}
+#btnAbrirVisualizadorCalor {
+  width: 90%;
+  margin: 14px 5% 0 5%;
+  background: #ff9a00;
+  color: #fff;
+  font-size: 1.05em;
+  border: none;
+  padding: 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 2px 6px #0003;
+  transition: background 0.18s;
+  display: block;
+  text-align: center;
+}
+#btnAbrirVisualizadorCalor:hover {
+  background: #cc7800;
+}
+
+/* ---------- FIM DO SELETOR DE Niveis de Calor ---------- */
 
 
 .header-content {
