@@ -286,13 +286,6 @@ header img {
   object-fit: contain;
 }
 
-/* bões de leaytes */
-.top-buttons {
-  gap: 20px;
-  padding: 20px 20px 5px 0px ;
-  z-index: 100 !important;
-}
-
 .action-button {
   padding: 12px 30px;
   background-color: #3a5a5a;
@@ -688,28 +681,14 @@ header img {
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.7);
   }
 
-
-
 .top-buttons {
-  position: fixed;
-  top: 200px;
-  left: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 10000;
-}
-
-/* Estilo aprimorado para os botões laterais */
-.top-buttons {
-  position: fixed;
-  top: 50%;
-  left: 15px;
-  transform: translateY(-50%);
+  position: absolute;
+  top: 250px; /* ou o valor ideal para desktop */
+  left: calc(50% - 685px); /* ajuste para alinhar à esquerda da .left-column */
   display: flex;
   flex-direction: column;
   gap: 12px;
-  z-index: 10000;
+  z-index: 100 !important; /* z-index baixo para ficar ATRÁS dos menus centrais */
 }
 
 .top-buttons button {
@@ -981,160 +960,291 @@ header img {
   cursor: not-allowed;
 }
 
+/* MOBILE e RESPONSIVIDADE AVANÇADA - Cola no final do style.css */
 
-@media (max-width: 768px) {
+/* Ajusta header e painéis para ocupar menos espaço no mobile */
+@media (max-width: 650px) {
   header {
-    height: auto;
-    
-    padding-bottom: 0px;
+    height: auto !important;
+    min-height: 80px !important;
+    padding-bottom: 4vw !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    position: relative !important;
   }
-
-  .header-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0px;
-    padding-top: 10px;
+  .seletor-estagio, .seletor-calor {
+    width: 98vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    height: 36vw !important;
+    min-height: 48px !important;
+    max-height: 90px !important;
+    margin: 6px auto  !important;
+    padding: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    position: relative !important;
+    z-index: 100 !important;
   }
-
-  .main-logo {
-    width: 100%;
-
-    height: 100px;
-    max-height: 100px;
-    object-fit: contain;
-  }
-
-  .mobile-only {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    align-items: center;
-  }
-
-  .Estagio iframe {
-    margin-top: 100%;
-    margin-left: 9%;
-    width: 30vw;
-    height: 17vw;
-    border-radius: 8px;
-  }
-
   .right-image-panel {
-    margin-top: 13%;
-    width: 30vw;
-    height: 17vw;
-    border-radius: 10px;
+    display: none !important;
   }
-
-  .right-image-panel img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .main {
+    padding: 0 !important;
+    margin-top: 0 !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    max-width: 100vw !important;
+    width: 100vw !important;
   }
-
-
-  /* Botões do modal */
+  .left-column, .right-column {
+    width: 97vw !important;
+    min-width: 0 !important;
+    max-width: 99vw !important;
+    padding: 2vw 2vw !important;
+    margin: 0 0 16px 0 !important;
+    border-radius: 10px !important;
+  }
+  .input-area input, .input-area select, .input-area textarea,
+  #searchInput, #searchRemoteInput, #searchAnyDeskInput {
+    font-size: 1em !important;
+    width: 97vw !important;
+    max-width: 99vw !important;
+    min-width: 0 !important;
+    padding: 10px 1vw !important;
+    margin-bottom: 8px !important;
+    box-sizing: border-box !important;
+  }
+  button, .btn, .exportar, .painel-lista button, .top-buttons button {
+    width: 97vw !important;
+    max-width: 99vw !important;
+    font-size: 1em !important;
+    padding: 10px 0 !important;
+    border-radius: 8px !important;
+    margin-bottom: 7px !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
   .top-buttons {
-    position: static;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-left: 50%;
-    margin-top: 10%;
-    padding:  0px;
-    width: 50%;
+    position: static !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 7px 0 !important;
+    margin-bottom: 3px !important;
+    font-size: 0.98em !important;
+    width: 97vw !important;
+    max-width: 99vw !important;
+    margin: 10px auto !important;
+    gap: 7px !important;
+    z-index: 10 !important;
+    left: 0 !important;
+    top: 0 !important;
+    transform: none !important;
   }
-
-  .top-buttons .menu-btn {
-    flex:  1 auto;
-    min-width: 120%;
-    font-size: 0.9rem;
-    text-align: center;
+  .site-list, .painel-lista, .painel-acessos, #acessos-remotos-list {
+    width: 97vw !important;
+    max-width: 99vw !important;
+    padding: 0 1vw !important;
+    min-width: 0 !important;
+    font-size: 1em !important;
+    box-sizing: border-box !important;
   }
-
-  .left-column {
-    flex: 1 1 100%;
-    max-width: 100%;
-    margin-bottom: 0px;
-    margin-top: 0px;
+  .modal-content {
+    max-width: 99vw !important;
+    padding: 18px 2vw !important;
   }
 }
 
-@media (max-width: 320px) {
-  header {
-    height: 100%;
+@media (max-width: 450px) {
+
+@media (max-width: 450px) {
+  .seletor-estagio, .seletor-calor {
+    display: block !important;
+    position: static !important;
+    width: 99vw !important;
+    max-width: 99vw !important;
+    height: 16vw !important;
+    min-height: 28px !important;
+    max-height: 34px !important;
+    margin: 4px auto 2px auto !important;
+    padding: 0 !important;
+    box-shadow: 0 3px 13px #0002 !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+  }
+  .seletor-estagio img, .seletor-calor img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 10px !important;
+  }
+
+  .top-buttons, .top-buttons * {
+    margin-top: 1vw !important;
+    gap: 6px !important;
+    width: 100vw !important;
+    max-width: 9vw !important;
+    left: 20% !important;
+    right: 0% !important;
     
-    padding-bottom: 0px;
+    font-size: 0.99em !important;
+  }
+  .top-buttons button {
+    width: 19vw !important;
+    padding: 7px 0 !important;
+   
+    margin-bottom: 0px !important;
+    font-size: 0.97em !important;
+    border-radius: 8px !important;
   }
 
-  .header-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0px;
-    padding-top: 10px;
-    width: 100%;
+  .painel-lista, .main-content, .left-column, .right-column {
+    width: 99vw !important;
+    padding: 4px 1vw !important;
+    margin: 7px auto 9px auto !important;
+    border-radius: 10px !important;
+  }
+  .painel-lista h1, .painel-lista h2 {
+    font-size: 1em !important;
+    margin-bottom: 0.45em !important;
+    margin-top: 0.1em !important;
+  }
+  input, select, textarea {
+    width: 98vw !important;
+    max-width: 99vw !important;
+    padding: 8px 1vw !important;
+    margin-bottom: 6px !important;
+    font-size: 0.97em !important;
+    border-radius: 7px !important;
+  }
+  button, .btn, .exportar {
+    width: 98vw !important;
+    padding: 8px 0 !important;
+    font-size: 0.97em !important;
+    margin-bottom: 6px !important;
+    border-radius: 7px !important;
+  }
+}
+
+
+    /* Inputs e labels mais compactos */
+  .painel-lista input,
+  .painel-lista select,
+  .painel-lista textarea,
+  .painel-lista label,
+  .painel-acessos input,
+  .painel-acessos select,
+  .painel-acessos textarea,
+  .painel-acessos label,
+  .input-area input,
+  .input-area select,
+  .input-area textarea {
+    font-size: 0.99em !important;
+    padding: 8px 1vw !important;
+    margin-bottom: 7px !important;
+    border-radius: 7px !important;
+    width: 97vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
   }
 
-  .main-logo {
-    width: 100%;
-    height: 100%;
-    
-    object-fit: contain;
+  /* Botões ainda mais enxutos */
+  .painel-lista button,
+  .painel-acessos button,
+  .top-buttons button,
+  .btn,
+  .exportar {
+    font-size: 0.96em !important;
+    padding: 8px 0 !important;
+    margin-bottom: 5px !important;
+    width: 97vw !important;
+    border-radius: 7px !important;
+    min-width: 0 !important;
   }
 
-  .mobile-only {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    align-items: center;
+  /* Cards/painéis bem justos */
+  .painel-lista, .painel-acessos, .main-content, .left-column, .right-column {
+    padding: 3px 1vw !important;
+    margin-bottom: 6px !important;
+    border-radius: 9px !important;
+    width: 99vw !important;
+    min-width: 0 !important;
   }
 
-  .Estagio iframe {
-    margin-top: 50%;
-    width: 85vw;
-    height: 27vw;
-    border-radius: 10px;
-    position: static;
-    flex-direction: column;
+  /* Título menor, mais compacto */
+  .painel-lista h2,
+  .painel-lista h1,
+  .painel-acessos h2,
+  .painel-acessos h1 {
+    font-size: 1.05em !important;
+    margin: 0.38em 0 0.35em 0 !important;
+  }
+}
+
+/* Ultra compacto para mini celular */
+@media (max-width: 420px) {
+  .left-column, .right-column,
+  .main, .top-buttons,
+  .site-list, .painel-lista, .painel-acessos {
+    width: 99vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    padding: 0 1vw !important;
+    margin: 0 0 10px 0 !important;
   }
 
+  .seletor-estagio, .seletor-calor {
+    height: 80vw !important;
+    min-height: 52px !important;
+    font-size: 0.99em !important;
+  }
+
+  .input-area input, .input-area select, .input-area textarea,
+  #searchInput, #searchRemoteInput, #searchAnyDeskInput {
+    font-size: 0.98em !important;
+    padding: 8px 2vw !important;
+  }
+
+  button, .btn, .exportar, .painel-lista button, .top-buttons button {
+    font-size: 0.96em !important;
+    min-width: 60px !important;
+    padding: 8px 0 !important;
+  }
+
+}
+
+@media (max-width: 400px) {
+  .painel-lista .card-acesso, .painel-lista .card-site, .painel-lista .card {
+    padding: 8px 3vw !important;
+    font-size: 0.98em !important;
+    margin-bottom: 8px !important;
+    border-radius: 10px !important;
+  }
+  .painel-lista .acoes, .acoes {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    margin-top: 7px !important;
+  }
+  .painel-lista .acoes button, .acoes button {
+    width: 100% !important;
+    font-size: 1em !important;
+    margin-bottom: 2px !important;
+    padding: 6px 0 !important;
+  }
+  .painel-lista .status {
+    font-size: 0.99em !important;
+    margin-bottom: 2px !important;
+  }
+}
+
+/* Esconde painel/imagem lateral em telas pequenas */
+@media (max-width: 600px) {
   .right-image-panel {
-    margin-top: 43%;
-    width: 82vw;
-    height: 27vw;
-    border-radius: 10px;
-    margin-right: 0vw;
+    display: none !important;
   }
-
-  .right-image-panel img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  /* Botões do modal */
-  .top-buttons {
-    position: static;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 50%;
-    margin-top: 90%;
-    width: 100%;
-  }
-
-  .top-buttons .menu-btn {
-    flex:  1 auto;
-    min-width: 120%;
-    font-size: 0.9rem;
-    text-align: center;
-  }
-
-  .left-column {
-    flex: 1 1 100%;
-    max-width: 100%;
+  .site-list, .painel-lista, .painel-acessos, #acessos-remotos-list {
+    overflow-x: auto !important;
+    font-size: 1em !important;
   }
 }
