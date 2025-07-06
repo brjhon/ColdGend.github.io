@@ -10,30 +10,60 @@
 </head>
 <body>
   <img id="imgPainel" src="" alt="Visualização" />
-  <script>
-    function getParam(name) {
-      const url = new URL(window.location.href);
-      return url.searchParams.get(name);
-    }
-    let tipo = getParam('tipo') || 'estagio';
-    let nivel = getParam('nivel') || '1';
-    let src = '';
+  
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+import { getFirestore, doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
-    if (tipo === 'estagio') {
-      src = 'estagios/estagio' + nivel + '.jpg';
-    } else if (tipo === 'calor') {
-      src = 'nils-calor/calor' + nivel + '.jpg';
-    }
-    const imgPainel = document.getElementById('imgPainel');
-    imgPainel.src = src;
-    document.title = (tipo === 'estagio' ? 'Estágio ' : 'Calor ') + nivel;
+const firebaseConfig = {
+  apiKey: "AIzaSyCpnDf40JQ3COptyNJFZnqj9niTn5iBDeY",
+  authDomain: "coldgend.firebaseapp.com",
+  projectId: "coldgend",
+  storageBucket: "coldgend.appspot.com",
+  messagingSenderId: "82052509807",
+  appId: "1:82052509807:web:c03348372ed390ba101d9a",
+  measurementId: "G-7CN6FW8GDX"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    // Fullscreen ao clicar
-    imgPainel.addEventListener('click', function(){
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-      }
-    });
-  </script>
+function getParam(name) {
+  const url = new URL(window.location.href);
+  return url.searchParams.get(name);
+}
+const tipo = getParam('tipo') || 'estagio';
+const imgPainel = document.getElementById('imgPainel');
+
+function atualizarVisualizacao(valor) {
+  if (tipo === 'estagio') {
+    imgPainel.src = 'estagios/estagio' + valor + '.jpg';
+    document.title = 'Estágio ' + valor;
+  } else if (tipo === 'calor') {
+    imgPainel.src = 'nils-calor/calor' + valor + '.jpg';
+    document.title = 'Calor ' + valor;
+  }
+}
+
+// 1. Pega o valor inicial ao abrir
+async function carregarValorInicial() {
+  let campo = tipo === 'estagio' ? 'estagio_atual' : 'calor_atual';
+  const snap = await getDoc(doc(db, "painel", campo));
+  if (snap.exists() && snap.data().valor) {
+    atualizarVisualizacao(snap.data().valor);
+  }
+}
+carregarValorInicial();
+
+// 2. Escuta mudanças em tempo real
+let campo = tipo === 'estagio' ? 'estagio_atual' : 'calor_atual';
+onSnapshot(doc(db, "painel", campo), (snapshot) => {
+  const data = snapshot.data();
+  if (data && data.valor) {
+    atualizarVisualizacao(data.valor);
+  }
+});
+</script>
+
+
 </body>
 </html>

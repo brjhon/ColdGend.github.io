@@ -238,7 +238,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, getDocs, doc, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
   
   const firebaseConfig = {
     apiKey: "AIzaSyCpnDf40JQ3COptyNJFZnqj9niTn5iBDeY",
@@ -273,6 +273,7 @@
   const calorBanner = document.getElementById("calorBanner");
   const menuCalor = document.getElementById("menuCalor");
   const btnAbrirVisualizadorCalor = document.getElementById("btnAbrirVisualizadorCalor");
+ 
   let stream;
 
   // Seletor de estágio
@@ -334,6 +335,7 @@ for (let i = 1; i <= totalEstagios; i++) {
   
 // Cria itens do menu de calor
 for (let i = 1; i <= totalCalor; i++) {
+
   const item = document.createElement('div');
   item.className = 'calor-item' + (i === calorAtual ? ' selected' : '');
   const mini = document.createElement('img');
@@ -351,11 +353,14 @@ for (let i = 1; i <= totalCalor; i++) {
     menuCalor.querySelectorAll('.calor-item').forEach(el => el.classList.remove('selected'));
     this.classList.add('selected');
     menuCalor.style.display = 'none';
-    // Se quiser sincronizar com Firebase, chame aqui!
+      atualizarCalorFirebase(calorAtual);
     e.stopPropagation();
   });
   menuCalor.insertBefore(item, btnAbrirVisualizadorCalor);
 }
+
+buscarEstagioInicial();
+buscarCalorInicial();
 
   function updateContadoresRemotos() {
   const total = acessosRemotos.length;
@@ -459,8 +464,40 @@ for (let i = 1; i <= totalCalor; i++) {
   }
 
   async function atualizarEstagioFirebase(estagioAtual) {
-  await setDoc(doc(db, "painel", "estagio_atual"), { valor: estagioAtual });
+    await setDoc(doc(db, "painel", "estagio_atual"), { valor: estagioAtual });
 }
+
+  async function atualizarCalorFirebase(calorAtual) {
+    await setDoc(doc(db, "painel", "calor_atual"), { valor: calorAtual });
+}
+
+async function buscarEstagioInicial() {
+  console.log("Rodando buscarEstagioInicial...");
+  const docSnap = await getDoc(doc(db, "painel", "estagio_atual"));
+  if (docSnap.exists() && docSnap.data().valor) {
+    estagioAtual = docSnap.data().valor;
+    estagioImgBanner.src = `${pastaEstagios}/estagio${estagioAtual}${extensao}`;
+    // Atualiza o menu de seleção (deixa selecionado o correto)
+    menuEstagios.querySelectorAll('.estagio-item').forEach((el, i) => {
+      el.classList.toggle('selected', i+1 === estagioAtual);
+    });
+    console.log("Estágio inicial do Firestore:", estagioAtual);
+  }
+}
+
+async function buscarCalorInicial() {
+  console.log("Rodando buscarCalorInicial...");
+  const docSnap = await getDoc(doc(db, "painel", "calor_atual"));
+  if (docSnap.exists() && docSnap.data().valor) {
+    calorAtual = docSnap.data().valor;
+    calorImgBanner.src = `${pastaCalor}/calor${calorAtual}${extCalor}`;
+    menuCalor.querySelectorAll('.calor-item').forEach((el, i) => {
+      el.classList.toggle('selected', i+1 === calorAtual);
+    });
+    console.log("Calor inicial do Firestore:", calorAtual);
+  }
+}
+
 
 /*   Revalida o status de todas as câmeras (Infra Remota). */
   async function recarregarTodosAcessosRemotos() {
@@ -1253,10 +1290,6 @@ window.addEventListener("load", () => {
     e.stopPropagation();
   });
 
-  // Botão para abrir o visualizador em tela cheia
-  btnAbrirVisualizador.addEventListener('click', function () {window.open(`visualizar.html`, '_blank');
-  });
-
   // Abrir menu ao clicar no banner
   calorBanner.addEventListener('click', function (e) {menuCalor.style.display = menuCalor.style.display === 'flex' ? 'none' : 'flex';
     e.stopPropagation();
@@ -1268,15 +1301,20 @@ window.addEventListener("load", () => {
   menuCalor.addEventListener('click', function (e) {e.stopPropagation();
   });
 
-  // Botão para abrir o visualizador em tela cheia
-  btnAbrirVisualizadorCalor.addEventListener('click', function () {window.open(`visualizar_calor.html`, '_blank');
+  // Botão para abrir o visualizador em tela cheia (estágio)
+  // Estágio
+  btnAbrirVisualizador.addEventListener('click', function () {
+    console.log('Botão Estágio clicado!');
+  window.open('visualizar.html?tipo=estagio', '_blank');
   });
 
-   btnAbrirVisualizadorCalor.addEventListener('click', function () {
-  // Modo 1: Abre página visualizadora passando o calor selecionado
-  window.open(`visualizar.html?tipo=calor&nivel=${calorAtual}`, '_blank');
-   });
- 
+  // Botão para abrir o visualizador em tela cheia (calor)
+  // Calor
+  btnAbrirVisualizadorCalor.addEventListener('click', function () {
+    console.log('Botão Calor clicado!');
+  window.open('visualizar.html?tipo=calor', '_blank');
+  });
+
   document.getElementById("btnAnyDesk").addEventListener("click", () => {
     document.getElementById("mainSites").style.display = "none";
     document.getElementById("mainAnyDesk").style.display = "flex";
