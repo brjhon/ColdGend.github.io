@@ -1055,7 +1055,6 @@ header img {
   }
 }
 
-@media (max-width: 450px) {
 
 @media (max-width: 450px) {
   .seletor-estagio, .seletor-calor {
@@ -1179,7 +1178,7 @@ header img {
     font-size: 1.05em !important;
     margin: 0.38em 0 0.35em 0 !important;
   }
-}
+
 
 /* Ultra compacto para mini celular */
 @media (max-width: 420px) {
