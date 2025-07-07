@@ -963,98 +963,6 @@ header img {
 /* MOBILE e RESPONSIVIDADE AVANÇADA - Cola no final do style.css */
 
 /* Ajusta header e painéis para ocupar menos espaço no mobile */
-@media (max-width: 650px) {
-  header {
-    height: auto !important;
-    min-height: 80px !important;
-    padding-bottom: 4vw !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    position: relative !important;
-  }
-  .seletor-estagio, .seletor-calor {
-    width: 98vw !important;
-    max-width: 100vw !important;
-    min-width: 0 !important;
-    height: 36vw !important;
-    min-height: 48px !important;
-    max-height: 90px !important;
-    margin: 6px auto  !important;
-    padding: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    position: relative !important;
-    z-index: 100 !important;
-  }
-  .right-image-panel {
-    display: none !important;
-  }
-  .main {
-    padding: 0 !important;
-    margin-top: 0 !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-    max-width: 100vw !important;
-    width: 100vw !important;
-  }
-  .left-column, .right-column {
-    width: 97vw !important;
-    min-width: 0 !important;
-    max-width: 99vw !important;
-    padding: 2vw 2vw !important;
-    margin: 0 0 16px 0 !important;
-    border-radius: 10px !important;
-  }
-  .input-area input, .input-area select, .input-area textarea,
-  #searchInput, #searchRemoteInput, #searchAnyDeskInput {
-    font-size: 1em !important;
-    width: 97vw !important;
-    max-width: 99vw !important;
-    min-width: 0 !important;
-    padding: 10px 1vw !important;
-    margin-bottom: 8px !important;
-    box-sizing: border-box !important;
-  }
-  button, .btn, .exportar, .painel-lista button, .top-buttons button {
-    width: 97vw !important;
-    max-width: 99vw !important;
-    font-size: 1em !important;
-    padding: 10px 0 !important;
-    border-radius: 8px !important;
-    margin-bottom: 7px !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-  }
-  .top-buttons {
-    position: static !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    padding: 7px 0 !important;
-    margin-bottom: 3px !important;
-    font-size: 0.98em !important;
-    width: 97vw !important;
-    max-width: 99vw !important;
-    margin: 10px auto !important;
-    gap: 7px !important;
-    z-index: 10 !important;
-    left: 0 !important;
-    top: 0 !important;
-    transform: none !important;
-  }
-  .site-list, .painel-lista, .painel-acessos, #acessos-remotos-list {
-    width: 97vw !important;
-    max-width: 99vw !important;
-    padding: 0 1vw !important;
-    min-width: 0 !important;
-    font-size: 1em !important;
-    box-sizing: border-box !important;
-  }
-  .modal-content {
-    max-width: 99vw !important;
-    padding: 18px 2vw !important;
-  }
-}
-
 
 @media (max-width: 450px) {
   .seletor-estagio, .seletor-calor {
@@ -1123,9 +1031,8 @@ header img {
     margin-bottom: 6px !important;
     border-radius: 7px !important;
   }
-}
 
-
+  
     /* Inputs e labels mais compactos */
   .painel-lista input,
   .painel-lista select,
@@ -1180,70 +1087,7 @@ header img {
   }
 
 
-/* Ultra compacto para mini celular */
-@media (max-width: 420px) {
-  .left-column, .right-column,
-  .main, .top-buttons,
-  .site-list, .painel-lista, .painel-acessos {
-    width: 99vw !important;
-    max-width: 100vw !important;
-    min-width: 0 !important;
-    padding: 0 1vw !important;
-    margin: 0 0 10px 0 !important;
-  }
-
-  .seletor-estagio, .seletor-calor {
-    height: 80vw !important;
-    min-height: 52px !important;
-    font-size: 0.99em !important;
-  }
-
-  .input-area input, .input-area select, .input-area textarea,
-  #searchInput, #searchRemoteInput, #searchAnyDeskInput {
-    font-size: 0.98em !important;
-    padding: 8px 2vw !important;
-  }
-
-  button, .btn, .exportar, .painel-lista button, .top-buttons button {
-    font-size: 0.96em !important;
-    min-width: 60px !important;
-    padding: 8px 0 !important;
-  }
 
 }
 
-@media (max-width: 400px) {
-  .painel-lista .card-acesso, .painel-lista .card-site, .painel-lista .card {
-    padding: 8px 3vw !important;
-    font-size: 0.98em !important;
-    margin-bottom: 8px !important;
-    border-radius: 10px !important;
-  }
-  .painel-lista .acoes, .acoes {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 3px !important;
-    margin-top: 7px !important;
-  }
-  .painel-lista .acoes button, .acoes button {
-    width: 100% !important;
-    font-size: 1em !important;
-    margin-bottom: 2px !important;
-    padding: 6px 0 !important;
-  }
-  .painel-lista .status {
-    font-size: 0.99em !important;
-    margin-bottom: 2px !important;
-  }
-}
 
-/* Esconde painel/imagem lateral em telas pequenas */
-@media (max-width: 600px) {
-  .right-image-panel {
-    display: none !important;
-  }
-  .site-list, .painel-lista, .painel-acessos, #acessos-remotos-list {
-    overflow-x: auto !important;
-    font-size: 1em !important;
-  }
-}
