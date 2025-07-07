@@ -1,23 +1,56 @@
-<div class="seletor-estagio" style="position:relative;width:340px;height:120px;">
-  <img src="img/fundo.jpg" class="fundo-prefeitura"/>
-  <div id="estagioBanner" class="card-estagio" style="position:absolute;top:0;left:0;width:100%;height:100%;">
-    <img id="estagioImgBanner" src="estagios/estagio1.jpg" style="width:100%;height:100%;"/>
-    <div id="menuEstagios" style="display:none;position:absolute;top:100%;left:0;width:100%;background:#222e;border-radius:0 0 12px 12px;z-index:100;">
-      <button id="btnAbrirVisualizador">Abrir em tela cheia</button>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>7 Estratégias para Vender Mais Online</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+  <!-- Hero Section -->
+  <section class="text-center p-8 bg-blue-600 text-white">
+    <h1 class="text-3xl md:text-5xl font-bold">Baixe Gratuitamente: 7 Estratégias para Vender Mais Online</h1>
+    <p class="mt-4 text-lg">Aprenda técnicas comprovadas para aumentar suas vendas digitais</p>
+    <a href="#formulario" class="mt-6 inline-block bg-yellow-400 text-black font-bold py-3 px-6 rounded hover:bg-yellow-500 transition">Quero o eBook</a>
+  </section>
+
+  <!-- Imagem da Capa -->
+  <section class="p-8 flex justify-center bg-gray-100">
+    <img src="capa-ebook.png" alt="Capa do eBook" class="max-w-xs md:max-w-md rounded shadow-lg" />
+  </section>
+
+  <!-- Depoimentos -->
+  <section class="p-8 bg-white text-center">
+    <h2 class="text-2xl font-bold mb-6">O que dizem nossos leitores:</h2>
+    <div class="grid md:grid-cols-3 gap-4">
+      <blockquote class="bg-gray-100 p-4 rounded shadow">"Simplesmente transformador!"</blockquote>
+      <blockquote class="bg-gray-100 p-4 rounded shadow">"Aumentei minhas vendas em uma semana."</blockquote>
+      <blockquote class="bg-gray-100 p-4 rounded shadow">"Muito bem explicado e direto ao ponto."</blockquote>
     </div>
-  </div>
-</div>
+  </section>
+
+  <!-- Formulário de Captura -->
+  <section id="formulario" class="p-8 bg-blue-50 text-center">
+    <h2 class="text-2xl font-bold mb-4">Receba o eBook no seu e-mail</h2>
+    <form class="max-w-md mx-auto">
+      <input type="text" placeholder="Seu nome" class="w-full mb-4 px-4 py-2 border rounded" required />
+      <input type="email" placeholder="Seu e-mail" class="w-full mb-4 px-4 py-2 border rounded" required />
+      <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 rounded hover:bg-blue-700 transition">Baixar eBook</button>
+    </form>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="p-4 bg-gray-800 text-white text-center text-sm">
+    &copy; 2025 Sua Empresa. Todos os direitos reservados.
+  </footer>
+
 <script>
-const estagioBanner = document.getElementById("estagioBanner");
-const menuEstagios = document.getElementById("menuEstagios");
-estagioBanner.addEventListener('click', function(e){
-  menuEstagios.style.display = menuEstagios.style.display === 'flex' ? 'none' : 'flex';
-  e.stopPropagation();
-});
-document.body.addEventListener('click', function(){
-  menuEstagios.style.display = 'none';
-});
-menuEstagios.addEventListener('click', function(e){
-  e.stopPropagation();
-});
+  document.querySelector("form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    alert("Obrigado! Seu eBook será enviado por e-mail.");
+  });
 </script>
+
+</body>
+</html>

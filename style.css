@@ -71,7 +71,7 @@ width: 10%;
   display: none;
   position: absolute;
   top: 0%;
-  left: 0;
+  left: 0%;
   width: 100%;
   min-width: 240px;
   background: rgba(34, 46, 56, 0.97);
@@ -147,8 +147,6 @@ width: 10%;
   z-index: 10000 !important; /* z-index ALTO para ficar acima do card/fundo */
   padding-bottom: 10px;
 }
-
-
 
 /* ---------- FIM DO SELETOR DE ESTÁGIO ---------- */
 
@@ -960,134 +958,207 @@ header img {
   cursor: not-allowed;
 }
 
-/* MOBILE e RESPONSIVIDADE AVANÇADA - Cola no final do style.css */
 
 /* Ajusta header e painéis para ocupar menos espaço no mobile */
 
 @media (max-width: 450px) {
-  .seletor-estagio, .seletor-calor {
-    display: block !important;
-    position: static !important;
-    width: 99vw !important;
-    max-width: 99vw !important;
-    height: 16vw !important;
-    min-height: 28px !important;
-    max-height: 34px !important;
-    margin: 4px auto 2px auto !important;
-    padding: 0 !important;
-    box-shadow: 0 3px 13px #0002 !important;
-    border-radius: 10px !important;
-    overflow: hidden !important;
-  }
-  .seletor-estagio img, .seletor-calor img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    border-radius: 10px !important;
+
+  /* 1) Header fica flexível e auto-height */
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: auto !important;
+    padding: 10px 5px !important;
   }
 
-  .top-buttons, .top-buttons * {
-    margin-top: 1vw !important;
-    gap: 6px !important;
-    width: 100vw !important;
-    max-width: 9vw !important;
-    left: 20% !important;
-    right: 0% !important;
-    
-    font-size: 0.99em !important;
-  }
-  .top-buttons button {
-    width: 19vw !important;
-    padding: 7px 0 !important;
-   
-    margin-bottom: 0px !important;
-    font-size: 0.97em !important;
-    border-radius: 8px !important;
+  /* 1. Oculta os banners grandes do topo */
+  .seletor-estagio,
+  .seletor-calor {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 1px !important;
+    height: 1px !important; 
   }
 
-  .painel-lista, .main-content, .left-column, .right-column {
-    width: 99vw !important;
-    padding: 4px 1vw !important;
-    margin: 7px auto 9px auto !important;
+  /* 2. Botão flutuante para abrir os seletores */
+ .btn-modal-seletores {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  font-size: 1em !important;
+  background: #156f70 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  margin: 0 0 0 0 !important;
+  box-shadow: none !important;
+  padding: 10px 0 !important;
+}
+.btn-modal-seletores:active,
+.btn-modal-seletores:hover {
+  background: #21c3b1 !important;
+}
+
+  /* 3. Modal dos seletores (ajuste conforme já postei antes) */
+  .modal-seletores-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 28, 36, 0.84);
+    z-index: 13000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-seletores-bg.open {
+    display: flex !important;
+  }
+  .modal-seletores-box {
+    background: #113;
+    padding: 22px 18px 14px 18px;
+    border-radius: 18px;
+    width: 96vw;
+    max-width: 360px;
+    color: #fff;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 8px 32px #0007;
+  }
+  /* Miniaturas de seleção */
+  .mini-selector-btn {
+    display: inline-block;
+    margin: 8px 6px;
+    padding: 0;
+    border: 2px solid transparent;
+    background: #2979ff;
+    border-radius: 11px;
+    cursor: pointer;
+    overflow: hidden;
+    width: 80px;
+    height: 64px;
+    vertical-align: top;
+    position: relative;
+    transition: border .18s;
+  }
+  .mini-selector-btn.selected {
+    border: 2.5px solid #19b394;
+    background: #126f5e;
+  }
+  .mini-img {
+    width: 100%;
+    height: 36px;
+    object-fit: cover;
+    display: block;
+    border-radius: 9px 9px 0 0;
+  }
+  .mini-label {
+    display: block;
+    width: 100%;
+    font-size: 0.96em;
+    padding: 3px 0 0 0;
+    text-align: center;
+    color: #fff;
+    background: #19b39422;
+    border-radius: 0 0 11px 11px;
+  }
+
+  /* 4. Painéis/listas justos, inputs 100% */
+  .painel-lista, .painel-acessos, .main-content, .left-column, .right-column {
+    width: 95vw !important;
+    max-width: 98vw !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding: 8px 3vw 10px 3vw !important;
     border-radius: 10px !important;
+    margin: 0 auto !important;
   }
-  .painel-lista h1, .painel-lista h2 {
-    font-size: 1em !important;
-    margin-bottom: 0.45em !important;
-    margin-top: 0.1em !important;
-  }
-  input, select, textarea {
-    width: 98vw !important;
-    max-width: 99vw !important;
-    padding: 8px 1vw !important;
-    margin-bottom: 6px !important;
-    font-size: 0.97em !important;
-    border-radius: 7px !important;
-  }
-  button, .btn, .exportar {
-    width: 98vw !important;
-    padding: 8px 0 !important;
-    font-size: 0.97em !important;
-    margin-bottom: 6px !important;
-    border-radius: 7px !important;
-  }
-
-  
-    /* Inputs e labels mais compactos */
   .painel-lista input,
   .painel-lista select,
   .painel-lista textarea,
-  .painel-lista label,
+  .painel-lista button,
   .painel-acessos input,
   .painel-acessos select,
   .painel-acessos textarea,
-  .painel-acessos label,
-  .input-area input,
-  .input-area select,
-  .input-area textarea {
-    font-size: 0.99em !important;
-    padding: 8px 1vw !important;
-    margin-bottom: 7px !important;
-    border-radius: 7px !important;
-    width: 97vw !important;
-    max-width: 100vw !important;
-    min-width: 0 !important;
-  }
-
-  /* Botões ainda mais enxutos */
-  .painel-lista button,
   .painel-acessos button,
-  .top-buttons button,
   .btn,
   .exportar {
-    font-size: 0.96em !important;
-    padding: 8px 0 !important;
-    margin-bottom: 5px !important;
-    width: 97vw !important;
-    border-radius: 7px !important;
+    width: 100% !important;
     min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    display: block !important;
+    font-size: 1.08em !important;
+    padding: 10px 0 !important;
+    border-radius: 8px !important;
+    margin-bottom: 9px !important;
   }
 
-  /* Cards/painéis bem justos */
-  .painel-lista, .painel-acessos, .main-content, .left-column, .right-column {
-    padding: 3px 1vw !important;
-    margin-bottom: 6px !important;
-    border-radius: 9px !important;
-    width: 99vw !important;
+  /* Botões flutuantes, topo etc — ajuste aqui */
+  .top-buttons {
+    position: static !important;
+    width: 95vw !important;
+    max-width: 97vw !important;
+    margin: 8px auto 7px auto !important;
+    gap: 10px !important;
+    left: 0 !important;
+    right: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    font-size: 1em !important;
+    margin-left: 55% !important;
+    margin-top: 65% !important;
+  }
+  .top-buttons button {
+    width: 90% !important;
     min-width: 0 !important;
+    max-width: 100% !important;
+    padding: 10px 0 !important;
+    margin-bottom: 0 !important;
+    font-size: 1em !important;
+    border-radius: 8px !important;
+    box-sizing: border-box !important;
   }
 
-  /* Título menor, mais compacto */
-  .painel-lista h2,
-  .painel-lista h1,
-  .painel-acessos h2,
-  .painel-acessos h1 {
-    font-size: 1.05em !important;
-    margin: 0.38em 0 0.35em 0 !important;
+  .painel-lista h1, .painel-lista h2,
+  .painel-acessos h2, .painel-acessos h1 {
+    font-size: 1.04em !important;
+    margin-bottom: 0.38em !important;
+    margin-top: 0.0em !important;
   }
 
+  /* mostra o botão no mobile */
+  #btnAbrirModalSeletores {
+    display: block !important;
 
+  }
 
+  /* o botão interno de “Abrir em tela cheia” podemos esconder (opcional) */
+  #btnAbrirVisualizador,
+  #btnAbrirVisualizadorCalor {
+    display: none !important;
+  }
+
+  /* SCROLLBAR MODERNA E DISCRETA */
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+    background: #0f2b2c;
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2c5454;
+    border-radius: 8px;
+    border: 1.5px solid #243434;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #388484;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #388484 #0f2b2c;
+  } 
 }
-
-

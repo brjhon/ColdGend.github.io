@@ -35,7 +35,7 @@
       style="width:100%; height:100%; object-fit:cover; border-radius:12px;"/>
   </div>
 
-    <div class="seletor-estagio seletor-calor" style="position:absolute; top:0px; right:0px; z-index:10;">
+    <div class=" seletor-calor" style="position:absolute; top:0px; right:0px; z-index:10;">
   <div id="calorBanner" style="cursor:pointer; position:relative; width:320px; height:179px;">
     <img id="calorImgBanner" src="nils-calor/calor1.jpg" alt="Calor Atual"
       style="width:100%; height:100%; object-fit:cover; border-radius:14px; box-shadow:0 2px 12px #0005;">
@@ -56,6 +56,11 @@
   <button class="action-button" id="btnSites">Gerenciar Sistemas</button>
   <button class="action-button" id="btnAnyDesk">Conexões AnyDesk</button>
   <button class="action-button" id="btnAcessosRemotos">Infraestrutura Remota</button>
+    
+  <!-- Botão para abrir o modal (só aparece no mobile) -->
+  <button id="btnAbrirModalSeletores" class="btn-modal-seletores" title="Selecionar Estágio / Calor">
+    Selecionar Estágio / Calor
+  </button>
 </div>
  
 <!-- Área Sites -->
@@ -115,7 +120,7 @@
 </main>
 
 <!-- Modal de edição (sites) -->
-<div class="modal" id="editModal" style="display: none;">
+<div class="modal" id="editModal" >
   <div class="modal-content">
     <h3>Editar Registro</h3>
     <input id="editNome" placeholder="Nome do sistema" type="text"/>
@@ -235,6 +240,10 @@
     <button id="btnFecharDetalhes" class="clear-button">Fechar</button>
   </div>
 </div>
+
+
+
+
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
@@ -372,6 +381,10 @@ buscarCalorInicial();
 
   function renderizarSites() {
     const siteList = document.getElementById("site-list");
+    if (!siteList) {
+    console.warn('Elemento #site-list não encontrado no DOM!');
+      return; // Sai da função se não existe, assim evita qualquer erro.
+    }
     siteList.innerHTML = "";
 
     let sitesFiltrados = sites.filter(site => site.nome.toLowerCase().includes(filtroAtual.toLowerCase()));
@@ -471,7 +484,7 @@ buscarCalorInicial();
     await setDoc(doc(db, "painel", "calor_atual"), { valor: calorAtual });
 }
 
-async function buscarEstagioInicial() {
+  async function buscarEstagioInicial() {
   console.log("Rodando buscarEstagioInicial...");
   const docSnap = await getDoc(doc(db, "painel", "estagio_atual"));
   if (docSnap.exists() && docSnap.data().valor) {
@@ -485,7 +498,7 @@ async function buscarEstagioInicial() {
   }
 }
 
-async function buscarCalorInicial() {
+  async function buscarCalorInicial() {
   console.log("Rodando buscarCalorInicial...");
   const docSnap = await getDoc(doc(db, "painel", "calor_atual"));
   if (docSnap.exists() && docSnap.data().valor) {
@@ -499,7 +512,7 @@ async function buscarCalorInicial() {
 }
 
 
-/*   Revalida o status de todas as câmeras (Infra Remota). */
+  /*   Revalida o status de todas as câmeras (Infra Remota). */
   async function recarregarTodosAcessosRemotos() {
     if (acessosRemotos.length === 0) return;
     await Promise.all(
@@ -1268,6 +1281,8 @@ async function testarCameraIndividual(ip, id) {
   }); 
 });
 
+ 
+
 window.addEventListener("load", () => {
   // Seções principais
   document.getElementById("btnSites").addEventListener("click", () => {
@@ -1276,9 +1291,29 @@ window.addEventListener("load", () => {
     document.getElementById("mainAcessosRemotos").style.display = "none";
   });
 
+  // Quando clicar no botão, dispara o mesmo evento de abrir menu do banner
+  // Mostra botão apenas no mobile
+  const btnSeletores = document.getElementById("btnAbrirModalSeletores");
+  if (window.innerWidth <= 600 && btnSeletores) {
+    btnSeletores.style.display = "block";
+    btnSeletores.onclick = function () {
+      let abriu = false;
+      const bannerEstagio = document.getElementById("estagioBanner");
+      const bannerCalor = document.getElementById("calorBanner");
+      if (bannerEstagio) {
+        bannerEstagio.click();
+        abriu = true;
+      }
+      if (bannerCalor) {
+        bannerCalor.click();
+        abriu = true;
+      }
+      if (!abriu) alert('Nenhum seletor disponível!');
+    };
+  }
+
   // Abrir menu ao clicar no banner
-  estagioBanner.addEventListener('click', function (e) {menuEstagios.style.display = menuEstagios.style.display === 'flex' ? 'none' : 'flex';
-    e.stopPropagation();
+  estagioBanner.addEventListener('click', function (e) {menuEstagios.style.display = menuEstagios.style.display === 'flex' ? 'none' : 'flex'; e.stopPropagation();
   });
 
   // Fecha menu ao clicar fora
@@ -1286,13 +1321,11 @@ window.addEventListener("load", () => {
   });
 
   // Previne fechamento do menu ao clicar dentro
-  menuEstagios.addEventListener('click', function (e) {
-    e.stopPropagation();
+  menuEstagios.addEventListener('click', function (e) {e.stopPropagation();
   });
 
   // Abrir menu ao clicar no banner
-  calorBanner.addEventListener('click', function (e) {menuCalor.style.display = menuCalor.style.display === 'flex' ? 'none' : 'flex';
-    e.stopPropagation();
+  calorBanner.addEventListener('click', function (e) {menuCalor.style.display = menuCalor.style.display === 'flex' ? 'none' : 'flex';e.stopPropagation();
   });
 
   document.body.addEventListener('click', function () {menuCalor.style.display = 'none';
@@ -1303,17 +1336,29 @@ window.addEventListener("load", () => {
 
   // Botão para abrir o visualizador em tela cheia (estágio)
   // Estágio
-  btnAbrirVisualizador.addEventListener('click', function () {
-    console.log('Botão Estágio clicado!');
-  window.open('visualizar.html?tipo=estagio', '_blank');
+  btnAbrirVisualizador.addEventListener('click', function () {console.log('Botão Estágio clicado!'); window.open('visualizar.html?tipo=estagio', '_blank');
   });
 
   // Botão para abrir o visualizador em tela cheia (calor)
   // Calor
-  btnAbrirVisualizadorCalor.addEventListener('click', function () {
-    console.log('Botão Calor clicado!');
-  window.open('visualizar.html?tipo=calor', '_blank');
+  btnAbrirVisualizadorCalor.addEventListener('click', function () {console.log('Botão Calor clicado!');window.open('visualizar.html?tipo=calor', '_blank');
   });
+
+  const btnSel = document.getElementById("btnAbrirModalSeletores");
+
+  // abre ambos os menus full-screen
+ btnSel.addEventListener("click", e => {
+  const aberto = menuEstagios.style.display === "flex";
+  menuEstagios.style.display = aberto ? "none" : "flex";
+  menuCalor  .style.display = aberto ? "none" : "flex";
+  e.stopPropagation();
+});
+
+// fechar ao clicar fora
+document.body.addEventListener("click", () => {
+  menuEstagios.style.display = "none";
+  menuCalor  .style.display = "none";
+});
 
   document.getElementById("btnAnyDesk").addEventListener("click", () => {
     document.getElementById("mainSites").style.display = "none";
@@ -1386,11 +1431,7 @@ window.addEventListener("load", () => {
       filtroAnyDesk = e.target.value.trim().toLowerCase();
       renderizarAnyDesk();
     });
-
-});
-// ✅ já chama carregarAcessosRemotos normalmente
-
+  });
 </script>
-
 </body>
 </html>
