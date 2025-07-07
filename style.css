@@ -285,8 +285,9 @@ header img {
 }
 
 .action-button {
-  padding: 12px 30px;
+  padding: 12px 0px;
   background-color: #3a5a5a;
+  margin-top: 0;
   color: white;
   font-weight: bold;
   border: none;
@@ -320,6 +321,7 @@ header img {
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
+    z-index: 100; /* z-index alto para ficar acima de outros elementos */
   }
 
   .left-column:hover {
@@ -679,14 +681,15 @@ header img {
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.7);
   }
 
+/* Ajuste final para alinhar ao centro vertical da coluna e evitar topo */
 .top-buttons {
   position: absolute;
-  top: 250px; /* ou o valor ideal para desktop */
-  left: calc(50% - 685px); /* ajuste para alinhar à esquerda da .left-column */
+  top: 200px; /* deslocado para evitar sobrepor header */
+  left: calc(50% - 800px); /* alinhado com a borda da .left-column */
   display: flex;
   flex-direction: column;
   gap: 12px;
-  z-index: 100 !important; /* z-index baixo para ficar ATRÁS dos menus centrais */
+  z-index: 0;
 }
 
 .top-buttons button {
@@ -709,40 +712,6 @@ header img {
   background-color: #4caf50;
   color: white;
 }
-
-.top-buttons {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 10000;
-}
-
-/* Botões ao lado da primeira coluna */
-.top-buttons {
-  position: absolute;
-  top: 210px;
-  left: calc(50% - 640px); /* alinhado à esquerda da primeira coluna */
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 10000;
-}
-
-/* Ajuste refinado dos botões ao lado da primeira coluna */
-.top-buttons {
-  position: absolute;
-  top: 220px;
-  left: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 10000;
-}
-
 .top-buttons button {
   min-width: 120px;
   padding: 10px;
@@ -761,16 +730,6 @@ header img {
   transform: translateX(2px);
 }
 
-/* Ajuste final para alinhar ao centro vertical da coluna e evitar topo */
-.top-buttons {
-  position: absolute;
-  top: 250px; /* deslocado para evitar sobrepor header */
-  left: calc(50% - 685px); /* alinhado com a borda da .left-column */
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 10000;
-}
 
 .top-buttons button {
   min-width: 130px;
@@ -807,7 +766,7 @@ header img {
 .registro-botoes {
   display: flex;
   gap: 10px;
-}
+}.seletor-estagio
 
 .registro-botoes button {
   padding: 8px 12px;
@@ -957,8 +916,6 @@ header img {
   background-color: #555;
   cursor: not-allowed;
 }
-
-
 /* Ajusta header e painéis para ocupar menos espaço no mobile */
 
 @media (max-width: 450px) {
@@ -973,13 +930,13 @@ header img {
   }
 
   /* 1. Oculta os banners grandes do topo */
-  .seletor-estagio,
+/*   .seletor-estagio,
   .seletor-calor {
     opacity: 0 !important;
     pointer-events: none !important;
     width: 1px !important;
     height: 1px !important; 
-  }
+  } */
 
   /* 2. Botão flutuante para abrir os seletores */
  .btn-modal-seletores {
@@ -1103,14 +1060,11 @@ header img {
     max-width: 97vw !important;
     margin: 8px auto 7px auto !important;
     gap: 10px !important;
-    left: 0 !important;
-    right: 0 !important;
     display: flex !important;
     flex-direction: column !important;
-    align-items: stretch !important;
     font-size: 1em !important;
-    margin-left: 55% !important;
-    margin-top: 65% !important;
+    margin-left: 7% !important;
+    margin-top: 45% !important;
   }
   .top-buttons button {
     width: 90% !important;
@@ -1162,3 +1116,67 @@ header img {
     scrollbar-color: #388484 #0f2b2c;
   } 
 }
+
+/* === MOBILE (até 450px) === */
+@media (max-width: 450px) {
+  /* ——— Botão mobile ——— */
+
+
+  /* ——— Esconde só as imagens de banner, mantendo o container vivo para o menu ——— */
+  .seletor-estagio img#estagioImgBanner,
+  .seletor-calor  img#calorImgBanner {
+    display: none !important;
+  }
+
+  /* ——— Menus em full-screen, mas sempre ocultos por padrão ——— */
+  #menuEstagios{
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 50vw !important;
+    height: 70vh !important;
+    background: rgba(0,0,0,0.9) !important;
+    display: none !important;        /* o JS irá alternar inline-style para “flex” */
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    padding: 20px 0;
+    z-index: 1000 !important;
+  }
+
+   #menuCalor {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 50vw !important;
+    height: 70vh !important;
+    background: rgba(0,0,0,0.9) !important;
+    display: none !important;        /* o JS irá alternar inline-style para “flex” */
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    padding: 20px 0;
+    z-index: 1000 !important;
+  }
+
+  /* ——— Quando o JS fizer menuEstagios.classList.toggle("open") — mostra! ——— */
+  #menuEstagios.open,
+  #menuCalor    .open {
+    display: flex !important;
+  }
+
+  /* ——— Aumenta alvos de toque ——— */
+  #menuEstagios .estagio-item,
+  #menuCalor    .calor-item {
+    width: 90% !important;
+    margin: 10px 0 !important;
+    font-size: 1.2rem !important;
+  }
+  #menuEstagios .estagio-item img,
+  #menuCalor    .calor-item img {
+    width: 80px !important;
+    height: 50px !important;
+  }
+}
+
+

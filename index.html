@@ -282,7 +282,13 @@
   const calorBanner = document.getElementById("calorBanner");
   const menuCalor = document.getElementById("menuCalor");
   const btnAbrirVisualizadorCalor = document.getElementById("btnAbrirVisualizadorCalor");
- 
+
+  const btnSeletores    = document.getElementById("btnAbrirModalSeletores");
+  const bannerEstagio   = document.getElementById("estagioBanner");
+  const bannerCalor     = document.getElementById("calorBanner");
+
+
+  
   let stream;
 
   // Seletor de estágio
@@ -510,7 +516,6 @@ buscarCalorInicial();
     console.log("Calor inicial do Firestore:", calorAtual);
   }
 }
-
 
   /*   Revalida o status de todas as câmeras (Infra Remota). */
   async function recarregarTodosAcessosRemotos() {
@@ -1273,6 +1278,17 @@ async function testarCameraIndividual(ip, id) {
   document.getElementById("modalDetalhesEquipamento").style.display = "none";
 }
 
+  if (!btnSeletores) {
+    console.error("Não encontrei #btnAbrirModalSeletores");
+  } else {
+    // 2) sempre que clicarem, simulam o clique nos banners
+    btnSeletores.addEventListener("click", e => {
+      e.stopPropagation();
+      if (bannerEstagio) bannerEstagio.click();
+      if (bannerCalor)   bannerCalor.click();
+    });
+  }
+  
   document.getElementById("btnFecharDetalhes").addEventListener("click", fecharModalDetalhes);
   document.getElementById("btnCopiarDetalhes").addEventListener("click", () => {
   const texto = document.getElementById("detalhesTexto").innerText;
@@ -1346,18 +1362,17 @@ window.addEventListener("load", () => {
 
   const btnSel = document.getElementById("btnAbrirModalSeletores");
 
-  // abre ambos os menus full-screen
- btnSel.addEventListener("click", e => {
-  const aberto = menuEstagios.style.display === "flex";
-  menuEstagios.style.display = aberto ? "none" : "flex";
-  menuCalor  .style.display = aberto ? "none" : "flex";
+btnSel.addEventListener("click", e => {
+  // alterna a classe open em ambos
+  menuEstagios.classList.toggle("open");
+  menuCalor   .classList.toggle("open");
   e.stopPropagation();
 });
 
-// fechar ao clicar fora
+// fechar menus ao clicar fora
 document.body.addEventListener("click", () => {
-  menuEstagios.style.display = "none";
-  menuCalor  .style.display = "none";
+  menuEstagios.classList.remove("open");
+  menuCalor   .classList.remove("open");
 });
 
   document.getElementById("btnAnyDesk").addEventListener("click", () => {
