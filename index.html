@@ -61,6 +61,8 @@
   <button id="btnAbrirModalSeletores" class="btn-modal-seletores" title="Selecionar Estágio / Calor">
     Selecionar Estágio / Calor
   </button>
+
+
 </div>
  
 <!-- Área Sites -->
@@ -161,7 +163,7 @@
     />
     
     <!-- Modal de Edição AnyDesk -->
-  <div id="editAnyModal" class="modal">
+  <div id="editAnyModal" class="modal" style="display:none;">
       <div class="modal-content">
         <h3>Editar Conexão AnyDesk</h3>
         <input type="text" id="editAnyNome" placeholder="Nome do terminal"/>
@@ -283,12 +285,10 @@
   const menuCalor = document.getElementById("menuCalor");
   const btnAbrirVisualizadorCalor = document.getElementById("btnAbrirVisualizadorCalor");
 
+  // Botões de abertura dos menus
   const btnSeletores    = document.getElementById("btnAbrirModalSeletores");
   const bannerEstagio   = document.getElementById("estagioBanner");
-  const bannerCalor     = document.getElementById("calorBanner");
-
-
-  
+  const bannerCalor     = document.getElementById("calorBanner");  
   let stream;
 
   // Seletor de estágio
