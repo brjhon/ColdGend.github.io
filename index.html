@@ -161,7 +161,7 @@
     />
     
     <!-- Modal de Edição AnyDesk -->
-  <div id="editAnyModal" class="modal" style="display:none;">
+  <div id="editAnyModal" class="modal">
       <div class="modal-content">
         <h3>Editar Conexão AnyDesk</h3>
         <input type="text" id="editAnyNome" placeholder="Nome do terminal"/>
@@ -588,40 +588,40 @@ buscarCalorInicial();
     }
   }
 
-  async function testarSite() {
-    const nome = document.querySelector('input[placeholder="Nome do site"]').value;
-    const link = document.querySelector('input[placeholder="Link do site"]').value;
-    const login = document.querySelector('input[placeholder="Login"]').value;
-    const senha = document.querySelector('input[placeholder="Senha"]').value;
-    const contato = document.querySelector('input[placeholder="Contato"]').value;
+async function testarSite() {
+  const nome    = document.querySelector('input[placeholder="Nome do sistema"]').value;
+  const link    = document.querySelector('input[placeholder="URL do sistema"]').value;
+  const login   = document.querySelector('input[placeholder="Usuário de acesso"]').value;
+  const senha   = document.querySelector('input[placeholder="Senha de acesso"]').value;
+  const contato = document.querySelector('input[placeholder="Contato responsável"]').value;
 
-    if (!nome || !link) {
-      alert("Por favor, insira o nome e o link do site.");
-      return;
-    }
-
-    const novoSite = {
-      nome,
-      link,
-      status: "offline",
-      login,
-      senha,
-      contato,
-    };
-
-    try {
-      await fetch(link, { mode: "no-cors" });
-      novoSite.status = "online";
-    } catch (e) {
-      console.error("Erro ao testar site:", e);
-      novoSite.status = "offline";
-    }
-
-    await adicionarSiteFirebase(novoSite);
-
-    document.querySelectorAll(".input-area input").forEach((input) => (input.value = ""));
-    await carregarSitesFirebase();
+  if (!nome || !link) {
+    alert("Por favor, insira o nome e o link do sistema.");
+    return;
   }
+
+  const novoSite = {
+    nome,
+    link,
+    status: "offline",
+    login,
+    senha,
+    contato,
+  };
+
+  try {
+    await fetch(link, { mode: "no-cors" });
+    novoSite.status = "online";
+  } catch (e) {
+    console.error("Erro ao testar site:", e);
+    novoSite.status = "offline";
+  }
+
+  await adicionarSiteFirebase(novoSite);
+
+  document.querySelectorAll(".input-area input").forEach((input) => (input.value = ""));
+  await carregarSitesFirebase();
+}
 
   function abrirSiteComLogin(site) {
   // Abre o site em uma nova aba
