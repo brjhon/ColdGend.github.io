@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <link rel="stylesheet" href="style.css"/>
-<title>ColdGend com Estilo Corrigido</title>
+<title>COWEB - Central Operacional Web</title>
 </head>
 <body>
 <header style="position:relative; width:100%; height:180px;">
@@ -183,7 +183,7 @@
 <!-- Área Acessos Remotos -->
 <main id="mainAcessosRemotos" style="display:none;">
   <div class="left-column">
-    <h2>🖥️ Registro de Infraestrutura Remota</h2>
+    <h2>🖥️ Registro de Infraestrutura Remota-Cameras</h2>
 
     <div class="input-area">
       <input id="inputSetor" placeholder="Departamento/Setor" type="text" />
@@ -242,10 +242,6 @@
     <button id="btnFecharDetalhes" class="clear-button">Fechar</button>
   </div>
 </div>
-
-
-
-
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
@@ -1174,9 +1170,8 @@ async function removerAcessoRemoto(id) {
     const btnVerificar = document.createElement("button");
     btnVerificar.className = "verificar-btn";
     btnVerificar.textContent = "Verificar";
-    btnVerificar.addEventListener("click", () =>
-      testarCameraIndividual(acesso.ip, acesso.id)
-    );
+  btnVerificar.addEventListener("click", () => testarTodasPortas(acesso.ip, acesso.id));
+
     botoes.appendChild(btnVerificar);
 
     // Detalhes
@@ -1227,6 +1222,27 @@ async function testarCameraIndividual(ip, id) {
   const docRef = doc(db, "acessos_remotos", id);
   await updateDoc(docRef, { status });
   await carregarAcessosRemotos();
+}
+
+async function testarTodasPortas(ip, id) {
+  // Portas conhecidas para DVR/NVR/CFTV
+  const portas = [80, 554, 37777, 8080, 8000, 443];
+
+  // Vai tentar todas, em paralelo (promises)
+  let online = false;
+  for (const porta of portas) {
+    try {
+      await fetch(`http://${ip}:${porta}`, { mode: "no-cors" });
+      online = true;
+      break; // Parou na primeira que responder
+    } catch (e) {
+      // continua tentando
+    }
+  }
+
+  // Atualiza status no banco e na interface
+  await updateDoc(doc(db, "acessos_remotos", id), { status: online ? "ativa" : "inativa" });
+  return online;
 }
 
   // Exportar acessos remotos para TXT
