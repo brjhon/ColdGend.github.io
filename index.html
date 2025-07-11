@@ -890,56 +890,21 @@ async function testarSite() {
   document.getElementById("senhaAny").value = "";
 }
 
-  function REMOVED_renderizarAnyDesk() {
-  const lista = document.getElementById("anydesk-list");
-  lista.innerHTML = "";
-
-  acessosAnyDesk.forEach((item, index) => {
-    const div = document.createElement("div");
-    div.className = "site-item";
-    div.innerHTML = `
-      <strong>${item.nome}</strong><br>
-      IP/ID: ${item.ip}<br>
-      Login: ${item.login || "---"}<br>
-      Senha: ${item.senha || "---"}
-      <div class="action-buttons">
-        <button class="delete-button" onclick="removerAnyDesk(${index})">Excluir</button>
-      </div>
-    `;
-    lista.appendChild(div);
-  });
-}
-
-  async function removerAnyDesk(index) {
-  const acesso = acessosAnyDesk[index];
-  if (!acesso.id) return;
-
-  const confirmacao = confirm("Tem certeza que deseja excluir este acesso?");
-  if (!confirmacao) return;
-
-  try {
-    await deleteDoc(doc(db, "anydesk", acesso.id));
-    await carregarAnyDesk();
-  } catch (e) {
-    alert("Erro ao remover: " + e.message);
-  }
-}
 
   // Lidar com eventos dos botões AnyDesk
   document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
   document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
-
-  function renderizarAnyDesk() {
+function renderizarAnyDesk() {
   const lista = document.getElementById("anydesk-list");
   lista.innerHTML = "";
 
-  // 1) filtra pelo texto digitado em filtroAnyDesk
+  // 1) Filtra pelo texto digitado em filtroAnyDesk
   const filtrados = acessosAnyDesk.filter(item => {
     const combo = `${item.nome} ${item.ip}`.toLowerCase();
     return combo.includes(filtroAnyDesk.trim().toLowerCase());
   });
 
-  // 2) se não houver resultados, mostra mensagem
+  // 2) Se não houver resultados, mostra mensagem
   if (filtrados.length === 0) {
     const msg = document.createElement("div");
     msg.textContent = "Nenhuma conexão encontrada.";
@@ -947,17 +912,17 @@ async function testarSite() {
     return lista.appendChild(msg);
   }
 
-  // 3) renderiza cada item filtrado
+  // 3) Renderiza cada item filtrado
   filtrados.forEach(item => {
     const div = document.createElement("div");
     div.className = "site-item";
 
-    // cabeçalho
+    // Cabeçalho
     const header = document.createElement("div");
     header.innerHTML = `<strong>${item.nome}</strong><br>IP/ID: ${item.ip}`;
     div.appendChild(header);
 
-    // credenciais ocultas
+    // Credenciais ocultas
     const dados = document.createElement("div");
     dados.className = "credenciais";
     dados.style.display = "none";
@@ -967,7 +932,7 @@ async function testarSite() {
     `;
     div.appendChild(dados);
 
-    // botões
+    // Botões
     const botoes = document.createElement("div");
     botoes.className = "action-buttons";
 
@@ -991,13 +956,12 @@ async function testarSite() {
     });
     botoes.appendChild(abrirBtn);
 
-    // Editar
+    // Editar (chama por ID!)
     const editBtn = document.createElement("button");
     editBtn.className = "edit-button";
     editBtn.textContent = "Editar";
     editBtn.addEventListener("click", () => {
-      const idx = acessosAnyDesk.findIndex(i => i.id === item.id);
-      abrirModalEditAny(idx);
+      abrirModalEditAny(item.id);
     });
     botoes.appendChild(editBtn);
 
@@ -1007,14 +971,13 @@ async function testarSite() {
     copiarBtn.textContent = "Copiar";
     copiarBtn.addEventListener("click", () => {
       const texto = item.senha || "";
-        navigator.clipboard.writeText(texto).then(() =>
-      alert("Senha copiada para a área de transferência!")
+      navigator.clipboard.writeText(texto).then(() =>
+        alert("Senha copiada para a área de transferência!")
       );
-  });
-botoes.appendChild(copiarBtn);
+    });
+    botoes.appendChild(copiarBtn);
 
-
-    // Excluir (usa o ID direto)
+    // Excluir
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "delete-button";
     deleteBtn.textContent = "Excluir";
@@ -1028,16 +991,32 @@ botoes.appendChild(copiarBtn);
   });
 }
 
+
+// Fora da função! Assim:
+async function removerAnyDesk(id) {
+  if (!id) return;
+
+  const confirmacao = confirm("Tem certeza que deseja excluir este acesso?");
+  if (!confirmacao) return;
+
+  try {
+    await deleteDoc(doc(db, "anydesk", id));
+    await carregarAnyDesk();
+  } catch (e) {
+    alert("Erro ao remover: " + e.message);
+  }
+}
   // ─── AnyDesk: Editar Conexão ─────────────────────────────────────────
   // Abre o modal preenchendo com os dados atuais
-  function abrirModalEditAny(index) {
-  editAnyIndex = index;
-  const item = acessosAnyDesk[index];
+function abrirModalEditAny(id) {
+  const item = acessosAnyDesk.find(i => i.id === id);
+  if (!item) return;
   document.getElementById("editAnyNome").value  = item.nome;
   document.getElementById("editAnyIP").value    = item.ip;
   document.getElementById("editAnyUser").value  = item.login;
   document.getElementById("editAnySenha").value = item.senha;
   document.getElementById("editAnyModal").style.display = "flex";
+  window.editAnyId = id; // Salva globalmente para o salvar usar depois
 }
 
 
@@ -1047,12 +1026,14 @@ botoes.appendChild(copiarBtn);
 }
 
   // Salva as alterações no Firestore e recarrega a lista
-  async function salvarEdicaoAny() {
+async function salvarEdicaoAny() {
   const nome  = document.getElementById("editAnyNome").value.trim();
   const ip    = document.getElementById("editAnyIP").value.trim();
   const login = document.getElementById("editAnyUser").value.trim();
   const senha = document.getElementById("editAnySenha").value.trim();
-  const id    = acessosAnyDesk[editAnyIndex].id;
+  const id    = window.editAnyId; // Usa o ID salvo
+
+  if (!id) return;
 
   await updateDoc(doc(db, "anydesk", id), { nome, ip, login, senha });
   fecharModalEditAny();
