@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style> 
+    /* ----------------------------Painel todo------------------- */
+.panel {
+  position: fixed;
+  top: 20px;              /* ajuste de acordo com a altura do seu header */
+  right: 20px;            /* distância da borda direita */
+  width: 30px;
+  height: 40px;
+  background-color: #1f3f4d;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+}
+
+/* Oculta o painel */
+.hidden {
+  display: none;
+}
+
+/* Barra superior do painel */
+.panel-header {
+  height: 40px;
+  line-height: 40px;
+  padding: 0 16px;
+  background-color: #16414a;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+/* Campo de busca */
+.panel-search {
+  margin: 12px 16px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+/* Container com scroll para itens */
+.panel-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px 16px;
+}
+
+/* Cada item dentro da lista */
+.panel-item {
+  height: 60px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  background: linear-gradient(to right, #ccc, #fff);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* Scrollbar customizada (Webkit) */
+.panel-list::-webkit-scrollbar {
+  width: 6px;
+}
+.panel-list::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+.panel-list::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.05);
+}
+
+/* Painel todo */
+#var-legal-panel {
+  position: fixed;
+  top: 199px;                       /* ajuste conforme seu header */
+  right: 20px;
+  width: 310px;
+  height: 72%;              /* altura automática */
+  background-color: #144347;       /* verde-escuro de fundo */
+  border: 1px solid #0f2629;       /* borda sutil */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+}
+
+/* Oculta o painel */
+.hidden {
+  display: none;
+}
+
+/* Cabeçalho */
+#var-legal-panel .panel-header {
+  padding: 10px 16px;
+  background-color: #1e4e52;       /* um tom um pouco mais claro */
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.2);
+}
+
+/* Campo de busca */
+#var-legal-panel .panel-search {
+  margin: 12px 16px;
+  padding: 8px 12px;
+  width: calc(100% - 32px);
+  background-color: #0f2629;
+  border: 1px solid #0a1b1d;
+  border-radius: 4px;
+  color: #ddd;
+  font-size: 0.9rem;
+}
+#var-legal-panel .panel-search::placeholder {
+  color: #666;
+}
+
+/* Lista rolável */
+#var-legal-panel .panel-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px 16px;
+}
+
+/* Itens */
+#var-legal-panel .panel-item {
+  height: 50px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  background-color: #1f3f42;       /* contêiner de cada item */
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+  transition: background-color 0.2s;
+}
+#var-legal-panel .panel-item:hover {
+  background-color: #274d50;       /* hover levemente mais claro */
+}
+
+/* Scrollbar customizada */
+#var-legal-panel .panel-list::-webkit-scrollbar {
+  width: 6px;
+}
+#var-legal-panel .panel-list::-webkit-scrollbar-thumb {
+  background: #4fae37;             /* verde-accent */
+  border-radius: 3px;
+}
+#var-legal-panel .panel-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+/* -------------------------------final panel-------------------------- */
+
+</style>
+<body>
+
+    <!-- Painel Var Legal -->
+<section id="var-legal-panel" class="panel hidden">
+  <div class="panel-header">Var Legal</div>
+  <input
+    type="text"
+    id="var-legal-search"
+    class="panel-search"
+    placeholder="Buscar…"
+  />
+  <div class="panel-list">
+    <!-- Itens de exemplo; você vai popular isso dinamicamente -->
+    <div class="panel-item">Exemplo 1</div>
+    <div class="panel-item">Exemplo 2</div>
+    <div class="panel-item">Exemplo 3</div>
+  </div>
+</section>
+    <script>  
+      // pega os elementos
+const btnVarLegal = document.getElementById('btn-var-legal');
+const panel       = document.getElementById('var-legal-panel');
+
+// listener de clique
+btnVarLegal.addEventListener('click', () => {
+  panel.classList.toggle('hidden');
+});
+
+// opcional: fechar ao clicar fora
+window.addEventListener('click', e => {
+  if (!panel.contains(e.target) && e.target !== btnVarLegal) {
+    panel.classList.add('hidden');
+  }
+});
+    </script>
+</body>
+</html>

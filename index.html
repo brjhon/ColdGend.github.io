@@ -56,7 +56,8 @@
   <button class="action-button" id="btnSites">Gerenciar Sistemas</button>
   <button class="action-button" id="btnAnyDesk">Conexões AnyDesk</button>
   <button class="action-button" id="btnAcessosRemotos">Infraestrutura Remota</button>
-    
+  <button id="btn-var-legal" class="top-btn">Painel de Acesso Rápido</button>
+
   <!-- Botão para abrir o modal (só aparece no mobile) -->
   <button id="btnAbrirModalSeletores" class="btn-modal-seletores" title="Selecionar Estágio / Calor">
     Selecionar Estágio / Calor
@@ -133,6 +134,25 @@
     <div class="modal-buttons">
       <button id="btnSalvarEdicao">Salvar Alterações</button>
       <button id="btnCancelarEdicao">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="modal-overlay" class="hidden">
+  <div id="modal-var-legal" class="modal">
+    <header class="modal-header">
+      <h2>Painel de Acesso Rápido</h2>
+      <button id="modal-close" class="modal-close">&times;</button>
+    </header>
+    <div class="modal-body">
+      <input type="text" id="var-legal-search" class="search-input" placeholder="Buscar…"/>
+      <div class="panel-list">
+      <a href="https://exemplo.com/pagina1" target="_blank" rel="noopener noreferrer"
+        class="panel-item">
+          <img src="img/Agenda.png" alt="Thumbnail 1">
+      </a>
+</div>
     </div>
   </div>
 </div>
@@ -232,6 +252,8 @@
     
   </div>
 </main>
+
+
 
 <!-- Modal de Detalhes de Equipamento -->
 <div id="modalDetalhesEquipamento" class="modal" style="display: none;">
@@ -1295,7 +1317,6 @@ async function testarTodasPortas(ip, id) {
 });
 
  
-
 window.addEventListener("load", () => {
   // Seções principais
   document.getElementById("btnSites").addEventListener("click", () => {
@@ -1359,6 +1380,28 @@ window.addEventListener("load", () => {
 
   const btnSel = document.getElementById("btnAbrirModalSeletores");
 
+
+  const btnVarLegal   = document.getElementById('btn-var-legal');
+  const overlay       = document.getElementById('modal-overlay');
+  const modalCloseBtn = document.getElementById('modal-close');
+
+  // Abre modal
+  btnVarLegal.addEventListener('click', () => {
+    overlay.classList.remove('hidden');
+  });
+
+  // Fecha modal ao clicar no “×”
+  modalCloseBtn.addEventListener('click', () => {
+    overlay.classList.add('hidden');
+  });
+
+  // Fecha modal ao clicar fora do conteúdo
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) {
+      overlay.classList.add('hidden');
+    }
+  });
+
 btnSel.addEventListener("click", e => {
   // alterna a classe open em ambos
   menuEstagios.classList.toggle("open");
@@ -1410,6 +1453,7 @@ document.body.addEventListener("click", () => {
     btn.disabled = false;
     btn.textContent = "Verificar Todas";
   });
+
 
   // Busca por texto na lista de remotos
   document.getElementById("searchRemoteInput")

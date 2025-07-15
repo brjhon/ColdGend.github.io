@@ -879,7 +879,162 @@ header img {
   box-shadow: 0 0 8px #63cdda;
 }
 
+/* Overlay semitransparente */
+/* === Overlay centralizado === */
+#modal-overlay {
+  position: fixed;
+  top: 20px; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+}
 
+/* === Modal “card” claro === */
+#modal-var-legal {
+  position: relative;       /* antes podia ser fixed, agora relative */
+  width: 60%;
+  max-height: 74vh;    
+  margin-top: 100px;     /* use viewport units pra garantir scroll interno */
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+
+}
+
+/* === Header escuro e clean === */
+.modal-header {
+  background-color: #144347;         /* seu verde-escuro */
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: auto;
+}
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #fff;
+}
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* === Corpo claro, scroll interno === */
+.modal-body {
+  padding: 16px;
+  width: 90%;
+  height: 0%;
+  background-color: transparent;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* === Busca leve === */
+.search-input {
+  width: auto;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+  font-size: 0.95rem;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #144347;
+  box-shadow: 0 0 4px rgba(20,67,71,0.4);
+}
+
+/* oculta scrollbar em WebKit (Chrome, Safari, Edge) */
+.panel-list::-webkit-scrollbar {
+  display: none;
+}
+/* oculta scrollbar em Firefox */
+.panel-list {
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* IE 10+ */
+}
+
+/* === Itens claros com sombra sutil === */
+.panel-list .panel-item {
+  background-color: transparent;
+  border-radius: 6px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  color: #333;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.panel-list .panel-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.panel-list {
+  overflow-y: auto;
+}
+
+.panel-item img {
+  display: block;
+  width: 100%;
+  height: 20%;
+  object-fit: cover;
+  border-radius: 12px 12px 12px 12px ;
+}
+
+/* 1) Modal-body passa a preencher todo o interior do modal */
+#modal-var-legal .modal-body {
+  padding: 16px;
+  flex: 1;                 /* já faz crescer até onde der */
+  width: auto;             /* preenche toda a largura interna */
+ 
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 2) Campo de busca com largura total */
+#modal-var-legal .modal-body .search-input {
+  width: auto;          /* ocupa toda a largura do modal */
+}
+
+/* 3) Cada “telinha” branca preenche 100% e tem fundo sólido */
+#modal-var-legal .panel-list .panel-item {
+  background-color:transparent;
+  border-radius: 6px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  color: #333;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+
+/* Aproveitamos .search-input e .panel-list/.panel-item do CSS anterior */
+
+/* Classe utilitária para esconder */
+.hidden {
+  display: none !important;
+}
 
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
