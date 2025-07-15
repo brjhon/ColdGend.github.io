@@ -896,7 +896,7 @@ header img {
   position: relative;       /* antes podia ser fixed, agora relative */
   width: 60%;
   max-height: 74vh;    
-  margin-top: 100px;     /* use viewport units pra garantir scroll interno */
+  margin-top: 130px;     /* use viewport units pra garantir scroll interno */
   display: flex;
   flex-direction: column;
   background-color: transparent;
