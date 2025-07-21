@@ -906,27 +906,29 @@ header img {
 
 }
 
-/* === Header escuro e clean === */
+/* 3) Header escuro, texto maior e close mais discreto */
 .modal-header {
-  background-color: #144347;         /* seu verde-escuro */
-  padding: 14px 18px;
+  background-color: #144347;            /* verde escuro */
+  padding: 2px 6px;
+  width: 100%;
+  height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: auto;
 }
 .modal-header h2 {
-  margin: 0;
-  font-size: 1.1rem;
   color: #fff;
+  font-size: 1.2rem;
+  margin: 0;
 }
 .modal-close {
+  font-size: 1.3rem;
+  color: rgba(255,255,255,0.8);
   background: none;
   border: none;
-  font-size: 1.4rem;
-  color: #fff;
   cursor: pointer;
 }
+
 
 /* === Corpo claro, scroll interno === */
 .modal-body {
@@ -943,7 +945,7 @@ header img {
 
 /* === Busca leve === */
 .search-input {
-  width: auto;
+  width: 100%;
   padding: 10px 14px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -970,43 +972,83 @@ header img {
 }
 /* oculta scrollbar em Firefox */
 .panel-list {
-  scrollbar-width: none;       /* Firefox */
-  -ms-overflow-style: none;    /* IE 10+ */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  overflow-y: auto;
 }
 
 /* === Itens claros com sombra sutil === */
 .panel-list .panel-item {
-  background-color: transparent;
-  border-radius: 6px;
-  padding: 10px 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
   color: #333;
-  transition: transform 0.1s, box-shadow 0.1s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .panel-list .panel-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
 
-.panel-list {
-  overflow-y: auto;
-}
-
-.panel-item img {
-  display: block;
+/* 3) Thumb: força proporção 16:9 */
+.panel-thumb {
   width: 100%;
-  height: 20%;
-  object-fit: cover;
-  border-radius: 12px 12px 12px 12px ;
+  height: 0%;
+  padding-top: 56.25%; /* 16:9 */
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px 10px 10px 10px;
 }
+.panel-thumb img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* === Overlay centralizado === */
+#modal-overlay {
+  position: fixed;
+  top: 20px; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+}
+
+/* === Modal “card” claro === */
+#modal-var-legal {
+  position: relative;       /* antes podia ser fixed, agora relative */
+  width: 60%;
+  max-height: 74vh;    
+  margin-top: 130px;     /* use viewport units pra garantir scroll interno */
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+
+}
+
+
+
 
 /* 1) Modal-body passa a preencher todo o interior do modal */
 #modal-var-legal .modal-body {
   padding: 16px;
   flex: 1;                 /* já faz crescer até onde der */
-  width: auto;             /* preenche toda a largura interna */
- 
+  width: 100%;             /* preenche toda a largura interna */
   overflow-y: auto;
   display: flex;
   flex-direction: column;
