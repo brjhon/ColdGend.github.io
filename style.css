@@ -148,6 +148,8 @@ width: 10%;
   padding-bottom: 10px;
 }
 
+
+
 /* ---------- FIM DO SELETOR DE ESTÁGIO ---------- */
 
 
@@ -285,9 +287,8 @@ header img {
 }
 
 .action-button {
-  padding: 12px 0px;
+  padding: 12px 30px;
   background-color: #3a5a5a;
-  margin-top: 0;
   color: white;
   font-weight: bold;
   border: none;
@@ -321,7 +322,7 @@ header img {
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
-    z-index: 100; /* z-index alto para ficar acima de outros elementos */
+        z-index: 000 ;/* z-index alto para ficar acima de outros elementos */
   }
 
   .left-column:hover {
@@ -513,6 +514,203 @@ header img {
     color: #4caf50;
   }
 
+
+/* 3) Header escuro, texto maior e close mais discreto */
+.modal-header {
+  background-color: #144347;            /* verde escuro */
+  padding: 2px 6px;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-header h2 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin: 0;
+}
+.modal-close {
+  font-size: 1.3rem;
+  color: rgba(255,255,255,0.8);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* === Corpo claro, scroll interno === */
+.modal-body {
+  padding: 16px;
+  width: 100%;
+  height: auto;
+  background-color: transparent;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: calc(100% - 56px); /* subtrai a altura aproximada do header (por ex. 56px) */
+  background: transparent;
+}
+
+/* === Busca leve === */
+.search-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+  font-size: 0.95rem;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+.top-buttons
+.search-input:focus {
+  outline: none;
+  border-color: #144347;
+  box-shadow: 0 0 4px rgba(20,67,71,0.4);
+}
+
+/* oculta scrollbar em WebKit (Chrome, Safari, Edge) */
+.panel-list::-webkit-scrollbar {
+  display: none;
+  width: 6px;
+}
+
+.panel-list::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+/* oculta scrollbar em Firefox */
+.panel-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  height: 0%;
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;            /* ocupa todo o espaço restante */
+  overflow-y: auto;   /* habilita scroll vertical */
+  padding-right: 4px; /* pra não cortar o último cartão */
+}
+
+/* === Itens claros com sombra sutil === */
+.panel-list .panel-item {
+  background: #ffffff;
+  height: auto;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.panel-list .panel-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* 3) Thumb: força proporção 16:9 */
+.panel-thumb {
+  width: 100%;
+  height: 0%;
+  padding-top: 56.25%; /* 16:9 */
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px 10px 10px 10px;
+}
+
+.panel-thumb img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* === Overlay centralizado === */
+#modal-overlay {
+  position: fixed;
+  top: 0px; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+}
+
+/* === Modal “card” claro === */
+#modal-var-legal {
+  position: relative;       /* antes podia ser fixed, agora relative */
+  width: 60%;
+  max-height: 54vh;    
+  margin-top: 0px;     /* use viewport units pra garantir scroll interno */
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+/* 1) Modal-body passa a preencher todo o interior do modal */
+#modal-var-legal .modal-body {
+  padding: 16px;
+  flex: 1;                 /* já faz crescer até onde der */
+  width: 100%;             /* preenche toda a largura interna */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 2) Campo de busca com largura total */
+#modal-var-legal .modal-body .search-input {
+  width: auto;          /* ocupa toda a largura do modal */
+}
+
+/* 3) Cada “telinha” branca preenche 100% e tem fundo sólido */
+#modal-var-legal .panel-list .panel-item {
+  background-color:transparent;
+  border-radius: 6px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  color: #333;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+
+/* Aproveitamos .search-input e .panel-list/.panel-item do CSS anterior */
+
+/* Classe utilitária para esconder */
+.hidden {
+  display: none !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Oculta para desktop, mostra só no mobile */
+.mobile-only {
+  display: none;
+}
+
   /* Modal */
   .modal {
   display: none;
@@ -681,41 +879,21 @@ header img {
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.7);
   }
 
-/* Ajuste final para alinhar ao centro vertical da coluna e evitar topo */
 .top-buttons {
   position: absolute;
-  top: 200px; /* deslocado para evitar sobrepor header */
-  left: calc(50% - 800px); /* alinhado com a borda da .left-column */
+  top: 200px; /* ou o valor ideal para desktop */
+  left: 8%; /* ajuste para alinhar à esquerda da .left-column */
   display: flex;
   flex-direction: column;
   gap: 12px;
-  z-index: 0;
+  z-index: 0 !important; /* z-index baixo para ficar ATRÁS dos menus centrais */
 }
 
-.top-buttons button {
-  padding: 12px 20px;
-  background-color: #2e4e4e;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.top-buttons button:hover {
-  background-color: #55a67a;
-  transform: scale(1.05);
-}
-
-.top-buttons button.active {
-  background-color: #4caf50;
-  color: white;
-}
 .top-buttons button {
   min-width: 120px;
   padding: 10px;
   font-size: 14px;
+    font-weight: bold;
   text-align: center;
   background-color: #1c3b3c;
   border: none;
@@ -723,13 +901,14 @@ header img {
   color: white;
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   transition: all 0.3s ease;
+
 }
 
 .top-buttons button:hover {
   background-color: #2e6f67;
   transform: translateX(2px);
+    transform: scale(1.05);
 }
-
 
 .top-buttons button {
   min-width: 130px;
@@ -747,6 +926,10 @@ header img {
 .top-buttons button:hover {
   background-color: #399b7d;
   transform: translateX(2px);
+}
+.top-buttons button.active {
+  background-color: #4caf50;
+  color: white;
 }
 
 .registro-item {
@@ -879,205 +1062,6 @@ header img {
   box-shadow: 0 0 8px #63cdda;
 }
 
-/* Overlay semitransparente */
-/* === Overlay centralizado === */
-#modal-overlay {
-  position: fixed;
-  top: 20px; left: 0; right: 0; bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.5);
-  z-index: 100;
-}
-
-/* === Modal “card” claro === */
-#modal-var-legal {
-  position: relative;       /* antes podia ser fixed, agora relative */
-  width: 60%;
-  max-height: 74vh;    
-  margin-top: 130px;     /* use viewport units pra garantir scroll interno */
-  display: flex;
-  flex-direction: column;
-  background-color: transparent;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-
-}
-
-/* 3) Header escuro, texto maior e close mais discreto */
-.modal-header {
-  background-color: #144347;            /* verde escuro */
-  padding: 2px 6px;
-  width: 100%;
-  height: 70px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.modal-header h2 {
-  color: #fff;
-  font-size: 1.2rem;
-  margin: 0;
-}
-.modal-close {
-  font-size: 1.3rem;
-  color: rgba(255,255,255,0.8);
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-
-/* === Corpo claro, scroll interno === */
-.modal-body {
-  padding: 16px;
-  width: 90%;
-  height: 0%;
-  background-color: transparent;
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* === Busca leve === */
-.search-input {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #fff;
-  color: #333;
-  font-size: 0.95rem;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.search-input::placeholder {
-  color: #999;
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: #144347;
-  box-shadow: 0 0 4px rgba(20,67,71,0.4);
-}
-
-/* oculta scrollbar em WebKit (Chrome, Safari, Edge) */
-.panel-list::-webkit-scrollbar {
-  display: none;
-}
-/* oculta scrollbar em Firefox */
-.panel-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 16px;
-  padding: 16px;
-  overflow-y: auto;
-}
-
-/* === Itens claros com sombra sutil === */
-.panel-list .panel-item {
-  background: #ffffff;
-  border-radius: 8px;
-  overflow: hidden;
-  text-decoration: none;
-  color: #333;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.panel-list .panel-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-}
-
-/* 3) Thumb: força proporção 16:9 */
-.panel-thumb {
-  width: 100%;
-  height: 0%;
-  padding-top: 56.25%; /* 16:9 */
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px 10px 10px 10px;
-}
-.panel-thumb img {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* === Overlay centralizado === */
-#modal-overlay {
-  position: fixed;
-  top: 20px; left: 0; right: 0; bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.5);
-  z-index: 100;
-}
-
-/* === Modal “card” claro === */
-#modal-var-legal {
-  position: relative;       /* antes podia ser fixed, agora relative */
-  width: 60%;
-  max-height: 74vh;    
-  margin-top: 130px;     /* use viewport units pra garantir scroll interno */
-  display: flex;
-  flex-direction: column;
-  background-color: transparent;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-
-}
-
-
-
-
-/* 1) Modal-body passa a preencher todo o interior do modal */
-#modal-var-legal .modal-body {
-  padding: 16px;
-  flex: 1;                 /* já faz crescer até onde der */
-  width: 100%;             /* preenche toda a largura interna */
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* 2) Campo de busca com largura total */
-#modal-var-legal .modal-body .search-input {
-  width: auto;          /* ocupa toda a largura do modal */
-}
-
-/* 3) Cada “telinha” branca preenche 100% e tem fundo sólido */
-#modal-var-legal .panel-list .panel-item {
-  background-color:transparent;
-  border-radius: 6px;
-  padding: 10px 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  color: #333;
-  transition: transform 0.1s, box-shadow 0.1s;
-}
-
-
-/* Aproveitamos .search-input e .panel-list/.panel-item do CSS anterior */
-
-/* Classe utilitária para esconder */
-.hidden {
-  display: none !important;
-}
-
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
@@ -1116,292 +1100,129 @@ header img {
   cursor: not-allowed;
 }
 
-/* Esconde por padrão (desktop) */
-.painel-links-extras {
-  display: none;
-}
+/* MOBILE e RESPONSIVIDADE AVANÇADA - Cola no final do style.css */
 
 /* Ajusta header e painéis para ocupar menos espaço no mobile */
+
 @media (max-width: 450px) {
-
-  /* 1) Header fica flexível e auto-height */
-  header {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    height: auto !important;
-    padding: 10px 5px !important;
-  }
-
-  /* 4. Painéis/listas justos, inputs 100% */
-  .painel-lista, .painel-acessos, .main-content, .left-column, .right-column {
-    width: 95vw !important;
-    max-width: 98vw !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-    padding: 8px 3vw 10px 3vw !important;
+  .seletor-estagio, .seletor-calor {
+    display: block !important;
+    position: static !important;
+    width: 99vw !important;
+    max-width: 99vw !important;
+    height: 16vw !important;
+    min-height: 28px !important;
+    max-height: 34px !important;
+    margin: 4px auto 2px auto !important;
+    padding: 0 !important;
+    box-shadow: 0 3px 13px #0002 !important;
     border-radius: 10px !important;
-    margin: 0 auto !important;
+    overflow: hidden !important;
   }
+  .seletor-estagio img, .seletor-calor img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 10px !important;
+  }
+
+  .top-buttons, .top-buttons * {
+    margin-top: 1vw !important;
+    gap: 6px !important;
+    width: 100vw !important;
+    max-width: 9vw !important;
+    left: 20% !important;
+    right: 0% !important;
+    
+    font-size: 0.99em !important;
+  }
+  .top-buttons button {
+    width: 19vw !important;
+    padding: 7px 0 !important;
+   
+    margin-bottom: 0px !important;
+    font-size: 0.97em !important;
+    border-radius: 8px !important;
+  }
+
+  .painel-lista, .main-content, .left-column, .right-column {
+    width: 99vw !important;
+    padding: 4px 1vw !important;
+    margin: 7px auto 9px auto !important;
+    border-radius: 10px !important;
+  }
+  .painel-lista h1, .painel-lista h2 {
+    font-size: 1em !important;
+    margin-bottom: 0.45em !important;
+    margin-top: 0.1em !important;
+  }
+  input, select, textarea {
+    width: 98vw !important;
+    max-width: 99vw !important;
+    padding: 8px 1vw !important;
+    margin-bottom: 6px !important;
+    font-size: 0.97em !important;
+    border-radius: 7px !important;
+  }
+  button, .btn, .exportar {
+    width: 98vw !important;
+    padding: 8px 0 !important;
+    font-size: 0.97em !important;
+    margin-bottom: 6px !important;
+    border-radius: 7px !important;
+  }
+
+  
+    /* Inputs e labels mais compactos */
   .painel-lista input,
   .painel-lista select,
   .painel-lista textarea,
-  .painel-lista button,
+  .painel-lista label,
   .painel-acessos input,
   .painel-acessos select,
   .painel-acessos textarea,
+  .painel-acessos label,
+  .input-area input,
+  .input-area select,
+  .input-area textarea {
+    font-size: 0.99em !important;
+    padding: 8px 1vw !important;
+    margin-bottom: 7px !important;
+    border-radius: 7px !important;
+    width: 97vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+  }
+
+  /* Botões ainda mais enxutos */
+  .painel-lista button,
   .painel-acessos button,
+  .top-buttons button,
   .btn,
   .exportar {
-    width: 100% !important;
+    font-size: 0.96em !important;
+    padding: 8px 0 !important;
+    margin-bottom: 5px !important;
+    width: 97vw !important;
+    border-radius: 7px !important;
     min-width: 0 !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    display: block !important;
-    font-size: 1.08em !important;
-    padding: 10px 0 !important;
-    border-radius: 8px !important;
-    margin-bottom: 9px !important;
   }
 
-  /* Botões flutuantes, topo etc — ajuste aqui */
-  .top-buttons {
-    position: static !important;
-    width: 95vw !important;
-    max-width: 97vw !important;
-    margin: 8px auto 7px auto !important;
-    gap: 10px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    font-size: 1em !important;
-    margin-left: 7% !important;
-    margin-top: 45% !important;
-  }
-  .top-buttons button {
-    width: 90% !important;
+  /* Cards/painéis bem justos */
+  .painel-lista, .painel-acessos, .main-content, .left-column, .right-column {
+    padding: 3px 1vw !important;
+    margin-bottom: 6px !important;
+    border-radius: 9px !important;
+    width: 99vw !important;
     min-width: 0 !important;
-    max-width: 100% !important;
-    padding: 10px 0 !important;
-    margin-bottom: 0 !important;
-    font-size: 1em !important;
-    border-radius: 8px !important;
-    box-sizing: border-box !important;
   }
 
-  .painel-lista h1, .painel-lista h2,
-  .painel-acessos h2, .painel-acessos h1 {
-    font-size: 1.04em !important;
-    margin-bottom: 0.38em !important;
-    margin-top: 0.0em !important;
+  /* Título menor, mais compacto */
+  .painel-lista h2,
+  .painel-lista h1,
+  .painel-acessos h2,
+  .painel-acessos h1 {
+    font-size: 1.05em !important;
+    margin: 0.38em 0 0.35em 0 !important;
   }
-
-  /* mostra o botão no mobile */
-  #btnAbrirModalSeletores {
-    display: block !important;
-  }
-
-  /* o botão interno de “Abrir em tela cheia” podemos esconder (opcional) */
-  #btnAbrirVisualizador,
-  #btnAbrirVisualizadorCalor {
-    display: none !important;
-    
-  }
-
-  /* ========================
-   Ajuste dos botões em Conexões Registradas
-   ======================== */
-
-/* 1) Garante que os botões quebrem linha */
-#anydesk-list .site-item .action-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;               /* espaço entre botões */
-  margin-top: 8px;        /* distanciamento do conteúdo acima */
 }
-
-/* 2) Cada botão ocupa até ~45% da largura e nunca vaza */
-#anydesk-list .site-item .action-buttons button {
-  flex: 1 1 45%;          /* flex-grow, flex-shrink, flex-basis */
-  padding: 6px 8px;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-}
-
-/* 3) (Opcional) cor de fundo levemente distinta */
-#anydesk-list .site-item .action-buttons button {
-  background-color: rgba(255,255,255,0.1);
-  border-radius: 4px;
-  transition: background .2s;
-}
-#anydesk-list .site-item .action-buttons button:hover {
-  background-color: rgba(255,255,255,0.2);
-}
-
-  /* SCROLLBAR MODERNA E DISCRETA */
-  ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
-    background: #0f2b2c;
-    border-radius: 8px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #2c5454;
-    border-radius: 8px;
-    border: 1.5px solid #243434;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #388484;
-  }
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: #388484 #0f2b2c;
-  } 
-
-}
-
-
-
-/* === MOBILE (até 450px) === */
-@media (max-width: 450px) {
-
-  /* ——— Esconde só as imagens de banner, mantendo o container vivo para o menu ——— */
-  .seletor-estagio img#estagioImgBanner,
-  .seletor-calor  img#calorImgBanner {
-    display: none !important;
-  }
-
-  /* ——— Menus em full-screen, mas sempre ocultos por padrão ——— */
-  #menuEstagios .estagio-item,
-  #menuCalor    .calor-item {
-    display: flex;
-    align-items: center;
-    width: 70%;
-    max-width: 360px;
-    padding: 12px 16px;
-    margin: 10px 0;
-    background: rgba(255,255,255,0.1);
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
-  }
-
-  /* ─────── Menus de Estágio e Calor ─────── */
-#menuEstagios {
-    position: fixed !important;
-    top: 0;
-    width:0vw !important;       /* cada um ocupa metade da tela */
-    height: 61vh !important;
-    padding-top: 8px;
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(5px);
-    display: none !important; 
-    margin-top: 100px;    /* JS continua fazendo .open */
-    flex-direction: column;
-    overflow-y: auto;
-    z-index: 20000;
-    border-radius: 50px 50px 50px 50px; /* borda arredondada */
-}
-
-#menuCalor{
-    position: fixed !important;
-    width: 45vw !important;       /* cada um ocupa metade da tela */
-    height: 62vh !important;
-    padding-top: 10px;
-    margin: 8px 0 0 6px;
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(5px);
-    display: none !important; 
-    margin-top: 101px;    /* JS continua fazendo .open */
-    flex-direction: column;
-    justify-items: center;
-    overflow-y: auto;
-    z-index: 20000;
-    border-radius: 50px 50px 50px 50px; /* borda arredondada */
-}
-
-  /* ─── Quando abertos ─── */
-  #menuEstagios.open,
-  #menuCalor.open {
-    display: flex !important;
-  }
-
-  /* Estágio à esquerda */
-  #menuEstagios {
-    left: 0;
-    border-radius: 16px 16px 16px 16px;  /* arredonda apenas canto direito */
-  }
-
-  /* Calor à direita */
-  #menuCalor {
-    right: 0;
-    left: auto !important;
-    border-radius: 16px 0 0 16px;  /* arredonda apenas canto esquerdo */
-  }
-
-
-/* animação de fade+slide */
-@keyframes fadeInMenu {
-  from { opacity: 0; transform: translateY(-20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-#menuEstagios .estagio-item:hover,
-#menuCalor    .calor-item:hover {
-  background: rgba(255,255,255,0.2);
-  transform: translateX(4px);
-}
-
-/* ── Miniaturas ── */
-#menuEstagios .estagio-item img,
-#menuCalor    .calor-item img {
-    width: auto !important;
-    height: auto !important;
-    max-width: 60px;              /* ajuste máximo que quiser */
-    max-height: 40px;
-    margin-right: 1px;
-    object-fit: cover;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-}
-
-/* ── Labels ── */
-#menuEstagios .estagio-item span,
-#menuCalor    .calor-item span {
-  flex: 1;
-  color: #fff;
-    font-size: 1.0rem !important;
-    font-weight: 600;
-}
-
-/* ── Estado selecionado ── */
-#menuEstagios .estagio-item.selected,
-#menuCalor    .calor-item.selected {
-  background: #1f8f83;    /* escolha uma cor de destaque */
-}
-
-/* ── Botão “Abrir em full-screen” (opcional) ── */
-#btnAbrirVisualizador,
-#btnAbrirVisualizadorCalor {
-  margin-top: 24px !important;
-  padding: 10px 20px !important;
-  background: #00c2ff !important;
-  color: #004d4d !important;
-  font-weight: bold;
-  border-radius: 6px !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
-  transition: background 0.2s, transform 0.2s !important;
-}
-#btnAbrirVisualizador:hover,
-#btnAbrirVisualizadorCalor:hover {
-  background: #00a0cc !important;
-  transform: translateY(-2px) !important;
-}
-
-}
-
-
