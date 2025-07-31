@@ -7,6 +7,7 @@
 <title>COWEB - Central Operacional Web</title>
 </head>
 <body>
+
 <header style="position:relative; width:100%; height:180px;">
   <!-- Banner institucional de fundo -->
   <img alt="Centro de Operações - Prefeitura do Rio" src="img/banner-institucional.jpg"
@@ -65,7 +66,13 @@
 
 
 </div>
- 
+
+<!-- Modal do painel de  -->
+<div id="top-geral-float" class="top-geral-panel-float">
+  <h2>🏆 Top Acessos Gerais</h2>
+  <ul id="lista-top-geral"></ul>
+</div>
+
 <!-- Área Sites -->
 <main id="mainSites">
   <div class="left-column">
@@ -120,7 +127,12 @@
 
     <div class="site-list" id="site-list"></div>
   </div>
+
+
+
 </main>
+
+
 
 <!-- Modal de edição (sites) -->
 <div class="modal" id="editModal" >
@@ -162,8 +174,8 @@
           
         </a>
         <!-- Linha 2 -->
-        <a href="#" class="panel-item">
-          <img src="imagens/novo1.jpg" alt="Novo1" />
+        <a href="https://cor.multiviscloud.com/index.html" class="panel-item">
+          <img src="img/Multivis.png" alt="Novo1" />
           <span></span>
         </a>
         <a href="#" class="panel-item">
@@ -178,7 +190,6 @@
     </div>
   </div>
 </div>
-
 
 <!-- Área AnyDesk -->
 <main id="mainAnyDesk" style="display:none;">
@@ -276,8 +287,6 @@
   </div>
 </main>
 
-
-
 <!-- Modal de Detalhes de Equipamento -->
 <div id="modalDetalhesEquipamento" class="modal" style="display: none;">
   <div class="modal-content">
@@ -291,7 +300,9 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, doc, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
-  
+  import { renderizarTopGeral } from './ranking.js';
+
+
   const firebaseConfig = {
     apiKey: "AIzaSyCpnDf40JQ3COptyNJFZnqj9niTn5iBDeY",
     authDomain: "coldgend.firebaseapp.com",
@@ -1032,7 +1043,6 @@ function renderizarAnyDesk() {
   });
 }
 
-
 // Fora da função! Assim:
 async function removerAnyDesk(id) {
   if (!id) return;
@@ -1059,7 +1069,6 @@ function abrirModalEditAny(id) {
   document.getElementById("editAnyModal").style.display = "flex";
   window.editAnyId = id; // Salva globalmente para o salvar usar depois
 }
-
 
   // Fecha o modal sem salvar
   function fecharModalEditAny() {
@@ -1340,7 +1349,11 @@ async function testarTodasPortas(ip, id) {
 });
 
  
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
+
+  /* Parâmetro que chama o renderizar TopGeral */
+  renderizarTopGeral(db);
+
   // Seções principais
   document.getElementById("btnSites").addEventListener("click", () => {
     document.getElementById("mainSites").style.display = "flex";
