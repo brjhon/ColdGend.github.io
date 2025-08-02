@@ -311,11 +311,10 @@ header img {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
-    justify-content: center;
-
   }
 
   .left-column {
+    height: 668px;
     flex: 0 0 340px;
     background-color: #1c3b3c;
     border-radius: 10px;
@@ -323,7 +322,7 @@ header img {
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
-        z-index: 000 ;/* z-index alto para ficar acima de outros elementos */
+    z-index: 000 ;/* z-index alto para ficar acima de outros elementos */
   }
 
   .left-column:hover {
@@ -336,10 +335,11 @@ header img {
     background-color: #1c3b3c;
     border-radius: 10px;
     padding: 9px;
+    height: 689px;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
-    overflow-x: hidden;
+ 
     
   }
   
@@ -355,6 +355,8 @@ header img {
     flex-direction: column;
     gap: 15px;
   }
+
+
   .export-status-row {
     display: flex;
     align-items: center;
@@ -393,10 +395,19 @@ header img {
   }
 
   /* Inicio da painel ranking  */
+
+  #top-geral-float {
+  position: absolute;
+  top: 200px;
+  right: 20px;
+  height: 659px;
+  width: 290px;
+}
+
 .top-geral-panel {
   flex: 0 0 260px;
   background: linear-gradient(135deg, #1c3b3c 80%, #185865 100%);
-  border-radius: 14px;
+  border-radius: 9px;
   box-shadow: 0 6px 24px #0004, 0 2px 6px #234;
   padding: 24px 14px 22px 18px;
   margin-left: 24px;
@@ -407,7 +418,7 @@ header img {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-height: 480px;
+  max-height: 100%;
   overflow-y: auto;
 }
 .top-geral-panel h2 {
@@ -449,6 +460,8 @@ header img {
   margin-left: auto;
   font-size: 0.95em;
 }
+
+
 /* Final da parte ranking */
 
 
@@ -505,9 +518,9 @@ header img {
     background-color: #2b4a4a;
     border-radius: 10px;
     padding: 15px;
-    max-height: 500px;
+    max-height: 432px;
     overflow-y: auto;
-    scrollbar-width: thin;
+    
   }
   .site-list::-webkit-scrollbar {
     width: 8px;
@@ -521,6 +534,7 @@ header img {
     border-radius: 10px;
     border: 2px solid #1c3b3c;
   }
+  
   .site-item {
     display: flex;
     flex-direction: column;
@@ -909,7 +923,8 @@ header img {
 
 /* Estilo da barra de pesquisa em sites */
   #searchInput{
-    width: 100%;
+    width: 93%;
+    height: 20px;
     padding: 10px 15px;
     border: none;
     border-radius: 10px;
@@ -919,9 +934,31 @@ header img {
     margin-bottom: 12px;
  }
 
+ /* Busca AnyDesk */
+#searchAnyDeskInput {
+  width:93%;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  background-color: #1c3b3c;
+  color: white;
+  box-shadow: inset 2px 2px 5px #162020, inset -2px -2px 5px #2e3e3e;
+  margin-bottom: 12px;
+}
+
+#searchAnyDeskInput::placeholder {
+  color: #a8b3b3;
+}
+
+#searchAnyDeskInput:focus {
+  outline: none;
+  background-color: #254848;
+  box-shadow: 0 0 8px #63cdda;
+}
+
  /* Estilo da barra de pesquisa em Equipamentos Registrados */
   #searchRemoteInput {
-    width: 100%;
+    width: 93%;
     padding: 10px 15px;
     border: none;
     border-radius: 10px;
@@ -1088,10 +1125,9 @@ header img {
   font-family: monospace;
   font-size: 1rem;
 }
-
+.site-list
 #acessos-remotos-list {
-  max-height: 500px;
-  overflow-y: auto;
+
   scrollbar-width: thin;
 }
 #acessos-remotos-list::-webkit-scrollbar { width: 8px; }
@@ -1125,27 +1161,7 @@ header img {
   background:#55a67a;
 }
 
-/* Busca AnyDesk */
-#searchAnyDeskInput {
-  width: 100%;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 10px;
-  background-color: #1c3b3c;
-  color: white;
-  box-shadow: inset 2px 2px 5px #162020, inset -2px -2px 5px #2e3e3e;
-  margin-bottom: 12px;
-}
 
-#searchAnyDeskInput::placeholder {
-  color: #a8b3b3;
-}
-
-#searchAnyDeskInput:focus {
-  outline: none;
-  background-color: #254848;
-  box-shadow: 0 0 8px #63cdda;
-}
 
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
@@ -1175,6 +1191,8 @@ header img {
   background-color: #f44336;
   color: white;
 }
+
+
 
 /* Verificar: cursor e transição */
 .verificar-btn {
@@ -1615,4 +1633,17 @@ header img {
   transform: translateY(-2px) !important;
 }
 
+}
+
+@media (max-width: 450px){
+/* Botões flutuantes, topo etc — ajuste aqui */
+  .top-buttons {
+    
+    width: 95vw !important;
+   flex: row  !important;
+    margin: 8px auto 7px auto !important;
+    gap: 10px !important;
+
+
+  }
 }
