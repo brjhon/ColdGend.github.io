@@ -243,6 +243,7 @@ width: 10%;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0,0,0,0.4);
   cursor: pointer;
+  
 }
 
 .right-image-panel img {
@@ -305,7 +306,7 @@ header img {
   main {
     margin-top: 0px;
     max-width: 1200px;
-    margin-left: auto;
+    margin-left: 15%;
     margin-right: auto;
     padding: 19px;
     display: flex;
@@ -320,6 +321,7 @@ header img {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
+   
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
     z-index: 000 ;/* z-index alto para ficar acima de outros elementos */
@@ -337,6 +339,7 @@ header img {
     padding: 9px;
     height: 689px;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
  
@@ -401,7 +404,7 @@ header img {
   top: 200px;
   right: 20px;
   height: 659px;
-  width: 290px;
+  width: 339px;
 }
 
 .top-geral-panel {
@@ -1004,8 +1007,9 @@ header img {
 .top-buttons {
   position: absolute;
   top: 200px; /* ou o valor ideal para desktop */
-  left: 8%; /* ajuste para alinhar à esquerda da .left-column */
+  left: 5%; /* ajuste para alinhar à esquerda da .left-column */
   display: flex;
+  margin-right:20% ;
   flex-direction: column;
   gap: 12px;
   z-index: 0 !important; /* z-index baixo para ficar ATRÁS dos menus centrais */

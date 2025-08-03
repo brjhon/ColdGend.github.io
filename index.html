@@ -296,7 +296,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, doc, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
-  import { renderizarTopGeral } from './ranking.js';
+import { registrarAcessoGeral, renderizarTopGeral } from "./rankingLocal.js";
 
 
   const firebaseConfig = {
@@ -685,7 +685,8 @@ async function testarSite() {
     alert("Não foi possível copiar os dados para a área de transferência.");
   });
 
-  
+  registrarAcessoGeral(acesso.id, acesso.setor, "infra");
+
 }
 
   async function recarregarTodosSites() {
@@ -1350,7 +1351,7 @@ async function testarTodasPortas(ip, id) {
 window.addEventListener("DOMContentLoaded", () => {
 
   /* Parâmetro que chama o renderizar TopGeral */
-  renderizarTopGeral(db);
+  renderizarTopGeral();
 
   // Seções principais
   document.getElementById("btnSites").addEventListener("click", () => {
@@ -1488,7 +1489,7 @@ document.body.addEventListener("click", () => {
     btn.textContent = "Verificar Todas";
   });
 
-
+registrarAcessoGeral
   // Busca por texto na lista de remotos
   document.getElementById("searchRemoteInput")
     .addEventListener("input", e => {
