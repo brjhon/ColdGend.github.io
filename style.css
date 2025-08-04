@@ -306,25 +306,23 @@ header img {
   main {
     margin-top: 0px;
     max-width: 1200px;
-    margin-left: 15%;
+    margin-left: 14%;
     margin-right: auto;
-    padding: 19px;
+    padding: 16px;
     display: flex;
-    gap: 20px;
+    gap: 10px;
     flex-wrap: wrap;
   }
 
   .left-column {
-    height: 668px;
     flex: 0 0 340px;
     background-color: #1c3b3c;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
-   
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
-    z-index: 000 ;/* z-index alto para ficar acima de outros elementos */
+    z-index: 0; /* z-index alto para ficar acima de outros elementos */
   }
 
   .left-column:hover {
@@ -336,14 +334,11 @@ header img {
     flex: 1 1 600px;
     background-color: #1c3b3c;
     border-radius: 10px;
-    padding: 9px;
-    height: 689px;
+    padding: 20px;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
-    
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
- 
-    
+    overflow-x: hidden;
   }
   
   .right-column:hover {
@@ -403,9 +398,10 @@ header img {
   position: absolute;
   top: 200px;
   right: 20px;
-  height: 659px;
-  width: 339px;
+  height: auto;
+  width: 349px;
 }
+
 
 .top-geral-panel {
   flex: 0 0 260px;

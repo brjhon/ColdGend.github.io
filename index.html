@@ -67,12 +67,6 @@
 
 </div>
 
-<!-- Modal do painel de  -->
-<div id="top-geral-float" class="top-geral-panel">
-  <h2>🏆 Top Acessos Gerais</h2>
-  <ul id="lista-top-geral"></ul>
-</div>
-
 <!-- Área Sites -->
 <main id="mainSites">
   <div class="left-column">
@@ -127,6 +121,12 @@
 
     <div class="site-list" id="site-list"></div>
   </div>
+
+  <!-- Modal do painel de  -->
+<div id="top-geral-float" class="top-geral-panel">
+  <h2>🏆 Top Acessos Gerais</h2>
+  <ul id="lista-top-geral"></ul>
+</div>
 
 </main>
 
@@ -228,6 +228,12 @@
     </div>
     <div class="site-list" id="anydesk-list"></div>
   </div>
+
+  <!-- Modal do painel de  -->
+<div id="top-geral-float" class="top-geral-panel">
+  <h2>🏆 Top Acessos Gerais</h2>
+  <ul id="lista-top-geral"></ul>
+</div>
 </main>
 
 <!-- Área Acessos Remotos -->
@@ -281,6 +287,12 @@
     <div id="acessos-remotos-list" class="site-list"></div>
     
   </div>
+
+  <!-- Modal do painel de  -->
+<div id="top-geral-float" class="top-geral-panel">
+  <h2>🏆 Top Acessos Gerais</h2>
+  <ul id="lista-top-geral"></ul>
+</div>
 </main>
 
 <!-- Modal de Detalhes de Equipamento -->
@@ -1011,8 +1023,9 @@ function renderizarAnyDesk() {
     const editBtn = document.createElement("button");
     editBtn.className = "edit-button";
     editBtn.textContent = "Editar";
-    editBtn.addEventListener("click", () => {
-      abrirModalEditAny(item.id);
+    abrirBtn.addEventListener("click", () => {
+      window.location.href = `anydesk:${item.ip}`;
+      registrarAcessoGeral(item.id, item.nome, "anydesk");
     });
     botoes.appendChild(editBtn);
 
@@ -1027,8 +1040,7 @@ function renderizarAnyDesk() {
       );
     });
     botoes.appendChild(copiarBtn);
-
-    // Excluir
+    abrirModalDetalhes
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "delete-button";
     deleteBtn.textContent = "Excluir";
