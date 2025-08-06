@@ -306,7 +306,7 @@ header img {
   main {
     margin-top: 0px;
     max-width: 1200px;
-    margin-left: 14%;
+    margin-left: 13%;
     margin-right: auto;
     padding: 16px;
     display: flex;
@@ -396,10 +396,10 @@ header img {
 
   #top-geral-float {
   position: absolute;
-  top: 200px;
+  top: 195px;
   right: 20px;
   height: auto;
-  width: 349px;
+  width: 370px;
 }
 
 
@@ -409,7 +409,7 @@ header img {
   border-radius: 9px;
   box-shadow: 0 6px 24px #0004, 0 2px 6px #234;
   padding: 24px 14px 22px 18px;
-  margin-left: 24px;
+  margin-left: 210px;
   margin-bottom: 24px;
   min-width: 210px;
   color: #e6f5f3;
@@ -420,6 +420,7 @@ header img {
   max-height: 100%;
   overflow-y: auto;
 }
+
 .top-geral-panel h2 {
   margin: 0 0 18px 0;
   font-size: 1.13em;
@@ -433,7 +434,19 @@ header img {
   padding: 0;
   margin: 0;
   width: 100%;
+  max-height: 617px;    /* ajuste a altura que preferir */
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;   
+  -ms-overflow-style: none;     /* IE and Edge */
 }
+
+/* Esconde a scrollbar em navegadores Webkit (Chrome, Edge, Safari) */
+.top-geral-panel ul::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
 .top-geral-panel li {
   display: flex;
   align-items: center;
@@ -1003,7 +1016,7 @@ header img {
 .top-buttons {
   position: absolute;
   top: 200px; /* ou o valor ideal para desktop */
-  left: 5%; /* ajuste para alinhar à esquerda da .left-column */
+  left: 2%; /* ajuste para alinhar à esquerda da .left-column */
   display: flex;
   margin-right:20% ;
   flex-direction: column;

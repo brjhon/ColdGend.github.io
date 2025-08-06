@@ -67,6 +67,12 @@
 
 </div>
 
+  <!-- Painel único de Top Acessos Gerais -->
+  <div id="top-geral-float" class="top-geral-panel">
+    <h2>🏆 Top Acessos Gerais</h2>
+    <ul id="lista-top-geral"></ul>
+  </div>
+
 <!-- Área Sites -->
 <main id="mainSites">
   <div class="left-column">
@@ -122,12 +128,6 @@
     <div class="site-list" id="site-list"></div>
   </div>
 
-  <!-- Modal do painel de  -->
-<div id="top-geral-float" class="top-geral-panel">
-  <h2>🏆 Top Acessos Gerais</h2>
-  <ul id="lista-top-geral"></ul>
-</div>
-
 </main>
 
 <!-- Modal de edição (sites) -->
@@ -157,29 +157,29 @@
       <input class="search-input" type="text" placeholder="Buscar...">
       <div class="panel-list">
         <!-- Linha 1 -->
-        <a href="http://10.50.30.161/agenda-web/public/" class="panel-item">
+        <a href="http://10.50.30.161/agenda-web/public/" class="panel-item" target="_blank" rel="noopener noreferrer">
           <img src="img/Agenda.png" alt="Agenda" />
           
         </a>
-        <a href="http://10.50.30.160/titulos/wp-login.php?redirect_to=http%3A%2F%2F10.50.30.160%2Ftitulos%2Fwp-admin%2F&reauth=1" class="panel-item">
+        <a href="http://10.50.30.160/titulos/wp-login.php?redirect_to=http%3A%2F%2F10.50.30.160%2Ftitulos%2Fwp-admin%2F&reauth=1" class="panel-item" target="_blank" rel="noopener noreferrer">
           <img src="img/intranet.png" alt="Intranet" />
           
         </a>
-        <a href="https://10.50.30.161/listaPresenca/geradorQr/" class="panel-item">
+        <a href="https://10.50.30.161/listaPresenca/geradorQr/" class="panel-item" target="_blank" rel="noopener noreferrer">
           <img src="img/ListsPresent.png" alt="Lista de Presença" />
           
         </a>
         <!-- Linha 2 -->
-        <a href="https://cor.multiviscloud.com/index.html" class="panel-item">
+        <a href="https://cor.multiviscloud.com/index.html" class="panel-item" target="_blank" rel="noopener noreferrer">
           <img src="img/Multivis.png" alt="Novo1" />
           <span></span>
         </a>
         <a href="#" class="panel-item">
-          <img src="img/" alt="Novo2" />
+          <img src="img/" alt="Novo2" target="_blank" rel="noopener noreferrer" />
           <span></span>
         </a>
         <a href="#" class="panel-item">
-          <img src="imagens/novo3.jpg" alt="Novo3" />
+          <img src="imagens/novo3.jpg" alt="Novo3" target="_blank" rel="noopener noreferrer" />
           <span></span>
         </a>
       </div>
@@ -229,11 +229,6 @@
     <div class="site-list" id="anydesk-list"></div>
   </div>
 
-  <!-- Modal do painel de  -->
-<div id="top-geral-float" class="top-geral-panel">
-  <h2>🏆 Top Acessos Gerais</h2>
-  <ul id="lista-top-geral"></ul>
-</div>
 </main>
 
 <!-- Área Acessos Remotos -->
@@ -288,11 +283,6 @@
     
   </div>
 
-  <!-- Modal do painel de  -->
-<div id="top-geral-float" class="top-geral-panel">
-  <h2>🏆 Top Acessos Gerais</h2>
-  <ul id="lista-top-geral"></ul>
-</div>
 </main>
 
 <!-- Modal de Detalhes de Equipamento -->
@@ -550,6 +540,7 @@ buscarCalorInicial();
     await setDoc(doc(db, "painel", "calor_atual"), { valor: calorAtual });
 }
 
+
   async function buscarEstagioInicial() {
   console.log("Rodando buscarEstagioInicial...");
   const docSnap = await getDoc(doc(db, "painel", "estagio_atual"));
@@ -697,7 +688,7 @@ async function testarSite() {
     alert("Não foi possível copiar os dados para a área de transferência.");
   });
 
-  registrarAcessoGeral(acesso.id, acesso.setor, "infra");
+  registrarAcessoGeral(site.id, site.nome, "sistema");
 
 }
 
@@ -857,6 +848,19 @@ async function testarSite() {
     btn.classList.toggle("active", btn.id === activeId);
   });
 }
+
+document.querySelectorAll('.panel-item').forEach(item => {
+  item.addEventListener('click', function() {
+    const id   = item.href || item.dataset.id || item.querySelector('img')?.alt || '';
+    const nome = item.querySelector('img')?.alt || 'Acesso Rápido';
+    const tipo = "painel";
+    const img  = item.querySelector('img')?.getAttribute('src') || "";
+    registrarAcessoGeral(id, nome, tipo, img);
+    // O acesso será salvo no ranking com a miniatura
+  });
+});
+
+
   function setActiveButton(id) {
     document.querySelectorAll(".filter-status-button").forEach(btn => {
       btn.classList.remove("active");
