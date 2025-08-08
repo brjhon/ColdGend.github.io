@@ -1217,6 +1217,32 @@ header img {
   cursor: not-allowed;
 }
 
+#modal-close {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #223e47;
+  color: #fff;
+  border: none;
+  font-size: 2em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 13px;
+  right: 18px;
+  transition: background 0.18s, box-shadow 0.18s, color 0.12s, transform 0.13s;
+  box-shadow: 0 2px 9px #0003;
+  cursor: pointer;
+  z-index: 20;
+}
+#modal-close:hover {
+  background: #e34242;
+  color: #fffbe7;
+  transform: scale(1.12);
+  box-shadow: 0 4px 18px #0006;
+}
 /* MOBILE e RESPONSIVIDADE AVANÇADA - Cola no final do style.css */
 
 /* Ajusta header e painéis para ocupar menos espaço no mobile */
@@ -1345,7 +1371,7 @@ header img {
   }
   #modal-var-legal {
     width: 98vw !important;
-    max-width: 99vw !important;
+    max-width: 109vw !important;
     margin-top: 13vw !important;
     border-radius: 15px !important;
     background: rgba(19,33,43,0.98);
@@ -1369,18 +1395,30 @@ header img {
     margin: 0;
   }
   #modal-close {
-    font-size: 1.7rem;
-    color: #cde7ff;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.18s, transform 0.18s;
-    margin-left: 7px;
-    margin-right: 3px;
+  width: 18px;
+  height: 38px;
+  border-radius: 50%;
+  background: #223e47;
+  color: #fff;
+  border: none;
+  font-size: 2em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 13px;
+  right: 48px;
+  transition: background 0.18s, box-shadow 0.18s, color 0.12s, transform 0.13s;
+  box-shadow: 0 2px 9px #0003;
+  cursor: pointer;
+  z-index: 20;
   }
   #modal-close:hover {
-    color: #ff7c6a;
-    transform: scale(1.1);
+  background: #e34242;
+  color: #fffbe7;
+  transform: scale(1.08);
+  box-shadow: 0 4px 18px #0006;
   }
   .modal-body {
     padding: 12px 7px 14px 7px;
