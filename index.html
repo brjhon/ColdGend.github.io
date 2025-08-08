@@ -299,7 +299,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, doc, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 import { registrarAcessoGeral, renderizarTopGeral } from "./rankingLocal.js";
 
 
@@ -374,6 +374,60 @@ import { registrarAcessoGeral, renderizarTopGeral } from "./rankingLocal.js";
   let equipamentosControleAcesso = [];
 
   let editIndex = null;
+
+  // REGISTRA ACESSO GLOBAL NO FIRESTORE
+export async function registrarAcessoGeralGlobal(id, nome, tipo, img) {
+  const docRef = doc(db, "ranking_acessos", id);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    await updateDoc(docRef, {
+      acessos: increment(1),
+      nome: nome || docSnap.data().nome,
+      tipo: tipo || docSnap.data().tipo,
+      img: img || docSnap.data().img
+    });
+  } else {
+    await setDoc(docRef, {
+      id,
+      nome,
+      tipo,
+      img: img || "",
+      acessos: 1
+    });
+  }
+}
+
+export async function renderizarTopGeralGlobal() {
+  const q = query(collection(db, "ranking_acessos"), orderBy("acessos", "desc"), limit(10));
+  const querySnapshot = await getDocs(q);
+  const ul = document.getElementById("lista-top-geral");
+  if (!ul) return;
+  ul.innerHTML = "";
+
+  querySnapshot.forEach(doc => {
+    const item = doc.data();
+    let icon = "✨";
+    if (item.tipo === "painel" && item.img) {
+      icon = `<img src="${item.img}" style="width:32px; height:32px; object-fit:cover; border-radius:5px; margin-right:7px;">`;
+    } else if (item.tipo === "sistema") icon = "🌐";
+    else if (item.tipo === "anydesk") icon = "💻";
+    else if (item.tipo === "infra") icon = "🔒";
+    ul.innerHTML += `<li>${icon} <b>${item.nome}</b> <small>${item.tipo}</small> <span>(${item.acessos})</span></li>`;
+  });
+}
+
+document.querySelectorAll('.panel-item').forEach(item => {
+  item.addEventListener('click', function() {
+    const id   = item.href || item.dataset.id || item.querySelector('img')?.alt || '';
+    const nome = item.querySelector('img')?.alt || 'Acesso Rápido';
+    const tipo = "painel";
+    const img  = item.querySelector('img')?.getAttribute('src') || "";
+    registrarAcessoGeralGlobal(id, nome, tipo, img);
+  });
+});
+
+
 
   // Cria itens do menu de estágios - link que abre em outro navegador
 for (let i = 1; i <= totalEstagios; i++) {
@@ -541,7 +595,6 @@ buscarCalorInicial();
   async function atualizarCalorFirebase(calorAtual) {
     await setDoc(doc(db, "painel", "calor_atual"), { valor: calorAtual });
 }
-
 
   async function buscarEstagioInicial() {
   console.log("Rodando buscarEstagioInicial...");
@@ -857,7 +910,7 @@ document.querySelectorAll('.panel-item').forEach(item => {
     const nome = item.querySelector('img')?.alt || 'Acesso Rápido';
     const tipo = "painel";
     const img  = item.querySelector('img')?.getAttribute('src') || "";
-    registrarAcessoGeral(id, nome, tipo, img);
+    registrarAcessoGeralGlobal(id, nome, tipo, img);
     // O acesso será salvo no ranking com a miniatura
   });
 });
@@ -1031,7 +1084,7 @@ function renderizarAnyDesk() {
     editBtn.textContent = "Editar";
     abrirBtn.addEventListener("click", () => {
       window.location.href = `anydesk:${item.ip}`;
-      registrarAcessoGeral(item.id, item.nome, "anydesk");
+      registrarAcessoGeralGlobal(item.id, item.nome, "anydesk");
     });
     botoes.appendChild(editBtn);
 
@@ -1507,7 +1560,7 @@ document.body.addEventListener("click", () => {
     btn.textContent = "Verificar Todas";
   });
 
-registrarAcessoGeral
+registrarAcessoGeralGlobal(id, nome, tipo, img);
   // Busca por texto na lista de remotos
   document.getElementById("searchRemoteInput")
     .addEventListener("input", e => {
