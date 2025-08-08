@@ -165,25 +165,16 @@
           <img src="img/intranet.png" alt="Intranet" />
           
         </a>
-        <a href="https://10.50.30.161/listaPresenca/geradorQr/" class="panel-item" target="_blank" rel="noopener noreferrer">
+        <a href="https://10.50.30.161/listaPresenca/" class="panel-item" target="_blank" rel="noopener noreferrer">
           <img src="img/ListsPresent.png" alt="Lista de Presença" />
           
         </a>
 
-        <!-- teste -->
-        <!-- Linha 2 -->
         <a href="https://cor.multiviscloud.com/index.html" class="panel-item" target="_blank" rel="noopener noreferrer">
-          <img src="img/Multivis.png" alt="Novo1" />
+          <img src="img/Multivis.png" alt="Multivis" />
           <span></span>
         </a>
-        <a href="#" class="panel-item">
-          <img src="img/" alt="Novo2" target="_blank" rel="noopener noreferrer" />
-          <span></span>
-        </a>
-        <a href="#" class="panel-item">
-          <img src="imagens/novo3.jpg" alt="Novo3" target="_blank" rel="noopener noreferrer" />
-          <span></span>
-        </a>
+
       </div>
     </div>
   </div>
@@ -299,8 +290,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
-import { registrarAcessoGeral, renderizarTopGeral } from "./rankingLocal.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, getDocs, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
 
   const firebaseConfig = {
@@ -396,36 +386,39 @@ export async function registrarAcessoGeralGlobal(id, nome, tipo, img) {
       acessos: 1
     });
   }
-}
+} 
 
-export async function renderizarTopGeralGlobal() {
+export function iniciarRankingTempoReal() {
   const q = query(collection(db, "ranking_acessos"), orderBy("acessos", "desc"), limit(10));
-  const querySnapshot = await getDocs(q);
   const ul = document.getElementById("lista-top-geral");
   if (!ul) return;
-  ul.innerHTML = "";
 
-  querySnapshot.forEach(doc => {
-    const item = doc.data();
-    let icon = "✨";
-    if (item.tipo === "painel" && item.img) {
-      icon = `<img src="${item.img}" style="width:32px; height:32px; object-fit:cover; border-radius:5px; margin-right:7px;">`;
-    } else if (item.tipo === "sistema") icon = "🌐";
-    else if (item.tipo === "anydesk") icon = "💻";
-    else if (item.tipo === "infra") icon = "🔒";
-    ul.innerHTML += `<li>${icon} <b>${item.nome}</b> <small>${item.tipo}</small> <span>(${item.acessos})</span></li>`;
+  onSnapshot(q, (querySnapshot) => {
+    ul.innerHTML = "";
+    querySnapshot.forEach(doc => {
+      const item = doc.data();
+      let icon = "✨";
+      if (item.tipo === "painel" && item.img) {
+        icon = `<img src="${item.img}" style="width:32px; height:32px; object-fit:cover; border-radius:5px; margin-right:7px;">`;
+      } else if (item.tipo === "sistema") icon = "🌐";
+      else if (item.tipo === "anydesk") icon = "💻";
+      else if (item.tipo === "infra") icon = "🔒";
+      ul.innerHTML += `<li>${icon} <b>${item.nome}</b> <small>${item.tipo}</small> <span>(${item.acessos})</span></li>`;
+    });
   });
 }
 
 document.querySelectorAll('.panel-item').forEach(item => {
   item.addEventListener('click', function() {
-    const id   = item.href || item.dataset.id || item.querySelector('img')?.alt || '';
-    const nome = item.querySelector('img')?.alt || 'Acesso Rápido';
-    const tipo = "painel";
+    const nome = item.querySelector('img')?.alt?.trim() || 'Acesso Rápido';
     const img  = item.querySelector('img')?.getAttribute('src') || "";
+    const id   = nome.replace(/\s+/g, '_').toLowerCase(); // Cria um id único simples pelo nome
+    const tipo = "painel";
     registrarAcessoGeralGlobal(id, nome, tipo, img);
   });
 });
+
+
 
 
 
@@ -743,8 +736,7 @@ async function testarSite() {
     alert("Não foi possível copiar os dados para a área de transferência.");
   });
 
-  registrarAcessoGeral(site.id, site.nome, "sistema");
-
+  registrarAcessoGeralGlobal(site.id, site.nome, "sistema", "img/iconeSistema.png");
 }
 
   async function recarregarTodosSites() {
@@ -1422,7 +1414,7 @@ async function testarTodasPortas(ip, id) {
 window.addEventListener("DOMContentLoaded", () => {
 
   /* Parâmetro que chama o renderizar TopGeral */
-  renderizarTopGeral();
+  iniciarRankingTempoReal();
 
   // Seções principais
   document.getElementById("btnSites").addEventListener("click", () => {

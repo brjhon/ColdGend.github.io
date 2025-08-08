@@ -4,6 +4,7 @@
   font-family: Arial, sans-serif;
   color: white;
   overflow-x: hidden;
+  height: 800px;
 }
 
 body::before {

@@ -1,6 +1,6 @@
 // rankingLocal.js
 
-const STORAGE_KEY = 'ranking_local_acessos';
+/* const STORAGE_KEY = 'ranking_local_acessos';
 
 export function registrarAcessoGeral(id, nome, tipo, img) {
   const acessos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
@@ -31,3 +31,4 @@ export function renderizarTopGeral() {
     ul.innerHTML += `<li>${icon} <b>${item.nome}</b> <small>${item.tipo}</small> <span>(${item.acessos})</span></li>`;
   });
 }
+ */
