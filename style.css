@@ -818,6 +818,20 @@ header img {
   to { opacity: 1; transform: scale(1); }
 }
 
+.btn-acessar {
+  background-color: #1f6feb;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background 0.2s;
+}
+.btn-acessar:hover {
+  background-color: #0f4fcc;
+}
+
 /* Oculta para desktop, mostra só no mobile */
 .mobile-only {
   display: none;

@@ -402,15 +402,31 @@ export function iniciarRankingTempoReal() {
     querySnapshot.forEach(doc => {
       const item = doc.data();
       let icon = "✨";
+
       if (item.tipo === "painel" && item.img) {
         icon = `<img src="${item.img}" style="width:32px; height:32px; object-fit:cover; border-radius:5px; margin-right:7px;">`;
       } else if (item.tipo === "sistema") icon = "🌐";
       else if (item.tipo === "anydesk") icon = "💻";
       else if (item.tipo === "infra") icon = "🔒";
-      ul.innerHTML += `<li>${icon} <b>${item.nome}</b> <small>${item.tipo}</small> <span>(${item.acessos})</span></li>`;
+
+      const botaoAcessar = item.link
+        ? `<button class="btn-acessar" onclick="acessarRanking('${item.tipo}', '${item.link}')">Ir</button>`
+        : "";
+
+      ul.innerHTML += `
+        <li style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+          <span style="display: flex; align-items: center; gap: 7px;">
+            ${icon}
+            <b>${item.nome}</b>
+            <small>${item.tipo}</small>
+            <span>(${item.acessos})</span>
+          </span>
+          ${botaoAcessar}
+        </li>`;
     });
   });
 }
+
 
 document.querySelectorAll('.panel-item').forEach(item => {
   item.addEventListener('click', function() {
@@ -475,6 +491,16 @@ for (let i = 1; i <= totalCalor; i++) {
 
 buscarEstagioInicial();
 buscarCalorInicial();
+
+  function acessarRanking(tipo, link) {
+    if (!link) return;
+
+    if (tipo === "anydesk") {
+      window.location.href = `anydesk:${link}`;
+    } else {
+      window.open(link, "_blank");
+    }
+  }
 
   function updateContadoresRemotos() {
   const total = acessosRemotos.length;
