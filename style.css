@@ -1350,6 +1350,7 @@ header img {
     overflow-wrap: break-word;
     line-height: 1.28em;
   }
+  modal
   .panel-item::after {
     content: "";
     display: block;

@@ -290,8 +290,11 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, getDocs, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
-
+  import {
+    getFirestore, doc, getDoc, setDoc, updateDoc, increment,
+    collection, getDocs, query, orderBy, limit,
+    addDoc, deleteDoc, onSnapshot             // <- ADICIONE ISTO
+  } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCpnDf40JQ3COptyNJFZnqj9niTn5iBDeY",
@@ -310,10 +313,10 @@
   const acessosRemotosCollection = collection(db, "acessos_remotos")
 
   // --- Camera Capture ---
-  const video   = document.getElementById('video');
+/*   const video   = document.getElementById('video');
   const canvas  = document.getElementById('canvas');
   const btnStart = document.getElementById('btnStartCam');
-  const btnSnap  = document.getElementById('btnSnap');
+  const btnSnap  = document.getElementById('btnSnap'); */
 
   /* Parte de Nivels de Calor */
   const estagioImgBanner = document.getElementById("estagioImgBanner");
@@ -364,6 +367,7 @@
   let equipamentosControleAcesso = [];
 
   let editIndex = null;
+  
 
   // REGISTRA ACESSO GLOBAL NO FIRESTORE
 export async function registrarAcessoGeralGlobal(id, nome, tipo, img) {
@@ -417,10 +421,6 @@ document.querySelectorAll('.panel-item').forEach(item => {
     registrarAcessoGeralGlobal(id, nome, tipo, img);
   });
 });
-
-
-
-
 
   // Cria itens do menu de estágios - link que abre em outro navegador
 for (let i = 1; i <= totalEstagios; i++) {
@@ -896,7 +896,7 @@ async function testarSite() {
   });
 }
 
-document.querySelectorAll('.panel-item').forEach(item => {
+  document.querySelectorAll('.panel-item').forEach(item => {
   item.addEventListener('click', function() {
     const id   = item.href || item.dataset.id || item.querySelector('img')?.alt || '';
     const nome = item.querySelector('img')?.alt || 'Acesso Rápido';
@@ -906,7 +906,6 @@ document.querySelectorAll('.panel-item').forEach(item => {
     // O acesso será salvo no ranking com a miniatura
   });
 });
-
 
   function setActiveButton(id) {
     document.querySelectorAll(".filter-status-button").forEach(btn => {
@@ -1008,35 +1007,33 @@ document.querySelectorAll('.panel-item').forEach(item => {
   // Lidar com eventos dos botões AnyDesk
   document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
   document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
+  
 function renderizarAnyDesk() {
   const lista = document.getElementById("anydesk-list");
+  if (!lista) return;
   lista.innerHTML = "";
 
-  // 1) Filtra pelo texto digitado em filtroAnyDesk
-  const filtrados = acessosAnyDesk.filter(item => {
-    const combo = `${item.nome} ${item.ip}`.toLowerCase();
-    return combo.includes(filtroAnyDesk.trim().toLowerCase());
-  });
+  const termo = (filtroAnyDesk || "").toLowerCase().trim();
+  const filtrados = acessosAnyDesk.filter(({ nome, ip }) =>
+    `${nome} ${ip}`.toLowerCase().includes(termo)
+  );
 
-  // 2) Se não houver resultados, mostra mensagem
   if (filtrados.length === 0) {
     const msg = document.createElement("div");
     msg.textContent = "Nenhuma conexão encontrada.";
     msg.style.padding = "15px";
-    return lista.appendChild(msg);
+    lista.appendChild(msg);
+    return;
   }
 
-  // 3) Renderiza cada item filtrado
   filtrados.forEach(item => {
     const div = document.createElement("div");
     div.className = "site-item";
 
-    // Cabeçalho
     const header = document.createElement("div");
     header.innerHTML = `<strong>${item.nome}</strong><br>IP/ID: ${item.ip}`;
     div.appendChild(header);
 
-    // Credenciais ocultas
     const dados = document.createElement("div");
     dados.className = "credenciais";
     dados.style.display = "none";
@@ -1046,11 +1043,9 @@ function renderizarAnyDesk() {
     `;
     div.appendChild(dados);
 
-    // Botões
     const botoes = document.createElement("div");
     botoes.className = "action-buttons";
 
-    // Exibir/Ocultar detalhes
     const exibirBtn = document.createElement("button");
     exibirBtn.className = "toggle-button";
     exibirBtn.textContent = "Exibir Detalhes";
@@ -1059,47 +1054,39 @@ function renderizarAnyDesk() {
       dados.style.display = aberto ? "none" : "block";
       exibirBtn.textContent = aberto ? "Exibir Detalhes" : "Ocultar Detalhes";
     });
-    botoes.appendChild(exibirBtn);
 
-    // Abrir AnyDesk
     const abrirBtn = document.createElement("button");
     abrirBtn.className = "open-button";
     abrirBtn.textContent = "Abrir";
     abrirBtn.addEventListener("click", () => {
       window.location.href = `anydesk:${item.ip}`;
+      registrarAcessoGeralGlobal(item.id, item.nome, "anydesk", "img/iconeAny.png");
     });
-    botoes.appendChild(abrirBtn);
 
-    // Editar (chama por ID!)
     const editBtn = document.createElement("button");
     editBtn.className = "edit-button";
     editBtn.textContent = "Editar";
-    abrirBtn.addEventListener("click", () => {
-      window.location.href = `anydesk:${item.ip}`;
-      registrarAcessoGeralGlobal(item.id, item.nome, "anydesk");
-    });
-    botoes.appendChild(editBtn);
+    editBtn.addEventListener("click", () => abrirModalEditAny(item.id));
 
-    // Copiar credenciais
     const copiarBtn = document.createElement("button");
     copiarBtn.className = "open-button";
     copiarBtn.textContent = "Copiar";
-    copiarBtn.addEventListener("click", () => {
-      const texto = item.senha || "";
-      navigator.clipboard.writeText(texto).then(() =>
-        alert("Senha copiada para a área de transferência!")
-      );
+    copiarBtn.addEventListener("click", async () => {
+      const texto = `Usuário: ${item.login || "---"}\nSenha: ${item.senha || "---"}`;
+      try {
+        await navigator.clipboard.writeText(texto);
+        alert("Credenciais copiadas!");
+      } catch {
+        alert("Não foi possível copiar.");
+      }
     });
-    botoes.appendChild(copiarBtn);
-    abrirModalDetalhes
+
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "delete-button";
     deleteBtn.textContent = "Excluir";
-    deleteBtn.addEventListener("click", () => {
-      removerAnyDesk(item.id);
-    });
-    botoes.appendChild(deleteBtn);
+    deleteBtn.addEventListener("click", () => removerAnyDesk(item.id));
 
+    botoes.append(exibirBtn, abrirBtn, editBtn, copiarBtn, deleteBtn);
     div.appendChild(botoes);
     lista.appendChild(div);
   });
@@ -1477,8 +1464,6 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   const btnSel = document.getElementById("btnAbrirModalSeletores");
-
-
   const btnVarLegal   = document.getElementById('btn-var-legal');
   const overlay       = document.getElementById('modal-overlay');
   const modalCloseBtn = document.getElementById('modal-close');
@@ -1508,28 +1493,28 @@ btnSel.addEventListener("click", e => {
 });
 
 // fechar menus ao clicar fora
-document.body.addEventListener("click", () => {
+  document.body.addEventListener("click", () => {
   menuEstagios.classList.remove("open");
   menuCalor   .classList.remove("open");
 });
-
-  document.getElementById("btnAnyDesk").addEventListener("click", () => {
+   
+    document.getElementById("btnAnyDesk").addEventListener("click", () => {
     document.getElementById("mainSites").style.display = "none";
     document.getElementById("mainAnyDesk").style.display = "flex";
     document.getElementById("mainAcessosRemotos").style.display = "none";
   });
 
-  document.getElementById("btnAcessosRemotos").addEventListener("click", () => {
+    document.getElementById("btnAcessosRemotos").addEventListener("click", () => {
     document.getElementById("mainSites").style.display = "none";
     document.getElementById("mainAnyDesk").style.display = "none";
     document.getElementById("mainAcessosRemotos").style.display = "flex";
   });
 
   // AnyDesk
-  document.getElementById("btnCadastrarAny").addEventListener("click", cadastrarAnyDesk);
-  document.getElementById("btnLimparAny").addEventListener("click", limparAnyDesk);
-  document.getElementById("btnSalvarAnyEdit").addEventListener("click", salvarEdicaoAny);
-  document.getElementById("btnCancelarAnyEdit").addEventListener("click", fecharModalEditAny);
+  document.getElementById("btnCadastrarAny")?.addEventListener("click", cadastrarAnyDesk);
+  document.getElementById("btnLimparAny")?.addEventListener("click", limparAnyDesk);
+  document.getElementById("btnSalvarAnyEdit")?.addEventListener("click", salvarEdicaoAny);
+  document.getElementById("btnCancelarAnyEdit")?.addEventListener("click", fecharModalEditAny);
 
   // Infraestrutura Remota
   document.getElementById("btnCadastrarAcesso").addEventListener("click", cadastrarAcessoRemoto);
