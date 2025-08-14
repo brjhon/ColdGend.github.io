@@ -307,7 +307,7 @@ header img {
   main {
     margin-top: 0px;
     max-width: 1200px;
-    margin-left: 13%;
+    margin-left: 12%;
     margin-right: auto;
     padding: 16px;
     display: flex;
@@ -400,9 +400,8 @@ header img {
   top: 195px;
   right: 20px;
   height: auto;
-  width: 370px;
+  width: 400px;
 }
-
 
 .top-geral-panel {
   flex: 0 0 260px;
@@ -774,6 +773,13 @@ header img {
   overflow-wrap: break-word;
 }
 
+#lista-top-geral li small {
+  display: inline-block;
+  margin-top: 4px;
+  color: #ccc;
+  font-size: 0.8em;
+}
+
 /* 1) Modal-body passa a preencher todo o interior do modal */
 #modal-var-legal .modal-body {
   padding: 16px;
@@ -826,7 +832,7 @@ header img {
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.9em;
-  transition: background 0.2s;
+  transition: background 0.2s ease;
 }
 .btn-acessar:hover {
   background-color: #0f4fcc;
@@ -922,7 +928,7 @@ header img {
     box-shadow: 0 4px 10px rgba(99, 205, 218, 0.5);
     transition: background-color 0.3s ease, color 0.3s ease;
   }
-
+ 
   .modal-buttons button:hover {
     background-color: #4bb3c0;
     color: #e0f7fa;
