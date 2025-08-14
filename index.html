@@ -392,6 +392,7 @@ export async function registrarAcessoGeralGlobal(id, nome, tipo, img) {
   }
 } 
 
+
 export function iniciarRankingTempoReal() {
   const q = query(collection(db, "ranking_acessos"), orderBy("acessos", "desc"), limit(10));
   const ul = document.getElementById("lista-top-geral");
@@ -409,24 +410,29 @@ export function iniciarRankingTempoReal() {
       else if (item.tipo === "anydesk") icon = "💻";
       else if (item.tipo === "infra") icon = "🔒";
 
-      const botaoAcessar = item.link
-        ? `<button class="btn-acessar" onclick="acessarRanking('${item.tipo}', '${item.link}')">Ir</button>`
-        : "";
+      const li = document.createElement("li");
+      li.innerHTML = `${icon} <b>${item.nome}</b> <small>${item.tipo}</small> <span>(${item.acessos})</span>`;
 
-      ul.innerHTML += `
-        <li style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-          <span style="display: flex; align-items: center; gap: 7px;">
-            ${icon}
-            <b>${item.nome}</b>
-            <small>${item.tipo}</small>
-            <span>(${item.acessos})</span>
-          </span>
-          ${botaoAcessar}
-        </li>`;
+      // Cria botão "Ir" apenas se houver link
+      if (item.link) {
+        const botao = document.createElement("button");
+        botao.textContent = "Ir";
+        botao.className = "btn-acessar";
+        botao.style.marginLeft = "10px";
+        botao.addEventListener("click", () => {
+          if (item.tipo === "anydesk") {
+            window.location.href = `anydesk:${item.link}`;
+          } else {
+            window.open(item.link, "_blank");
+          }
+        });
+        li.appendChild(botao);
+      }
+
+      ul.appendChild(li);
     });
   });
 }
-
 
 document.querySelectorAll('.panel-item').forEach(item => {
   item.addEventListener('click', function() {
